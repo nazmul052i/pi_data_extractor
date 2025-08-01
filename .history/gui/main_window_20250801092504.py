@@ -700,21 +700,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.start_time.dateTimeChanged.connect(self.validate_time_range)
         self.end_time.dateTimeChanged.connect(self.validate_time_range)
     
-    def on_tag_selection_changed_immediate(self, item, column):
-        """Handle tag selection changes with IMMEDIATE chart updates (no debouncing)"""
-        if column == 0:  # Only respond to changes in the checkbox column
-            # Only update charts if we have data and charts tab is available
-            if not self.data_frame.empty and self.charts_tab_index is not None:
-                # Get currently selected tags
-                selected_tags = self.tag_browser.get_selected_tags()
-                
-                # Update charts immediately
-                self.chart_manager.update_charts_for_tags(selected_tags)
-                
-                # Switch to charts tab if charts were created
-                if self.chart_manager.get_chart_count() > 0:
-                    self.tab_widget.setCurrentIndex(self.charts_tab_index)
-    
     def toggle_inferential_controls(self):
         """Show or hide inferential mode controls and update tag browser"""
         is_inferential = self.mode_selector.currentText().startswith("Inferential")

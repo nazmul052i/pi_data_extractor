@@ -64,7 +64,7 @@ class ChartManager(QWidget):
             }
         """)
         
-        # Control buttons (removed reset zoom buttons - use right-click instead)
+        # Control buttons
         self.refresh_btn = ModernButton("🔄 Refresh Charts", color="#2196F3")
         self.refresh_btn.clicked.connect(self.refresh_charts)
         self.refresh_btn.setToolTip("Refresh charts based on currently selected tags")
@@ -73,9 +73,14 @@ class ChartManager(QWidget):
         self.clear_btn.clicked.connect(self.clear_all_charts)
         self.clear_btn.setToolTip("Remove all charts from display")
         
+        self.reset_zoom_all_btn = ModernButton("🔍 Reset All Zoom", color="#9C27B0")
+        self.reset_zoom_all_btn.clicked.connect(self.reset_all_zoom)
+        self.reset_zoom_all_btn.setToolTip("Reset zoom level for all charts")
+        
         controls_layout.addWidget(info_label)
         controls_layout.addStretch()
         controls_layout.addWidget(self.refresh_btn)
+        controls_layout.addWidget(self.reset_zoom_all_btn)
         controls_layout.addWidget(self.clear_btn)
         
         self.layout.addLayout(controls_layout)
@@ -218,8 +223,8 @@ class ChartManager(QWidget):
         container_layout.setContentsMargins(5, 5, 5, 5)
         container_layout.setSpacing(5)
         
-        # Chart header with tag info only (removed reset zoom button)
-        header_layout = QHBoxLayout()
+        # Chart controls
+        controls_layout = QHBoxLayout()
         
         # Tag info
         tag_info = QLabel(f"📊 {tag_name}")
@@ -234,22 +239,17 @@ class ChartManager(QWidget):
             }
         """)
         
-        # Instruction label for right-click
-        instruction_label = QLabel("💡 Right-click to reset zoom")
-        instruction_label.setStyleSheet("""
-            QLabel {
-                color: #666;
-                font-size: 11px;
-                font-style: italic;
-                padding: 2px 5px;
-            }
-        """)
+        # Reset zoom button
+        reset_btn = ModernButton("🔄 Reset Zoom", color="#607D8B")
+        reset_btn.setFixedWidth(120)
+        reset_btn.clicked.connect(chart_view.reset_zoom)
+        reset_btn.setToolTip("Reset zoom level for this chart (or right-click on chart)")
         
-        header_layout.addWidget(tag_info)
-        header_layout.addStretch()
-        header_layout.addWidget(instruction_label)
+        controls_layout.addWidget(tag_info)
+        controls_layout.addStretch()
+        controls_layout.addWidget(reset_btn)
         
-        container_layout.addLayout(header_layout)
+        container_layout.addLayout(controls_layout)
         container_layout.addWidget(chart_view)
         
         # Add styling to container
@@ -393,8 +393,18 @@ class ChartManager(QWidget):
             if hasattr(self.parent_window, 'log_output'):
                 self.parent_window.log_output.append("💡 No tags selected - check tags in Tags tab to view charts")
     
-    # Removed reset_all_zoom method since we removed the reset zoom buttons
-    # Users can right-click on individual charts to reset zoom
+    def reset_all_zoom(self):
+        """Reset zoom for all chart views"""
+        reset_count = 0
+        for widget in self.chart_widgets:
+            # Find ZoomableChartView widgets recursively
+            chart_views = self.find_chart_views(widget)
+            for chart_view in chart_views:
+                chart_view.reset_zoom()
+                reset_count += 1
+        
+        if hasattr(self.parent_window, 'log_output') and reset_count > 0:
+            self.parent_window.log_output.append(f"🔍 Reset zoom for {reset_count} chart(s)")
     
     def find_chart_views(self, widget):
         """Recursively find ZoomableChartView widgets"""

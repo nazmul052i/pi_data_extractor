@@ -700,21 +700,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.start_time.dateTimeChanged.connect(self.validate_time_range)
         self.end_time.dateTimeChanged.connect(self.validate_time_range)
     
-    def on_tag_selection_changed_immediate(self, item, column):
-        """Handle tag selection changes with IMMEDIATE chart updates (no debouncing)"""
-        if column == 0:  # Only respond to changes in the checkbox column
-            # Only update charts if we have data and charts tab is available
-            if not self.data_frame.empty and self.charts_tab_index is not None:
-                # Get currently selected tags
-                selected_tags = self.tag_browser.get_selected_tags()
-                
-                # Update charts immediately
-                self.chart_manager.update_charts_for_tags(selected_tags)
-                
-                # Switch to charts tab if charts were created
-                if self.chart_manager.get_chart_count() > 0:
-                    self.tab_widget.setCurrentIndex(self.charts_tab_index)
-    
     def toggle_inferential_controls(self):
         """Show or hide inferential mode controls and update tag browser"""
         is_inferential = self.mode_selector.currentText().startswith("Inferential")
@@ -892,13 +877,9 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.log_output.append("✅ Selected all visible tags")
     
     def deselect_all_tags(self):
-        """Deselect all tags and clear charts immediately"""
+        """Deselect all tags"""
         self.tag_browser.deselect_all_tags()
         self.log_output.append("❌ Deselected all tags")
-        
-        # Immediate chart update (clear charts)
-        if self.charts_tab_index is not None:
-            self.chart_manager.clear_all_charts()
     
     def fetch_pi_data(self):
         """Fetch data from PI server using worker thread"""
@@ -1003,57 +984,57 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.log_output.append(f"📊 {status}: {detail}")
     
     def on_data_ready(self, result):
-        """Handle successful data fetch - ENHANCED for immediate chart response"""
-        self.data_frame = result['dataframe']
-        self.descriptions = result['descriptions']
-        self.units = result['units']
-        
-        # Show the Charts and Preview tabs now that we have data
-        self.show_data_tabs()
-        
-        # Update chart manager with new data
-        self.chart_manager.set_data(self.data_frame, self.descriptions, self.units)
-        
-        # Update preview
-        self.data_preview.update_preview(self.data_frame)
-        
-        # Switch to preview tab initially
-        if self.preview_tab_index is not None:
-            self.tab_widget.setCurrentIndex(self.preview_tab_index)
-        
-        # Handle chart creation based on mode
-        is_inferential = hasattr(self.worker, 'mode') and self.worker.mode == 'inferential'
-        
-        if is_inferential:
-            # For inferential data, automatically show all available tags
-            self.chart_manager.show_all_available_tags()
+    """Handle successful data fetch - ENHANCED for immediate chart response"""
+    self.data_frame = result['dataframe']
+    self.descriptions = result['descriptions']
+    self.units = result['units']
+    
+    # Show the Charts and Preview tabs now that we have data
+    self.show_data_tabs()
+    
+    # Update chart manager with new data
+    self.chart_manager.set_data(self.data_frame, self.descriptions, self.units)
+    
+    # Update preview
+    self.data_preview.update_preview(self.data_frame)
+    
+    # Switch to preview tab initially
+    if self.preview_tab_index is not None:
+        self.tab_widget.setCurrentIndex(self.preview_tab_index)
+    
+    # Handle chart creation based on mode
+    is_inferential = hasattr(self.worker, 'mode') and self.worker.mode == 'inferential'
+    
+    if is_inferential:
+        # For inferential data, automatically show all available tags
+        self.chart_manager.show_all_available_tags()
+    else:
+        # For process data, show charts for currently selected tags
+        selected_tags = self.tag_browser.get_selected_tags()
+        if selected_tags:
+            self.chart_manager.update_charts_for_tags(selected_tags)
         else:
-            # For process data, show charts for currently selected tags
-            selected_tags = self.tag_browser.get_selected_tags()
-            if selected_tags:
-                self.chart_manager.update_charts_for_tags(selected_tags)
-            else:
-                # No tags selected, show instructions
-                self.log_output.append("💡 Tip: Check tags in the Tags tab to view charts!")
-        
-        # If charts were created, switch to charts tab
-        if self.chart_manager.get_chart_count() > 0 and self.charts_tab_index is not None:
-            self.tab_widget.setCurrentIndex(self.charts_tab_index)
-        
-        self.export_btn.setEnabled(True)
-        mode_label = "inferential" if is_inferential else "process"
-        self.log_output.append(f"✅ Data fetch ({mode_label} mode) complete: {len(self.data_frame)} rows, {len(self.data_frame.columns)} columns")
-        
-        if is_inferential:
-            self.log_output.append(
-                f"📌 Time windows used — Past: {self.past_window_spin.value()} min, Future: {self.future_window_spin.value()} min"
-            )
-        
-        # Log chart creation
-        if self.chart_manager.get_chart_count() > 0:
-            self.log_output.append(f"📈 Created {self.chart_manager.get_chart_count()} chart(s) automatically")
-        else:
+            # No tags selected, show instructions
             self.log_output.append("💡 Tip: Check tags in the Tags tab to view charts!")
+    
+    # If charts were created, switch to charts tab
+    if self.chart_manager.get_chart_count() > 0 and self.charts_tab_index is not None:
+        self.tab_widget.setCurrentIndex(self.charts_tab_index)
+    
+    self.export_btn.setEnabled(True)
+    mode_label = "inferential" if is_inferential else "process"
+    self.log_output.append(f"✅ Data fetch ({mode_label} mode) complete: {len(self.data_frame)} rows, {len(self.data_frame.columns)} columns")
+    
+    if is_inferential:
+        self.log_output.append(
+            f"📌 Time windows used — Past: {self.past_window_spin.value()} min, Future: {self.future_window_spin.value()} min"
+        )
+    
+    # Log chart creation
+    if self.chart_manager.get_chart_count() > 0:
+        self.log_output.append(f"📈 Created {self.chart_manager.get_chart_count()} chart(s) automatically")
+    else:
+        self.log_output.append("💡 Tip: Check tags in the Tags tab to view charts!")
     
     def on_fetch_error(self, error_msg):
         """Handle fetch errors"""

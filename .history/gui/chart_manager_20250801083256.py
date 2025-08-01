@@ -1,8 +1,8 @@
 import hashlib
 import pandas as pd
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QScrollArea, QMenu
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QScrollArea
 from PyQt6.QtCore import Qt, QDateTime
-from PyQt6.QtGui import QColor, QPainter, QAction
+from PyQt6.QtGui import QColor, QPainter
 from PyQt6.QtCharts import QChart, QLineSeries, QDateTimeAxis, QValueAxis, QChartView
 from .widgets import ModernButton, ZoomableChartView
 
@@ -64,7 +64,7 @@ class ChartManager(QWidget):
             }
         """)
         
-        # Control buttons (removed reset zoom buttons - use right-click instead)
+        # Control buttons
         self.refresh_btn = ModernButton("🔄 Refresh Charts", color="#2196F3")
         self.refresh_btn.clicked.connect(self.refresh_charts)
         self.refresh_btn.setToolTip("Refresh charts based on currently selected tags")
@@ -73,9 +73,14 @@ class ChartManager(QWidget):
         self.clear_btn.clicked.connect(self.clear_all_charts)
         self.clear_btn.setToolTip("Remove all charts from display")
         
+        self.reset_zoom_all_btn = ModernButton("🔍 Reset All Zoom", color="#9C27B0")
+        self.reset_zoom_all_btn.clicked.connect(self.reset_all_zoom)
+        self.reset_zoom_all_btn.setToolTip("Reset zoom level for all charts")
+        
         controls_layout.addWidget(info_label)
         controls_layout.addStretch()
         controls_layout.addWidget(self.refresh_btn)
+        controls_layout.addWidget(self.reset_zoom_all_btn)
         controls_layout.addWidget(self.clear_btn)
         
         self.layout.addLayout(controls_layout)
@@ -87,7 +92,7 @@ class ChartManager(QWidget):
         self.units = units or {}
     
     def update_charts_for_tags(self, selected_tags):
-        """Update charts based on selected tags - REAL-TIME RESPONSE"""
+        """Update charts based on selected tags"""
         if self.data_frame.empty:
             self.show_no_data_message("No data available. Please fetch data first.")
             return
@@ -102,7 +107,7 @@ class ChartManager(QWidget):
         # Hide instructions
         self.instructions_label.setVisible(False)
         
-        # Create charts for selected tags IMMEDIATELY
+        # Create charts for selected tags
         valid_charts = 0
         for tag in selected_tags:
             if tag in self.data_frame.columns:
@@ -117,10 +122,10 @@ class ChartManager(QWidget):
         
         # Log the operation if parent has logging
         if hasattr(self.parent_window, 'log_output') and valid_charts > 0:
-            self.parent_window.log_output.append(f"📈 Updated charts: {valid_charts} chart(s) for selected tags")
+            self.parent_window.log_output.append(f"📈 Created {valid_charts} chart(s)")
     
     def create_tag_chart(self, tag, height=250):
-        """Create a chart for a single tag with enhanced right-click zoom reset"""
+        """Create a chart for a single tag"""
         if tag not in self.data_frame.columns:
             return None
         
@@ -196,8 +201,8 @@ class ChartManager(QWidget):
             chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
             series.attachAxis(axis_y)
             
-            # Create ENHANCED chart view with right-click zoom reset
-            chart_view = EnhancedZoomableChartView(chart, tag)
+            # Create chart view with zoom capabilities
+            chart_view = ZoomableChartView(chart)
             chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
             chart_view.setMinimumHeight(height)
             chart_view.setRubberBand(QChartView.RubberBand.RectangleRubberBand)
@@ -218,8 +223,8 @@ class ChartManager(QWidget):
         container_layout.setContentsMargins(5, 5, 5, 5)
         container_layout.setSpacing(5)
         
-        # Chart header with tag info only (removed reset zoom button)
-        header_layout = QHBoxLayout()
+        # Chart controls
+        controls_layout = QHBoxLayout()
         
         # Tag info
         tag_info = QLabel(f"📊 {tag_name}")
@@ -234,22 +239,17 @@ class ChartManager(QWidget):
             }
         """)
         
-        # Instruction label for right-click
-        instruction_label = QLabel("💡 Right-click to reset zoom")
-        instruction_label.setStyleSheet("""
-            QLabel {
-                color: #666;
-                font-size: 11px;
-                font-style: italic;
-                padding: 2px 5px;
-            }
-        """)
+        # Reset zoom button
+        reset_btn = ModernButton("🔄 Reset Zoom", color="#607D8B")
+        reset_btn.setFixedWidth(120)
+        reset_btn.clicked.connect(chart_view.reset_zoom)
+        reset_btn.setToolTip("Reset zoom level for this chart")
         
-        header_layout.addWidget(tag_info)
-        header_layout.addStretch()
-        header_layout.addWidget(instruction_label)
+        controls_layout.addWidget(tag_info)
+        controls_layout.addStretch()
+        controls_layout.addWidget(reset_btn)
         
-        container_layout.addLayout(header_layout)
+        container_layout.addLayout(controls_layout)
         container_layout.addWidget(chart_view)
         
         # Add styling to container
@@ -370,7 +370,7 @@ class ChartManager(QWidget):
         self.show_instructions()
     
     def refresh_charts(self):
-        """Refresh charts based on current tag selection and mode - REAL-TIME UPDATE"""
+        """Refresh charts based on current tag selection and mode"""
         if not hasattr(self.parent_window, 'tag_browser'):
             self.show_no_data_message("Tag browser not available")
             return
@@ -379,32 +379,73 @@ class ChartManager(QWidget):
             self.show_no_data_message("No data available. Please fetch data first.")
             return
         
-        # Get CURRENTLY SELECTED tags from the tag browser
-        currently_selected_tags = self.parent_window.tag_browser.get_selected_tags()
-        
-        # Update charts IMMEDIATELY based on current selection
-        self.update_charts_for_tags(currently_selected_tags)
-        
-        if currently_selected_tags:
-            # Log what we're charting
-            if hasattr(self.parent_window, 'log_output'):
-                self.parent_window.log_output.append(f"📈 Refreshed charts for {len(currently_selected_tags)} selected tags")
+        # Determine which tags to chart based on mode
+        if hasattr(self.parent_window, 'mode_selector'):
+            is_inferential = self.parent_window.mode_selector.currentText().startswith("Inferential")
         else:
-            if hasattr(self.parent_window, 'log_output'):
-                self.parent_window.log_output.append("💡 No tags selected - check tags in Tags tab to view charts")
+            is_inferential = self.parent_window.tag_browser.inferential_mode
+        
+        chartable_tags = []
+        
+        if is_inferential:
+            # In inferential mode, show charts for ALL tags that exist in the data
+            lab_tags = self.parent_window.tag_browser.get_lab_tags()
+            process_tags = self.parent_window.tag_browser.get_process_tags()
+            
+            # Add all tags that exist in the dataframe
+            all_available_tags = lab_tags + process_tags
+            for tag in all_available_tags:
+                if tag in self.data_frame.columns:
+                    chartable_tags.append(tag)
+            
+            # Log what we're charting
+            if hasattr(self.parent_window, 'log_output') and chartable_tags:
+                lab_in_charts = [t for t in chartable_tags if t in lab_tags]
+                process_in_charts = [t for t in chartable_tags if t in process_tags]
+                self.parent_window.log_output.append(
+                    f"📈 Inferential Mode: Charting {len(lab_in_charts)} lab tags + {len(process_in_charts)} process tags"
+                )
+        else:
+            # In process mode, only chart selected tags
+            root = self.parent_window.tag_browser.tag_tree.invisibleRootItem()
+            
+            for i in range(root.childCount()):
+                item = root.child(i)
+                if item.checkState(0) == Qt.CheckState.Checked and not item.isHidden():
+                    # Get tag name based on mode
+                    if self.parent_window.tag_browser.inferential_mode:
+                        tag_name = item.text(1)  # Tag column in inferential mode
+                    else:
+                        tag_name = item.text(0)  # Tag column in process mode
+                    
+                    if tag_name in self.data_frame.columns:
+                        chartable_tags.append(tag_name)
+        
+        # Update charts with the determined tags
+        self.update_charts_for_tags(chartable_tags)
     
-    # Removed reset_all_zoom method since we removed the reset zoom buttons
-    # Users can right-click on individual charts to reset zoom
+    def reset_all_zoom(self):
+        """Reset zoom for all chart views"""
+        reset_count = 0
+        for widget in self.chart_widgets:
+            # Find ZoomableChartView widgets recursively
+            chart_views = self.find_chart_views(widget)
+            for chart_view in chart_views:
+                chart_view.reset_zoom()
+                reset_count += 1
+        
+        if hasattr(self.parent_window, 'log_output') and reset_count > 0:
+            self.parent_window.log_output.append(f"🔍 Reset zoom for {reset_count} chart(s)")
     
     def find_chart_views(self, widget):
         """Recursively find ZoomableChartView widgets"""
         chart_views = []
         
-        if isinstance(widget, (ZoomableChartView, EnhancedZoomableChartView)):
+        if isinstance(widget, ZoomableChartView):
             chart_views.append(widget)
         
         # Check children
-        for child in widget.findChildren((ZoomableChartView, EnhancedZoomableChartView)):
+        for child in widget.findChildren(ZoomableChartView):
             chart_views.append(child)
         
         return chart_views
@@ -422,7 +463,7 @@ class ChartManager(QWidget):
         # Get all columns that are not Timestamp or Status columns
         available_tags = []
         for col in self.data_frame.columns:
-            if col != 'Timestamp' and col != 'Status':
+            if col != 'Timestamp' and not col.endswith('_Status'):
                 available_tags.append(col)
         
         if available_tags:
@@ -431,95 +472,3 @@ class ChartManager(QWidget):
                 self.parent_window.log_output.append(f"📈 Showing charts for all {len(available_tags)} available tags")
         else:
             self.show_no_data_message("No plottable tags found in dataset")
-
-
-class EnhancedZoomableChartView(QChartView):
-    """Enhanced chart view with zoom capabilities and RIGHT-CLICK reset zoom"""
-    def __init__(self, chart, tag_name="", parent=None):
-        super().__init__(chart, parent)
-        self.tag_name = tag_name
-        self.original_ranges = {}
-        
-        # Enable right-click context menu
-        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.show_context_menu)
-        
-        # Store original ranges after a short delay to ensure chart is fully rendered
-        from PyQt6.QtCore import QTimer
-        QTimer.singleShot(200, self.store_original_ranges)
-
-    def store_original_ranges(self):
-        """Store the original axis ranges for zoom reset"""
-        try:
-            self.original_ranges = {}
-            for axis in self.chart().axes():
-                self.original_ranges[axis] = (axis.min(), axis.max())
-        except Exception as e:
-            print(f"Warning: Could not store original ranges for {self.tag_name}: {e}")
-
-    def reset_zoom(self):
-        """Reset zoom to original ranges"""
-        try:
-            if not self.original_ranges:
-                # Fallback: zoom to fit all data
-                self.chart().zoomReset()
-                return
-            
-            for axis, (min_val, max_val) in self.original_ranges.items():
-                if axis in self.chart().axes():  # Ensure axis still exists
-                    axis.setRange(min_val, max_val)
-        except Exception as e:
-            print(f"Warning: Could not reset zoom for {self.tag_name}: {e}")
-            # Fallback to chart's built-in zoom reset
-            self.chart().zoomReset()
-
-    def show_context_menu(self, position):
-        """Show context menu on right-click with zoom reset option"""
-        context_menu = QMenu(self)
-        
-        # Add zoom reset action
-        reset_action = QAction("🔄 Reset Zoom", self)
-        reset_action.setToolTip("Reset chart zoom to fit all data")
-        reset_action.triggered.connect(self.reset_zoom)
-        context_menu.addAction(reset_action)
-        
-        if self.tag_name:
-            context_menu.addSeparator()
-            # Add tag info action
-            info_action = QAction(f"ℹ️ Tag: {self.tag_name}", self)
-            info_action.setEnabled(False)  # Just for display
-            context_menu.addAction(info_action)
-        
-        # Show context menu at cursor position
-        context_menu.exec(self.mapToGlobal(position))
-
-    def mouseReleaseEvent(self, event):
-        """Handle mouse release events - prevent default right-click behavior"""
-        if event.button() == Qt.MouseButton.RightButton:
-            # Don't call parent's mouseReleaseEvent for right-click
-            # This prevents any unwanted zoom behavior
-            event.accept()
-        else:
-            # Handle left-click and other buttons normally
-            super().mouseReleaseEvent(event)
-
-    def mousePressEvent(self, event):
-        """Handle mouse press events"""
-        if event.button() == Qt.MouseButton.RightButton:
-            # Accept right-click to prevent propagation
-            event.accept()
-        else:
-            # Handle other mouse buttons normally (for zooming/panning)
-            super().mousePressEvent(event)
-
-    def resizeEvent(self, event):
-        """Handle resize events and update stored ranges"""
-        super().resizeEvent(event)
-        # Update stored ranges after resize to maintain proper zoom reset
-        from PyQt6.QtCore import QTimer
-        QTimer.singleShot(100, self.store_original_ranges)
-
-    def wheelEvent(self, event):
-        """Handle wheel events for zooming"""
-        # Allow normal wheel zoom behavior
-        super().wheelEvent(event)

@@ -666,54 +666,39 @@ class EnhancedPIDataExtractorGUI(QWidget):
             self.preview_tab_index = None
     
     def connect_signals(self):
-        """Connect all signals to their respective slots"""
-        # Connection
-        self.connect_btn.clicked.connect(self.connect_to_server)
-        self.disconnect_btn.clicked.connect(self.disconnect_from_server)
-        
-        # Data operations
-        self.fetch_btn.clicked.connect(self.fetch_pi_data)
-        self.export_btn.clicked.connect(self.export_data)
-        self.browse_btn.clicked.connect(self.browse_export_path)
-        
-        # Mode switching
-        self.mode_selector.currentTextChanged.connect(self.toggle_inferential_controls)
-        
-        # Quick time buttons
-        self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
-        self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
-        self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-        
-        # Tag browser signals
-        self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
-        self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)
-        self.tag_browser.search_tags_btn.clicked.connect(self.search_pi_tags)
-        self.tag_browser.load_file_btn.clicked.connect(self.load_tag_file)
-        self.tag_browser.clear_all_btn.clicked.connect(self.clear_all_tags)
-        self.tag_browser.remove_selected_btn.clicked.connect(self.remove_selected_tags)
-        self.tag_browser.export_list_btn.clicked.connect(self.export_tag_list)
-        
-        # ENHANCED: Direct real-time chart updates on tag selection changes
-        self.tag_browser.tag_tree.itemChanged.connect(self.on_tag_selection_changed_immediate)
-        
-        # Time validation
-        self.start_time.dateTimeChanged.connect(self.validate_time_range)
-        self.end_time.dateTimeChanged.connect(self.validate_time_range)
+    """Connect all signals to their respective slots"""
+    # Connection
+    self.connect_btn.clicked.connect(self.connect_to_server)
+    self.disconnect_btn.clicked.connect(self.disconnect_from_server)
     
-    def on_tag_selection_changed_immediate(self, item, column):
-        """Handle tag selection changes with IMMEDIATE chart updates (no debouncing)"""
-        if column == 0:  # Only respond to changes in the checkbox column
-            # Only update charts if we have data and charts tab is available
-            if not self.data_frame.empty and self.charts_tab_index is not None:
-                # Get currently selected tags
-                selected_tags = self.tag_browser.get_selected_tags()
-                
-                # Update charts immediately
-                self.chart_manager.update_charts_for_tags(selected_tags)
-                
-                # Switch to charts tab if charts were created
-                if self.chart_manager.get_chart_count() > 0:
-                    self.tab_widget.setCurrentIndex(self.charts_tab_index)
+    # Data operations
+    self.fetch_btn.clicked.connect(self.fetch_pi_data)
+    self.export_btn.clicked.connect(self.export_data)
+    self.browse_btn.clicked.connect(self.browse_export_path)
+    
+    # Mode switching
+    self.mode_selector.currentTextChanged.connect(self.toggle_inferential_controls)
+    
+    # Quick time buttons
+    self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
+    self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
+    self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
+    
+    # Tag browser signals
+    self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
+    self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)
+    self.tag_browser.search_tags_btn.clicked.connect(self.search_pi_tags)
+    self.tag_browser.load_file_btn.clicked.connect(self.load_tag_file)
+    self.tag_browser.clear_all_btn.clicked.connect(self.clear_all_tags)
+    self.tag_browser.remove_selected_btn.clicked.connect(self.remove_selected_tags)
+    self.tag_browser.export_list_btn.clicked.connect(self.export_tag_list)
+    
+    # ENHANCED: Direct real-time chart updates on tag selection changes
+    self.tag_browser.tag_tree.itemChanged.connect(self.on_tag_selection_changed_immediate)
+    
+    # Time validation
+    self.start_time.dateTimeChanged.connect(self.validate_time_range)
+    self.end_time.dateTimeChanged.connect(self.validate_time_range)
     
     def toggle_inferential_controls(self):
         """Show or hide inferential mode controls and update tag browser"""
@@ -892,13 +877,9 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.log_output.append("✅ Selected all visible tags")
     
     def deselect_all_tags(self):
-        """Deselect all tags and clear charts immediately"""
+        """Deselect all tags"""
         self.tag_browser.deselect_all_tags()
         self.log_output.append("❌ Deselected all tags")
-        
-        # Immediate chart update (clear charts)
-        if self.charts_tab_index is not None:
-            self.chart_manager.clear_all_charts()
     
     def fetch_pi_data(self):
         """Fetch data from PI server using worker thread"""
@@ -1003,7 +984,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.log_output.append(f"📊 {status}: {detail}")
     
     def on_data_ready(self, result):
-        """Handle successful data fetch - ENHANCED for immediate chart response"""
+        """Handle successful data fetch"""
         self.data_frame = result['dataframe']
         self.descriptions = result['descriptions']
         self.units = result['units']
@@ -1028,13 +1009,8 @@ class EnhancedPIDataExtractorGUI(QWidget):
             # For inferential data, automatically show all available tags
             self.chart_manager.show_all_available_tags()
         else:
-            # For process data, show charts for currently selected tags
-            selected_tags = self.tag_browser.get_selected_tags()
-            if selected_tags:
-                self.chart_manager.update_charts_for_tags(selected_tags)
-            else:
-                # No tags selected, show instructions
-                self.log_output.append("💡 Tip: Check tags in the Tags tab to view charts!")
+            # For process data, show charts for selected tags only
+            self.update_charts()
         
         # If charts were created, switch to charts tab
         if self.chart_manager.get_chart_count() > 0 and self.charts_tab_index is not None:
