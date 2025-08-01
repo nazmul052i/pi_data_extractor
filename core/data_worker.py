@@ -18,7 +18,7 @@ class DataFetchWorker(QThread):
         self.start_time = start_time
         self.end_time = end_time
         self.interval = interval
-        self.mode = mode 
+        self.mode = mode  # 'process' or 'inferential'
         self.lab_tags = lab_tags or []
         self.past_window = past_window
         self.future_window = future_window
@@ -81,7 +81,7 @@ class DataFetchWorker(QThread):
             self.error_occurred.emit(f"Server connection failed: {str(e)}")
 
     def fetch_interpolated_process_data(self, server):
-        """Fetch interpolated process data (simple mode)"""
+        """Fetch interpolated process data (simple mode) - FIXED VERSION"""
         data_frames = []
         total = len(self.tags)
 
@@ -92,7 +92,7 @@ class DataFetchWorker(QThread):
                 point = server.search(tag)[0]
                 raw = point.interpolated_values(self.start_time, self.end_time, self.interval)
                 df = pd.DataFrame(raw.items(), columns=["Timestamp", tag])
-                df[f"{tag}_Status"] = 'G'
+                # REMOVED: Don't add Status column here - we'll add it after merging
                 self.descriptions[tag] = getattr(point, 'description', '').replace('\t', ' ')
                 self.units[tag] = getattr(point, 'units_of_measurement', '').replace('\t', ' ')
                 data_frames.append(df)
@@ -103,6 +103,9 @@ class DataFetchWorker(QThread):
             self.progress_updated.emit(95, "Merging data...", "")
             merged = reduce(lambda l, r: pd.merge(l, r, on="Timestamp", how="outer"), data_frames)
             merged = merged.sort_values("Timestamp")
+            
+            # FIXED: Add single Status column AFTER merging all data
+            merged["Status"] = 'G'  # Single status column for all tags
 
             result = {
                 'dataframe': merged,
@@ -134,6 +137,9 @@ class DataFetchWorker(QThread):
             self.progress_updated.emit(progress, f"Sample {i+1}/{total}", f"Time: {sample_time}")
 
         df = pd.DataFrame(rows)
+        # FIXED: Add single Status column for inferential data too
+        df["Status"] = 'G'
+        
         self.progress_updated.emit(100, "Inferential dataset complete!", f"{len(df)} rows")
 
         result = {

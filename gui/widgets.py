@@ -2,10 +2,11 @@ import hashlib
 from PyQt6.QtWidgets import (
     QPushButton, QGroupBox, QWidget, QLabel, QHBoxLayout, QVBoxLayout,
     QTreeWidget, QTreeWidgetItem, QComboBox, QLineEdit, QTableWidget,
-    QTableWidgetItem, QHeaderView, QFileDialog, QMessageBox, QGridLayout, QFrame
+    QTableWidgetItem, QHeaderView, QFileDialog, QMessageBox, QGridLayout, 
+    QFrame, QDateTimeEdit, QCalendarWidget, QTimeEdit
 )
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QColor
+from PyQt6.QtCore import Qt, QTimer, QDateTime, QDate, QTime
+from PyQt6.QtGui import QColor, QPalette
 from PyQt6.QtCharts import QChartView
 import pandas as pd
 
@@ -29,6 +30,7 @@ class ModernButton(QPushButton):
                 border-radius: 8px;
                 color: white;
                 font-weight: bold;
+                font-size: 12px;
                 padding: 8px 16px;
             }}
             QPushButton:hover {{
@@ -54,39 +56,68 @@ class ModernButton(QPushButton):
 
 
 class ModernCard(QGroupBox):
-    """Card-style container with shadow effect"""
+    """Enhanced card-style container with better styling"""
     def __init__(self, title=""):
         super().__init__(title)
         self.setStyleSheet("""
             QGroupBox {
-                font-weight: bold;
-                border: 2px solid #E0E0E0;
+                font-weight: 600;
+                font-size: 14px;
+                border: 2px solid #E9ECEF;
                 border-radius: 12px;
-                margin: 15px 5px;
-                padding-top: 10px;
+                margin: 10px 0;
+                padding-top: 16px;
                 background-color: white;
+                color: #495057;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 8px 0 8px;
-                color: #333333;
+                left: 16px;
+                padding: 0 8px;
+                color: #495057;
                 background-color: white;
+                border-radius: 4px;
             }
         """)
 
 
 class ConnectionStatusWidget(QWidget):
-    """Visual connection status indicator"""
+    """Enhanced visual connection status indicator"""
     def __init__(self):
         super().__init__()
         layout = QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(12, 8, 12, 8)
+        layout.setSpacing(10)
         
         self.status_dot = QLabel("●")
-        self.status_dot.setStyleSheet("color: #FF6B6B; font-size: 16px;")
+        self.status_dot.setStyleSheet("""
+            QLabel {
+                color: #DC3545;
+                font-size: 18px;
+                font-weight: bold;
+            }
+        """)
+        
         self.status_text = QLabel("Disconnected")
-        self.status_text.setStyleSheet("color: #666; font-weight: bold;")
+        self.status_text.setStyleSheet("""
+            QLabel {
+                color: #DC3545;
+                font-weight: 600;
+                font-size: 13px;
+                padding: 2px 0;
+            }
+        """)
+        
+        # Enhanced styling container
+        self.setStyleSheet("""
+            QWidget {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                    stop:0 #FFEBEE, stop:1 #FFCDD2);
+                border: 2px solid #FFCDD2;
+                border-radius: 8px;
+                margin: 2px;
+            }
+        """)
         
         layout.addWidget(self.status_dot)
         layout.addWidget(self.status_text)
@@ -95,13 +126,188 @@ class ConnectionStatusWidget(QWidget):
     
     def set_connected(self, connected=True):
         if connected:
-            self.status_dot.setStyleSheet("color: #4CAF50; font-size: 16px;")
+            self.status_dot.setStyleSheet("""
+                QLabel {
+                    color: #28A745;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            """)
             self.status_text.setText("Connected")
-            self.status_text.setStyleSheet("color: #4CAF50; font-weight: bold;")
+            self.status_text.setStyleSheet("""
+                QLabel {
+                    color: #28A745;
+                    font-weight: 600;
+                    font-size: 13px;
+                    padding: 2px 0;
+                }
+            """)
+            self.setStyleSheet("""
+                QWidget {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #D4EDDA, stop:1 #C3E6CB);
+                    border: 2px solid #28A745;
+                    border-radius: 8px;
+                    margin: 2px;
+                }
+            """)
         else:
-            self.status_dot.setStyleSheet("color: #FF6B6B; font-size: 16px;")
+            self.status_dot.setStyleSheet("""
+                QLabel {
+                    color: #DC3545;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+            """)
             self.status_text.setText("Disconnected")
-            self.status_text.setStyleSheet("color: #FF6B6B; font-weight: bold;")
+            self.status_text.setStyleSheet("""
+                QLabel {
+                    color: #DC3545;
+                    font-weight: 600;
+                    font-size: 13px;
+                    padding: 2px 0;
+                }
+            """)
+            self.setStyleSheet("""
+                QWidget {
+                    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                        stop:0 #FFEBEE, stop:1 #FFCDD2);
+                    border: 2px solid #FFCDD2;
+                    border-radius: 8px;
+                    margin: 2px;
+                }
+            """)
+
+
+class EnhancedDateTimeEdit(QDateTimeEdit):
+    """Enhanced DateTime picker with better calendar popup and styling"""
+    def __init__(self, datetime=None):
+        super().__init__(datetime or QDateTime.currentDateTime())
+        self.setup_enhanced_features()
+    
+    def setup_enhanced_features(self):
+        """Setup enhanced datetime features"""
+        # Enable calendar popup
+        self.setCalendarPopup(True)
+        
+        # Set display format
+        self.setDisplayFormat("MM/dd/yyyy HH:mm:ss")
+        
+        # Enhanced styling
+        self.setStyleSheet("""
+            QDateTimeEdit {
+                padding: 12px 16px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+                font-size: 13px;
+                font-weight: 500;
+                min-height: 20px;
+                min-width: 200px;
+            }
+            
+            QDateTimeEdit:focus {
+                border-color: #4A90E2;
+                background-color: #FAFBFC;
+            }
+            
+            QDateTimeEdit:hover {
+                border-color: #ADB5BD;
+            }
+            
+            QDateTimeEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 30px;
+                border-left: 2px solid #DEE2E6;
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+                background-color: #F8F9FA;
+            }
+            
+            QDateTimeEdit::drop-down:hover {
+                background-color: #E9ECEF;
+            }
+            
+            QDateTimeEdit::down-arrow {
+                image: none;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 8px solid #6C757D;
+            }
+        """)
+        
+        # Get and enhance the calendar widget
+        calendar = self.calendarWidget()
+        if calendar:
+            self.setup_enhanced_calendar(calendar)
+    
+    def setup_enhanced_calendar(self, calendar):
+        """Setup enhanced calendar styling"""
+        calendar.setStyleSheet("""
+            QCalendarWidget {
+                background-color: white;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                font-size: 12px;
+            }
+            
+            QCalendarWidget QWidget#qt_calendar_navigationbar {
+                background-color: #F8F9FA;
+                border-bottom: 1px solid #DEE2E6;
+                border-radius: 6px 6px 0 0;
+            }
+            
+            QCalendarWidget QToolButton {
+                height: 30px;
+                width: 40px;
+                color: #495057;
+                font-size: 14px;
+                background-color: transparent;
+                border: none;
+                margin: 2px;
+                border-radius: 4px;
+            }
+            
+            QCalendarWidget QToolButton:hover {
+                background-color: #E9ECEF;
+            }
+            
+            QCalendarWidget QToolButton:pressed {
+                background-color: #DEE2E6;
+            }
+            
+            QCalendarWidget QMenu {
+                background-color: white;
+                border: 1px solid #DEE2E6;
+                border-radius: 4px;
+            }
+            
+            QCalendarWidget QSpinBox {
+                background-color: white;
+                border: 1px solid #DEE2E6;
+                border-radius: 4px;
+                padding: 4px;
+                font-size: 12px;
+            }
+            
+            QCalendarWidget QAbstractItemView:enabled {
+                background-color: white;
+                selection-background-color: #4A90E2;
+                selection-color: white;
+                border: none;
+            }
+            
+            QCalendarWidget QAbstractItemView:disabled {
+                color: #ADB5BD;
+            }
+        """)
+        
+        # Set grid visibility
+        calendar.setGridVisible(True)
+        
+        # Set vertical header format
+        calendar.setVerticalHeaderFormat(QCalendarWidget.VerticalHeaderFormat.NoVerticalHeader)
 
 
 class AdvancedTagBrowser(QWidget):
@@ -564,12 +770,11 @@ class AdvancedTagBrowser(QWidget):
                 lab_count += 1
             else:
                 process_count += 1
-        
         if self.inferential_mode:
             self.tag_count_label.setText(
-                f"Tags: {total_count} total, {selected_count} selected | "
-                f"🧪 Lab: {lab_count}, ⚙️ Process: {process_count}"
-            )
+               f"Tags: {total_count} total, {selected_count} selected | "
+               f"🧪 Lab: {lab_count}, ⚙️ Process: {process_count}"
+           )
         else:
             self.tag_count_label.setText(f"Tags: {total_count} total, {selected_count} selected")
     
@@ -633,7 +838,7 @@ class AdvancedTagBrowser(QWidget):
         """Remove selected tags from the browser"""
         root = self.tag_tree.invisibleRootItem()
         items_to_remove = [root.child(i) for i in range(root.childCount()) 
-                          if root.child(i).checkState(0) == Qt.CheckState.Checked]
+                            if root.child(i).checkState(0) == Qt.CheckState.Checked]
         
         for item in items_to_remove:
             root.removeChild(item)
@@ -781,21 +986,21 @@ class DataPreviewWidget(QWidget):
                 border: 1px solid #E0E0E0;
                 border-radius: 6px;
                 selection-background-color: #E3F2FD;
-           }
-           QTableWidget::item {
-               padding: 8px;
-               border: none;
-           }
-           QHeaderView::section {
-               background-color: #F5F5F5;
-               padding: 8px;
-               border: 1px solid #E0E0E0;
-               font-weight: bold;
-               color: #333;
-           }
-       """)
+            }
+            QTableWidget::item {
+                padding: 8px;
+                border: none;
+            }
+            QHeaderView::section {
+                background-color: #F5F5F5;
+                padding: 8px;
+                border: 1px solid #E0E0E0;
+                font-weight: bold;
+                color: #333;
+            }
+        """)
         layout.addWidget(self.preview_table)
-       
+        
         # No data message
         self.no_data_label = QLabel("No data available. Fetch data to see preview.")
         self.no_data_label.setStyleSheet("""
@@ -817,39 +1022,44 @@ class DataPreviewWidget(QWidget):
         if dataframe.empty:
             self.show_no_data()
             return
-       
+        
         self.no_data_label.setVisible(False)
         self.preview_table.setVisible(True)
-       
-        # Update stats
+        
+        # FIXED: Filter out Status columns for preview (only show data columns)
+        preview_columns = [col for col in dataframe.columns if col != 'Status']
+        display_df = dataframe[preview_columns].head(10).copy()
+        
+        # Update stats (based on original dataframe)
         self.rows_label.setText(f"{len(dataframe):,}")
-        self.cols_label.setText(f"{len(dataframe.columns)}")
+        self.cols_label.setText(f"{len(preview_columns)}")  # Count only data columns
         size_kb = dataframe.memory_usage(deep=True).sum() / 1024
         self.size_label.setText(f"{size_kb:.1f} KB")
-       
-        # Calculate data quality
-        total_cells = len(dataframe) * len(dataframe.columns)
-        non_null_cells = dataframe.count().sum()
-        quality = (non_null_cells / total_cells * 100) if total_cells > 0 else 100
+        
+        # Calculate data quality (excluding status columns)
+        data_columns = [col for col in dataframe.columns if col != 'Status' and col != 'Timestamp']
+        if data_columns:
+            total_data_cells = len(dataframe) * len(data_columns)
+            non_null_data_cells = dataframe[data_columns].count().sum()
+            quality = (non_null_data_cells / total_data_cells * 100) if total_data_cells > 0 else 100
+        else:
+            quality = 100
         self.quality_label.setText(f"{quality:.1f}%")
-       
-        # Show first 10 rows
-        display_df = dataframe.head(10).copy()
-       
+        
         # Format timestamp column
         if 'Timestamp' in display_df.columns:
             display_df['Timestamp'] = pd.to_datetime(display_df['Timestamp']).dt.strftime('%Y-%m-%d %H:%M:%S')
-       
+        
         # Round numeric columns
         for col in display_df.columns:
             if display_df[col].dtype in ['float64', 'float32']:
                 display_df[col] = display_df[col].round(3)
-       
+        
         self.preview_table.setRowCount(len(display_df))
         self.preview_table.setColumnCount(len(display_df.columns))
         self.preview_table.setHorizontalHeaderLabels(display_df.columns.tolist())
-       
-        # Populate table
+        
+        # Populate table (same as before)
         for i, (_, row) in enumerate(display_df.iterrows()):
             for j, value in enumerate(row):
                 if pd.isna(value):
@@ -863,23 +1073,32 @@ class DataPreviewWidget(QWidget):
                     item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 
                 self.preview_table.setItem(i, j, item)
-       
-        # Adjust column widths
+        
+        # Set column widths (same as before)
         header = self.preview_table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)
-        for i in range(1, len(display_df.columns)):
-            header.setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
-       
+        for i in range(len(display_df.columns)):
+            header.setSectionResizeMode(i, QHeaderView.ResizeMode.Interactive)
+        
+        for i, col_name in enumerate(display_df.columns):
+            if col_name == 'Timestamp':
+                self.preview_table.setColumnWidth(i, 160)
+            elif display_df[col_name].dtype in ['float64', 'float32']:
+                self.preview_table.setColumnWidth(i, 100)
+            else:
+                self.preview_table.setColumnWidth(i, 120)
+        
+        self.preview_table.setHorizontalScrollMode(QTableWidget.ScrollMode.ScrollPerPixel)
         self.preview_table.resizeRowsToContents()
-   
+    
     def show_no_data(self):
         """Show no data message"""
-        self.preview_table.setVisible(False)
         self.no_data_label.setVisible(True)
+        self.preview_table.setVisible(False)
         
         # Reset stats
-        for label in [self.rows_label, self.cols_label, self.size_label]:
-            label.setText("0")
+        self.rows_label.setText("0")
+        self.cols_label.setText("0")
+        self.size_label.setText("0 KB")
         self.quality_label.setText("100%")
 
 

@@ -14,7 +14,7 @@ class DataExporter:
     def get_clean_dataframe(self):
         """Get dataframe without status columns"""
         clean_df = self.dataframe[[col for col in self.dataframe.columns 
-                                  if not col.endswith("_Status")]].copy()
+                                if col != "Status"]].copy()  # FIXED: Look for "Status" not "_Status"
         
         # Remove timezone from timestamp for compatibility
         if "Timestamp" in clean_df.columns and pd.api.types.is_datetime64_any_dtype(clean_df["Timestamp"]):
@@ -37,20 +37,18 @@ class DataExporter:
         df = self.dataframe.copy()
         df['Timestamp'] = pd.to_datetime(df['Timestamp'], utc=True)
         
-        # Get all tags (excluding Timestamp and existing Status columns)
+        # Get all tags (excluding Timestamp and Status column)
         all_tag_columns = [col for col in df.columns 
-                          if col != 'Timestamp' and not col.endswith('_Status')]
+                        if col != 'Timestamp' and col != 'Status']  # FIXED: Exclude "Status"
         
         available_tags = []
         for tag in all_tag_columns:
             if tag in df.columns:
                 available_tags.append(tag)
         
-        # Ensure we have status columns for all tags
-        for tag in available_tags:
-            status_col = f"{tag}_Status"
-            if status_col not in df.columns:
-                df[status_col] = 'G'  # Default to Good quality
+        # Ensure we have the status column
+        if "Status" not in df.columns:
+            df["Status"] = 'G'  # Default to Good quality
         
         with open(file_path, "w", newline='') as f:
             writer = csv.writer(f, delimiter='\t')
@@ -71,7 +69,7 @@ class DataExporter:
                 desc_row.extend([tag_desc, ""])
             writer.writerow(desc_row)
             
-            # Units row
+            # Units row  
             units_row = [""]  # Empty for Time column
             for tag in available_tags:
                 tag_units = self.units.get(tag, '')
@@ -88,8 +86,8 @@ class DataExporter:
                     if pd.isna(value):
                         value = ''
                     
-                    status_col = f"{tag}_Status"
-                    status = row.get(status_col, 'G')
+                    # FIXED: Use the single "Status" column for all tags
+                    status = row.get("Status", 'G')
                     if pd.isna(status) or status == '':
                         status = 'G'
                     
@@ -111,76 +109,3 @@ class DataExporter:
         clean_df.to_csv(file_path, sep='\t', index=False, quoting=csv.QUOTE_NONE, escapechar='\\')
 
 
-# Update for main_window.py
-def setup_export_formats(self):
-    """Setup export format options"""
-    # Add all four formats
-    self.format_combo.addItems([".csv", ".tsv", ".txt", ".iq"])
-    
-    # Update tooltip
-    self.format_tooltip_label.setText(
-        "ℹ️ CSV: Comma-delimited (Excel) | TSV: Tab-delimited | TXT: DMC format | IQ: Lab compatible"
-    )
-
-def export_data(self):
-    """Export data in selected format"""
-    if self.data_frame.empty:
-        QMessageBox.warning(self, "No Data", "No data available to export.")
-        return
-    
-    file_path = self.save_path_input.text().strip()
-    if not file_path:
-        QMessageBox.warning(self, "No Path", "Please specify an export path.")
-        return
-    
-    format_selected = self.format_combo.currentText()
-    
-    try:
-        exporter = DataExporter(
-            self.data_frame, 
-            self.descriptions, 
-            self.units, 
-            self.timezone_combo.currentText()
-        )
-        
-        if format_selected == ".csv":
-            exporter.export_csv(file_path)
-            self.log_output.append(f"✅ Data exported to CSV (comma-delimited): {file_path}")
-        elif format_selected == ".tsv":
-            exporter.export_tsv(file_path)
-            self.log_output.append(f"✅ Data exported to TSV (tab-delimited): {file_path}")
-        elif format_selected == ".txt":
-            exporter.export_txt(file_path)
-            self.log_output.append(f"✅ Data exported to DMC TXT format: {file_path}")
-        elif format_selected == ".iq":
-            exporter.export_iq(file_path)
-            self.log_output.append(f"✅ Data exported to IQ format (lab compatible): {file_path}")
-        
-        QMessageBox.information(self, "Export Complete", f"Data successfully exported to:\n{file_path}")
-        
-    except Exception as e:
-        QMessageBox.critical(self, "Export Error", f"Failed to export data: {str(e)}")
-        self.log_output.append(f"❌ Export failed: {str(e)}")
-
-def browse_export_path(self):
-    """Browse for export file path"""
-    selected_format = self.format_combo.currentText()
-    default_name = f"pi_export_{QDateTime.currentDateTime().toString('yyyyMMdd_HHmmss')}{selected_format}"
-    
-    format_filters = {
-        ".csv": "CSV Files (*.csv);;All Files (*)",
-        ".tsv": "TSV Files (*.tsv);;Text Files (*.txt);;All Files (*)",
-        ".txt": "TXT Files (*.txt);;All Files (*)",
-        ".iq": "IQ Files (*.iq);;Text Files (*.txt);;All Files (*)"
-    }
-    
-    file_filter = format_filters.get(selected_format, "All Files (*)")
-    
-    file_path, _ = QFileDialog.getSaveFileName(
-        self, "Select Export Path", default_name, filter=file_filter
-    )
-    
-    if file_path:
-        if not file_path.endswith(selected_format):
-            file_path += selected_format
-        self.save_path_input.setText(file_path)

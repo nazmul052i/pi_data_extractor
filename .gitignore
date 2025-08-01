@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+(vpy)/
 
 # Spyder project settings
 .spyderproject
@@ -128,18 +129,18 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# PyQt specific
+# PyQt / PySide
+*.ui
 *.qrc
-*.ui~
 
-# IDE specific files
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS specific files
+# OS files
 .DS_Store
 .DS_Store?
 ._*
@@ -147,31 +148,63 @@ dmypy.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Application specific
-logs/
-exports/
-temp/
+# Custom additions for PI Data Extractor
+# Test files and folders
+tests/
+test/
+__tests__/
+*_test.py
+test_*.py
+
+# Data export files
+*.txt
+*.csv
+*.tsv
+*.iq
+
+# Backup files
+*.backup
+*.bak
+*.bk
+*~
+*.orig
+*.save
+
+# PI Data files
+*.pda
+*.pdb
+
+# Configuration files that might contain sensitive info
+config.ini
+settings.json
+credentials.txt
+
+# Log files
 *.log
+logs/
+
+# Temporary files
+temp/
+tmp/
 *.tmp
 
-# PI Data Extractor specific
-pi_exports/
-tag_lists/
-config/user_settings.json
-*.csv
-*.txt
-!examples/*.txt
-!examples/*.csv
+# Windows executable files
+*.exe
+*.msi
 
-# Test files
-test_data/
-test_exports/
+# macOS
+.AppleDouble
+.LSOverride
 
-# Documentation build
-docs/build/
-*.pdf
+# PyInstaller generated files (if building executables)
+build/
+dist/
+*.spec
 
-# Local configuration
-local_config.py
-.env.local
+# Virtual environment variations
+vpy/
+.vpy/
+pi_env/
+pi_venv/

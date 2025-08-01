@@ -314,10 +314,9 @@ class ChartManager(QWidget):
     
     def get_valid_series_data(self, tag):
         """Extract valid time series data for a tag"""
-        # Check for status column (good quality data)
-        status_col = f"{tag}_Status"
-        if status_col in self.data_frame.columns:
-            mask = self.data_frame[status_col] == 'G'
+        # FIXED: Look for single "Status" column instead of tag-specific status columns
+        if "Status" in self.data_frame.columns:
+            mask = self.data_frame["Status"] == 'G'
         else:
             # If no status column, use all non-null values
             mask = pd.notna(self.data_frame[tag])
@@ -326,6 +325,7 @@ class ChartManager(QWidget):
         times = pd.to_datetime(self.data_frame["Timestamp"])[mask]
         values = self.data_frame[tag][mask]
         
+        # Remove any remaining NaN values
         valid_mask = pd.notna(values)
         times = times[valid_mask]
         values = values[valid_mask]

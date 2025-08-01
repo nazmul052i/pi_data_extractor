@@ -3,14 +3,14 @@ from PyQt6.QtWidgets import (
     QWidget, QLabel, QFileDialog, QVBoxLayout, QHBoxLayout, 
     QTextEdit, QScrollArea, QLineEdit, QDateTimeEdit, QComboBox,
     QMessageBox, QProgressBar, QSplitter, QTabWidget, QGroupBox, 
-    QGridLayout, QSpinBox
+    QGridLayout, QSpinBox, QFrame, QSizePolicy
 )
-from PyQt6.QtCore import Qt, QDateTime, QTimer
-from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt, QDateTime, QTimer, QSize
+from PyQt6.QtGui import QFont, QIcon, QColor
 
 from gui.widgets import (
     ModernCard, ModernButton, ConnectionStatusWidget, 
-    AdvancedTagBrowser, DataPreviewWidget
+    AdvancedTagBrowser, DataPreviewWidget, EnhancedDateTimeEdit
 )
 from gui.dialogs import TagSearchDialog, ProgressDialog
 from gui.chart_manager import ChartManager
@@ -21,7 +21,7 @@ from core.exporters import DataExporter
 class EnhancedPIDataExtractorGUI(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PI Data Extractor")
+        self.setWindowTitle("PI Data Extractor Pro v2.0")
         self.setGeometry(100, 100, 1600, 1000)
         self.setMinimumSize(1200, 800)
         
@@ -35,7 +35,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.units = {}
         self.connection_status = False
         self.lab_tags = []
-        self.pi_available = False  # Track PI availability
+        self.pi_available = False
         
         # Initialize debounce timer
         self._debounce_timer = QTimer()
@@ -62,271 +62,193 @@ class EnhancedPIDataExtractorGUI(QWidget):
             self.connect_btn.setText("❌ PI Not Available")
     
     def apply_modern_theme(self):
-        """Apply modern theme"""
+        """Apply enhanced modern theme with better spacing and colors"""
         self.setStyleSheet("""
             QWidget {
-                background-color: #F5F5F5;
-                color: #333333;
-                font-family: 'Segoe UI', Arial, sans-serif;
-                font-size: 12px;
+                background-color: #F8F9FA;
+                color: #212529;
+                font-family: 'Segoe UI', 'SF Pro Display', Arial, sans-serif;
+                font-size: 13px;
             }
             
-            QLineEdit, QComboBox, QSpinBox, QDateTimeEdit {
-                padding: 8px;
-                border: 2px solid #E0E0E0;
-                border-radius: 6px;
+            QLineEdit {
+                padding: 12px 16px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
                 background-color: white;
+                font-size: 13px;
+                min-height: 20px;
                 selection-background-color: #E3F2FD;
             }
             
-            QLineEdit:focus, QComboBox:focus {
+            QLineEdit:focus {
+                border-color: #4A90E2;
+                background-color: #FAFBFC;
+            }
+            
+            QLineEdit:hover {
+                border-color: #ADB5BD;
+            }
+            
+            QComboBox {
+                padding: 12px 16px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+                font-size: 13px;
+                min-height: 20px;
+                min-width: 120px;
+            }
+            
+            QComboBox:focus {
                 border-color: #4A90E2;
             }
             
-            QTextEdit {
-                border: 2px solid #E0E0E0;
-                border-radius: 6px;
+            QComboBox:hover {
+                border-color: #ADB5BD;
+            }
+            
+            QComboBox::drop-down {
+                border: none;
+                width: 30px;
+            }
+            
+            QComboBox::down-arrow {
+                image: none;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 8px solid #6C757D;
+                margin-right: 10px;
+            }
+            
+            QSpinBox {
+                padding: 12px 16px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
                 background-color: white;
-                padding: 8px;
-            }
-            
-            QListWidget, QTreeWidget, QTableWidget {
-                border: 2px solid #E0E0E0;
-                border-radius: 6px;
-                background-color: white;
-                alternate-background-color: #F9F9F9;
-            }
-            
-            QScrollBar:vertical {
-                background: #F0F0F0;
-                width: 12px;
-                border-radius: 6px;
-            }
-            
-            QScrollBar::handle:vertical {
-                background: #C0C0C0;
-                border-radius: 6px;
+                font-size: 13px;
                 min-height: 20px;
             }
             
+            QSpinBox:focus {
+                border-color: #4A90E2;
+            }
+            
+            QDateTimeEdit {
+                padding: 12px 16px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+                font-size: 13px;
+                min-height: 20px;
+                min-width: 180px;
+            }
+            
+            QDateTimeEdit:focus {
+                border-color: #4A90E2;
+            }
+            
+            QDateTimeEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 30px;
+                border-left: 1px solid #DEE2E6;
+            }
+            
+            QTextEdit {
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+                padding: 12px;
+                font-size: 12px;
+            }
+            
+            QLabel {
+                color: #495057;
+                font-weight: 500;
+                margin-bottom: 4px;
+            }
+            
+            QListWidget, QTreeWidget, QTableWidget {
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+                alternate-background-color: #F8F9FA;
+            }
+            
+            QScrollBar:vertical {
+                background: #F1F3F4;
+                width: 12px;
+                border-radius: 6px;
+                margin: 0;
+            }
+            
+            QScrollBar::handle:vertical {
+                background: #C1C8CD;
+                border-radius: 6px;
+                min-height: 20px;
+                margin: 2px;
+            }
+            
             QScrollBar::handle:vertical:hover {
-                background: #A0A0A0;
+                background: #A8B2B9;
+            }
+            
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
             }
         """)
     
     def setup_ui(self):
         main_layout = QHBoxLayout()
+        main_layout.setContentsMargins(8, 8, 8, 8)
+        main_layout.setSpacing(12)
         
         # Create main splitter
         splitter = QSplitter(Qt.Orientation.Horizontal)
         
         # Left panel (controls)
         left_panel = self.create_control_panel()
-        left_panel.setFixedWidth(450)
+        left_panel.setFixedWidth(400)
         
         # Right panel (tabs for different views)
         right_panel = self.create_right_panel()
         
         splitter.addWidget(left_panel)
         splitter.addWidget(right_panel)
-        splitter.setSizes([450, 1150])
+        splitter.setSizes([400, 1200])
         
         main_layout.addWidget(splitter)
         self.setLayout(main_layout)
     
     def create_control_panel(self):
-        """Create the left control panel with modern cards"""
+        """Create the enhanced left control panel with better spacing and styling"""
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setStyleSheet("""
+            QScrollArea {
+                border: none;
+                background-color: #F8F9FA;
+            }
+        """)
         
         panel = QWidget()
         layout = QVBoxLayout()
-        layout.setSpacing(10)
+        layout.setSpacing(16)
+        layout.setContentsMargins(12, 12, 12, 12)
         
         # Connection Card
-        connection_card = ModernCard("🌐 PI Server Connection")
-        connection_layout = QVBoxLayout()
-        
-        self.connection_status_widget = ConnectionStatusWidget()
-        connection_layout.addWidget(self.connection_status_widget)
-        
-        self.server_input = QLineEdit()
-        self.server_input.setPlaceholderText("Enter PI Server name (e.g., PIHOME)")
-        self.server_input.textChanged.connect(self.on_server_name_changed)
-        connection_layout.addWidget(QLabel("Server Name:"))
-        connection_layout.addWidget(self.server_input)
-        
-        connection_buttons = QHBoxLayout()
-        self.connect_btn = ModernButton("🔌 Connect", color="#4CAF50")
-        self.disconnect_btn = ModernButton("⏹ Disconnect", color="#FF6B6B")
-        self.disconnect_btn.setEnabled(False)
-        
-        connection_buttons.addWidget(self.connect_btn)
-        connection_buttons.addWidget(self.disconnect_btn)
-        connection_layout.addLayout(connection_buttons)
-        
-        connection_card.setLayout(connection_layout)
+        connection_card = self.create_connection_card()
         
         # Time Configuration Card
-        time_card = ModernCard("⏰ Time Configuration")
-        time_layout = QGridLayout()
-        
-        now = QDateTime.currentDateTime()
-        yesterday = now.addDays(-1)
-        
-        time_layout.addWidget(QLabel("Start Time:"), 0, 0)
-        self.start_time = QDateTimeEdit(yesterday)
-        self.start_time.setCalendarPopup(True)
-        self.start_time.setDisplayFormat("MM/dd/yyyy HH:mm:ss")
-        time_layout.addWidget(self.start_time, 0, 1)
-        
-        time_layout.addWidget(QLabel("End Time:"), 1, 0)
-        self.end_time = QDateTimeEdit(now)
-        self.end_time.setCalendarPopup(True)
-        self.end_time.setDisplayFormat("MM/dd/yyyy HH:mm:ss")
-        time_layout.addWidget(self.end_time, 1, 1)
-        
-        time_layout.addWidget(QLabel("Interval:"), 2, 0)
-        self.interval_input = QComboBox()
-        self.interval_input.addItems(["1m", "5m", "15m", "30m", "1h", "4h", "8h", "1d"])
-        time_layout.addWidget(self.interval_input, 2, 1)
-        
-        time_layout.addWidget(QLabel("Timezone:"), 3, 0)
-        self.timezone_combo = QComboBox()
-        self.timezone_combo.addItems(["Local", "UTC", "US/Central", "US/Eastern", "US/Pacific"])
-        time_layout.addWidget(self.timezone_combo, 3, 1)
-        
-        # Quick time buttons
-        quick_time_layout = QHBoxLayout()
-        self.last_hour_btn = ModernButton("1H", color="#9C27B0")
-        self.last_day_btn = ModernButton("1D", color="#9C27B0")
-        self.last_week_btn = ModernButton("7D", color="#9C27B0")
-        
-        for btn in [self.last_hour_btn, self.last_day_btn, self.last_week_btn]:
-            btn.setMaximumWidth(50)
-        
-        quick_time_layout.addWidget(QLabel("Quick:"))
-        quick_time_layout.addWidget(self.last_hour_btn)
-        quick_time_layout.addWidget(self.last_day_btn)
-        quick_time_layout.addWidget(self.last_week_btn)
-        quick_time_layout.addStretch()
-        
-        time_layout.addLayout(quick_time_layout, 4, 0, 1, 2)
-        time_card.setLayout(time_layout)
+        time_card = self.create_time_card()
         
         # Data Extraction Card
-        extraction_card = ModernCard("📊 Data Extraction")
-        extraction_layout = QVBoxLayout()
-
-        # Mode selector
-        mode_layout = QHBoxLayout()
-        self.mode_selector = QComboBox()
-        self.mode_selector.addItems(["Process Only", "Inferential (Lab + Process)"])
-        mode_layout.addWidget(QLabel("Mode:"))
-        mode_layout.addWidget(self.mode_selector)
-        extraction_layout.addLayout(mode_layout)
-
-        # Instructions for inferential mode
-        self.inferential_instructions = QLabel(
-            "💡 In Inferential Mode:\n"
-            "1. Select tags in Tags tab\n"
-            "2. Use 'Mark as Lab Tags' button to designate lab tags\n"
-            "3. Lab tags determine sample times\n"
-            "4. Process tags are averaged around lab sample times"
-        )
-        self.inferential_instructions.setStyleSheet("""
-            QLabel {
-                background-color: #FFF3E0;
-                border: 1px solid #FF9800;
-                border-radius: 6px;
-                padding: 8px;
-                color: #E65100;
-                font-size: 11px;
-            }
-        """)
-        self.inferential_instructions.setVisible(False)
-        extraction_layout.addWidget(self.inferential_instructions)
-
-        # Time window group
-        self.window_group = QGroupBox("⏳ Time Window Around Lab Sample")
-        window_layout = QGridLayout()
-
-        self.past_window_spin = QSpinBox()
-        self.past_window_spin.setRange(0, 1440)
-        self.past_window_spin.setValue(20)
-
-        self.future_window_spin = QSpinBox()
-        self.future_window_spin.setRange(0, 1440)
-        self.future_window_spin.setValue(0)
-
-        window_layout.addWidget(QLabel("Past Window (min):"), 0, 0)
-        window_layout.addWidget(self.past_window_spin, 0, 1)
-        window_layout.addWidget(QLabel("Future Window (min):"), 1, 0)
-        window_layout.addWidget(self.future_window_spin, 1, 1)
-
-        self.window_group.setLayout(window_layout)
-        self.window_group.setVisible(False)
-        extraction_layout.addWidget(self.window_group)
-
-        # Fetch Button
-        self.fetch_btn = ModernButton("🚀 Fetch Data", color="#2196F3")
-        self.fetch_btn.setMinimumHeight(45)
-        extraction_layout.addWidget(self.fetch_btn)
-
-        # Progress bar
-        self.progress_bar = QProgressBar()
-        self.progress_bar.setVisible(False)
-        self.progress_bar.setStyleSheet("""
-            QProgressBar {
-                border: 2px solid #E0E0E0;
-                border-radius: 8px;
-                text-align: center;
-                font-weight: bold;
-                height: 25px;
-            }
-            QProgressBar::chunk {
-                background-color: #4CAF50;
-                border-radius: 6px;
-            }
-        """)
-        extraction_layout.addWidget(self.progress_bar)
-        
-        extraction_card.setLayout(extraction_layout)
+        extraction_card = self.create_extraction_card()
         
         # Export Options Card
-        export_card = ModernCard("💾 Export Options")
-        export_layout = QVBoxLayout()
-
-        format_layout = QHBoxLayout()
-        format_layout.addWidget(QLabel("Format:"))
-        self.format_combo = QComboBox()
-        # ADD THE NEW IQ FORMAT HERE:
-        self.format_combo.addItems([".csv", ".txt", ".iq"])  # Added .iq format
-        format_layout.addWidget(self.format_combo)
-        export_layout.addLayout(format_layout)
-
-        # UPDATE THE TOOLTIP TO INCLUDE IQ FORMAT:
-        self.format_tooltip_label = QLabel("ℹ️ CSV: Excel compatible | TXT: DMC format with status | IQ: Simple tab-delimited")
-        self.format_tooltip_label.setStyleSheet("color: #666; font-size: 11px;")
-        export_layout.addWidget(self.format_tooltip_label)
-        
-        # Save path
-        save_layout = QHBoxLayout()
-        self.save_path_input = QLineEdit()
-        self.save_path_input.setPlaceholderText("Choose export location...")
-        self.browse_btn = ModernButton("📁", color="#607D8B")
-        self.browse_btn.setMaximumWidth(40)
-        
-        save_layout.addWidget(self.save_path_input)
-        save_layout.addWidget(self.browse_btn)
-        export_layout.addLayout(save_layout)
-        
-        self.export_btn = ModernButton("💾 Export Data", color="#4CAF50")
-        self.export_btn.setEnabled(False)
-        export_layout.addWidget(self.export_btn)
-        
-        export_card.setLayout(export_layout)
+        export_card = self.create_export_card()
         
         # Add all cards to layout
         layout.addWidget(connection_card)
@@ -339,31 +261,348 @@ class EnhancedPIDataExtractorGUI(QWidget):
         scroll.setWidget(panel)
         return scroll
     
+    def create_connection_card(self):
+        """Create enhanced connection card"""
+        connection_card = ModernCard("🌐 PI Server Connection")
+        connection_layout = QVBoxLayout()
+        connection_layout.setSpacing(12)
+        connection_layout.setContentsMargins(16, 20, 16, 16)
+        
+        # Connection status widget
+        self.connection_status_widget = ConnectionStatusWidget()
+        connection_layout.addWidget(self.connection_status_widget)
+        
+        # Server input with better label
+        server_label = QLabel("Server Name:")
+        server_label.setStyleSheet("""
+            QLabel {
+                font-weight: 600;
+                font-size: 14px;
+                color: #495057;
+                margin-bottom: 6px;
+            }
+        """)
+        connection_layout.addWidget(server_label)
+        
+        self.server_input = QLineEdit()
+        self.server_input.setPlaceholderText("Enter PI Server name (e.g., PIHOME)")
+        self.server_input.textChanged.connect(self.on_server_name_changed)
+        self.server_input.setStyleSheet("""
+            QLineEdit {
+                padding: 14px 16px;
+                font-size: 14px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                background-color: white;
+            }
+            QLineEdit:focus {
+                border-color: #4A90E2;
+                background-color: #FAFBFC;
+            }
+        """)
+        connection_layout.addWidget(self.server_input)
+        
+        # Connection buttons
+        connection_buttons = QHBoxLayout()
+        connection_buttons.setSpacing(8)
+        
+        self.connect_btn = ModernButton("🔌 Connect", color="#28A745")
+        self.connect_btn.setMinimumHeight(44)
+        
+        self.disconnect_btn = ModernButton("⏹ Disconnect", color="#DC3545")
+        self.disconnect_btn.setMinimumHeight(44)
+        self.disconnect_btn.setEnabled(False)
+        
+        connection_buttons.addWidget(self.connect_btn)
+        connection_buttons.addWidget(self.disconnect_btn)
+        connection_layout.addLayout(connection_buttons)
+        
+        connection_card.setLayout(connection_layout)
+        return connection_card
+    
+    def create_time_card(self):
+        """Create enhanced time configuration card"""
+        time_card = ModernCard("⏰ Time Configuration")
+        time_layout = QVBoxLayout()
+        time_layout.setSpacing(12)
+        time_layout.setContentsMargins(16, 20, 16, 16)
+        
+        # Date time inputs in a grid
+        datetime_grid = QGridLayout()
+        datetime_grid.setSpacing(12)
+        
+        now = QDateTime.currentDateTime()
+        yesterday = now.addDays(-1)
+        
+        # Start time
+        start_label = QLabel("Start Time:")
+        start_label.setStyleSheet(self.get_label_style())
+        datetime_grid.addWidget(start_label, 0, 0)
+        
+        self.start_time = EnhancedDateTimeEdit(yesterday)
+        datetime_grid.addWidget(self.start_time, 0, 1)
+        
+        # End time
+        end_label = QLabel("End Time:")
+        end_label.setStyleSheet(self.get_label_style())
+        datetime_grid.addWidget(end_label, 1, 0)
+        
+        self.end_time = EnhancedDateTimeEdit(now)
+        datetime_grid.addWidget(self.end_time, 1, 1)
+        
+        # Interval
+        interval_label = QLabel("Interval:")
+        interval_label.setStyleSheet(self.get_label_style())
+        datetime_grid.addWidget(interval_label, 2, 0)
+        
+        self.interval_input = QComboBox()
+        self.interval_input.addItems(["1m", "5m", "15m", "30m", "1h", "4h", "8h", "1d"])
+        self.interval_input.setCurrentText("1m")
+        datetime_grid.addWidget(self.interval_input, 2, 1)
+        
+        # Timezone
+        timezone_label = QLabel("Timezone:")
+        timezone_label.setStyleSheet(self.get_label_style())
+        datetime_grid.addWidget(timezone_label, 3, 0)
+        
+        self.timezone_combo = QComboBox()
+        self.timezone_combo.addItems(["Local", "UTC", "US/Central", "US/Eastern", "US/Pacific"])
+        datetime_grid.addWidget(self.timezone_combo, 3, 1)
+        
+        time_layout.addLayout(datetime_grid)
+        
+        # Quick time buttons
+        quick_label = QLabel("Quick Select:")
+        quick_label.setStyleSheet(self.get_label_style())
+        time_layout.addWidget(quick_label)
+        
+        quick_time_layout = QHBoxLayout()
+        quick_time_layout.setSpacing(8)
+        
+        self.last_hour_btn = ModernButton("1H", color="#9C27B0")
+        self.last_day_btn = ModernButton("1D", color="#9C27B0")
+        self.last_week_btn = ModernButton("7D", color="#9C27B0")
+        
+        for btn in [self.last_hour_btn, self.last_day_btn, self.last_week_btn]:
+            btn.setFixedSize(50, 36)
+        
+        quick_time_layout.addWidget(self.last_hour_btn)
+        quick_time_layout.addWidget(self.last_day_btn)
+        quick_time_layout.addWidget(self.last_week_btn)
+        quick_time_layout.addStretch()
+        
+        time_layout.addLayout(quick_time_layout)
+        time_card.setLayout(time_layout)
+        return time_card
+    
+    def create_extraction_card(self):
+        """Create enhanced data extraction card"""
+        extraction_card = ModernCard("📊 Data Extraction")
+        extraction_layout = QVBoxLayout()
+        extraction_layout.setSpacing(12)
+        extraction_layout.setContentsMargins(16, 20, 16, 16)
+
+        # Mode selector
+        mode_label = QLabel("Extraction Mode:")
+        mode_label.setStyleSheet(self.get_label_style())
+        extraction_layout.addWidget(mode_label)
+        
+        self.mode_selector = QComboBox()
+        self.mode_selector.addItems(["Process Only", "Inferential (Lab + Process)"])
+        extraction_layout.addWidget(self.mode_selector)
+
+        # Instructions for inferential mode
+        self.inferential_instructions = QLabel(
+            "💡 In Inferential Mode:\n"
+            "• Select tags in Tags tab\n"
+            "• Use 'Mark as Lab Tags' to designate lab tags\n"
+            "• Lab tags determine sample times\n"
+            "• Process tags are averaged around lab samples"
+        )
+        self.inferential_instructions.setStyleSheet("""
+            QLabel {
+                background-color: #FFF8E1;
+                border: 2px solid #FFB74D;
+                border-radius: 8px;
+                padding: 12px;
+                color: #E65100;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+        """)
+        self.inferential_instructions.setVisible(False)
+        extraction_layout.addWidget(self.inferential_instructions)
+
+        # Time window group
+        self.window_group = QGroupBox("⏳ Time Window Around Lab Sample")
+        self.window_group.setStyleSheet("""
+            QGroupBox {
+                font-weight: 600;
+                font-size: 13px;
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                margin: 8px 0;
+                padding-top: 12px;
+                background-color: #FAFBFC;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 12px;
+                padding: 0 8px;
+                color: #495057;
+                background-color: #FAFBFC;
+            }
+        """)
+        
+        window_layout = QGridLayout()
+        window_layout.setSpacing(12)
+        window_layout.setContentsMargins(16, 16, 16, 16)
+
+        past_label = QLabel("Past Window (min):")
+        past_label.setStyleSheet(self.get_label_style())
+        window_layout.addWidget(past_label, 0, 0)
+        
+        self.past_window_spin = QSpinBox()
+        self.past_window_spin.setRange(0, 1440)
+        self.past_window_spin.setValue(20)
+        window_layout.addWidget(self.past_window_spin, 0, 1)
+
+        future_label = QLabel("Future Window (min):")
+        future_label.setStyleSheet(self.get_label_style())
+        window_layout.addWidget(future_label, 1, 0)
+        
+        self.future_window_spin = QSpinBox()
+        self.future_window_spin.setRange(0, 1440)
+        self.future_window_spin.setValue(0)
+        window_layout.addWidget(self.future_window_spin, 1, 1)
+
+        self.window_group.setLayout(window_layout)
+        self.window_group.setVisible(False)
+        extraction_layout.addWidget(self.window_group)
+
+        # Fetch Button
+        self.fetch_btn = ModernButton("🚀 Fetch Data", color="#007BFF")
+        self.fetch_btn.setMinimumHeight(48)
+        extraction_layout.addWidget(self.fetch_btn)
+
+        # Progress bar
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setVisible(False)
+        self.progress_bar.setStyleSheet("""
+            QProgressBar {
+                border: 2px solid #DEE2E6;
+                border-radius: 8px;
+                text-align: center;
+                font-weight: bold;
+                height: 28px;
+                background-color: #F8F9FA;
+            }
+            QProgressBar::chunk {
+                background-color: #4CAF50;
+                border-radius: 6px;
+            }
+        """)
+        extraction_layout.addWidget(self.progress_bar)
+        
+        extraction_card.setLayout(extraction_layout)
+        return extraction_card
+    
+    def create_export_card(self):
+        """Create enhanced export options card"""
+        export_card = ModernCard("💾 Export Options")
+        export_layout = QVBoxLayout()
+        export_layout.setSpacing(12)
+        export_layout.setContentsMargins(16, 20, 16, 16)
+
+        # Format selection
+        format_label = QLabel("Export Format:")
+        format_label.setStyleSheet(self.get_label_style())
+        export_layout.addWidget(format_label)
+        
+        self.format_combo = QComboBox()
+        self.format_combo.addItems([".csv", ".tsv", ".txt", ".iq"])
+        export_layout.addWidget(self.format_combo)
+
+        # Format description
+        self.format_tooltip_label = QLabel("ℹ️ CSV: Comma-delimited | TSV: Tab-delimited | TXT: DMC format | IQ: Lab compatible")
+        self.format_tooltip_label.setStyleSheet("""
+            QLabel {
+                color: #6C757D;
+                font-size: 11px;
+                background-color: #F8F9FA;
+                border: 1px solid #DEE2E6;
+                border-radius: 6px;
+                padding: 8px;
+                line-height: 1.3;
+            }
+        """)
+        self.format_tooltip_label.setWordWrap(True)
+        export_layout.addWidget(self.format_tooltip_label)
+        
+        # Save path
+        path_label = QLabel("Export Location:")
+        path_label.setStyleSheet(self.get_label_style())
+        export_layout.addWidget(path_label)
+        
+        save_layout = QHBoxLayout()
+        save_layout.setSpacing(8)
+        
+        self.save_path_input = QLineEdit()
+        self.save_path_input.setPlaceholderText("Choose export location...")
+        save_layout.addWidget(self.save_path_input, 1)
+        
+        self.browse_btn = ModernButton("📁", color="#6C757D")
+        self.browse_btn.setFixedSize(44, 44)
+        save_layout.addWidget(self.browse_btn)
+        
+        export_layout.addLayout(save_layout)
+        
+        self.export_btn = ModernButton("💾 Export Data", color="#28A745")
+        self.export_btn.setEnabled(False)
+        self.export_btn.setMinimumHeight(44)
+        export_layout.addWidget(self.export_btn)
+        
+        export_card.setLayout(export_layout)
+        return export_card
+    
+    def get_label_style(self):
+        """Get consistent label styling"""
+        return """
+            QLabel {
+                font-weight: 600;
+                font-size: 13px;
+                color: #495057;
+                margin-bottom: 4px;
+            }
+        """
+    
     def create_right_panel(self):
         """Create the right panel with tabs"""
         self.tab_widget = QTabWidget()
         self.tab_widget.setStyleSheet("""
             QTabWidget::pane {
-                border: 2px solid #E0E0E0;
+                border: 2px solid #DEE2E6;
                 border-radius: 8px;
                 background-color: white;
             }
             QTabBar::tab {
-                background: #F0F0F0;
-                border: 2px solid #E0E0E0;
+                background: #F8F9FA;
+                border: 2px solid #DEE2E6;
                 border-bottom: none;
                 border-radius: 8px 8px 0 0;
                 min-width: 120px;
-                padding: 10px;
+                padding: 12px 16px;
                 margin: 2px;
-                font-weight: bold;
+                font-weight: 600;
+                color: #495057;
             }
             QTabBar::tab:selected {
                 background: white;
                 border-bottom: 2px solid white;
+                color: #212529;
             }
             QTabBar::tab:hover {
-                background: #E8E8E8;
+                background: #E9ECEF;
             }
         """)
         
@@ -392,6 +631,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
                 color: #D4D4D4;
                 border: none;
                 font-family: 'Consolas', 'Courier New', monospace;
+                font-size: 11px;
             }
         """)
         self.tab_widget.addTab(self.log_output, "📋 Log")
@@ -550,7 +790,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.connection_status = False
         self.log_output.append("🔌 Disconnected from server")
     
-    # Tag search and management methods
     def search_pi_tags(self):
         """Open enhanced tag search dialog"""
         if not self.pi_available:
@@ -643,7 +882,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.tag_browser.deselect_all_tags()
         self.log_output.append("❌ Deselected all tags")
     
-    # Data fetching methods
     def fetch_pi_data(self):
         """Fetch data from PI server using worker thread"""
         
@@ -801,13 +1039,21 @@ class EnhancedPIDataExtractorGUI(QWidget):
     
     def on_fetch_finished(self):
         """Clean up after fetch operation"""
-        self.progress_dialog.close()
+        if hasattr(self, 'progress_dialog'):
+            self.progress_dialog.close()
+        
         self.progress_bar.setVisible(False)
         self.fetch_btn.setEnabled(True)
+        
+        # Clean up worker thread
+        if hasattr(self, 'worker'):
+            self.worker.deleteLater()
+            self.worker = None
+        
+        self.log_output.append("🔄 Data fetch operation completed")
     
-    # Export methods - Simplified for CSV and TXT only
     def export_data(self):
-        """Export data in selected format (CSV or TXT only)"""
+        """Export data in selected format"""
         if self.data_frame.empty:
             QMessageBox.warning(self, "No Data", "No data available to export.")
             return
@@ -829,26 +1075,36 @@ class EnhancedPIDataExtractorGUI(QWidget):
             
             if format_selected == ".csv":
                 exporter.export_csv(file_path)
-                self.log_output.append(f"✅ Data exported to CSV: {file_path}")
+                self.log_output.append(f"✅ Data exported to CSV (comma-delimited): {file_path}")
+            elif format_selected == ".tsv":
+                exporter.export_tsv(file_path)
+                self.log_output.append(f"✅ Data exported to TSV (tab-delimited): {file_path}")
             elif format_selected == ".txt":
                 exporter.export_txt(file_path)
                 self.log_output.append(f"✅ Data exported to DMC TXT format: {file_path}")
+            elif format_selected == ".iq":
+                exporter.export_iq(file_path)
+                self.log_output.append(f"✅ Data exported to IQ format (lab compatible): {file_path}")
             
             QMessageBox.information(self, "Export Complete", f"Data successfully exported to:\n{file_path}")
             
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export data: {str(e)}")
             self.log_output.append(f"❌ Export failed: {str(e)}")
-    
+
     def browse_export_path(self):
         """Browse for export file path"""
         selected_format = self.format_combo.currentText()
         default_name = f"pi_export_{QDateTime.currentDateTime().toString('yyyyMMdd_HHmmss')}{selected_format}"
         
-        if selected_format == ".csv":
-            file_filter = "CSV Files (*.csv);;All Files (*)"
-        else:  # .txt
-            file_filter = "TXT Files (*.txt);;All Files (*)"
+        format_filters = {
+            ".csv": "CSV Files (*.csv);;All Files (*)",
+            ".tsv": "TSV Files (*.tsv);;Text Files (*.txt);;All Files (*)",
+            ".txt": "TXT Files (*.txt);;All Files (*)",
+            ".iq": "IQ Files (*.iq);;Text Files (*.txt);;All Files (*)"
+        }
+        
+        file_filter = format_filters.get(selected_format, "All Files (*)")
         
         file_path, _ = QFileDialog.getSaveFileName(
             self, "Select Export Path", default_name, filter=file_filter
@@ -858,8 +1114,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
             if not file_path.endswith(selected_format):
                 file_path += selected_format
             self.save_path_input.setText(file_path)
-    
-    # Time management methods
+            
     def set_quick_time_range(self, hours):
         """Set quick time ranges"""
         end_time = QDateTime.currentDateTime()
@@ -877,7 +1132,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
             return False
         return True
     
-    # Chart methods - Now simplified to use ChartManager
     def on_tag_selection_changed(self, item, column):
         """Handle tag selection changes and update charts"""
         if column == 0:  # Only respond to changes in the first column
