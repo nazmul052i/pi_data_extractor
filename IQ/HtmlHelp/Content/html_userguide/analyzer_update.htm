@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Aspen IQ Modules">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Analyzer Update (AZU) module</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor22"></a>Analyzer Update (AZU) Module</h1>
+        <div class="sidebar">
+            <p class="seealso">See Also</p>
+            <p class="listhypertext"><a href="creating_an_analyzer_update.htm">Creating
+ an Analyzer Update</a>
+            </p>
+            <p class="listhypertext"><a href="transform_overview.htm">Transform
+ Overview</a>
+            </p>
+        </div>
+        <p>The analyzer update module can be configured for
+ an IQ to perform the following tasks:</p>
+        <ul>
+            <li>Analyzer detection</li>
+            <li>Analyzer validation</li>
+            <li>Analyzer bias calculation</li>
+        </ul>
+        <p>
+            <img alt="image\azu1.gif" border="0" height="231" src="../image/azu1.gif" title="image\azu1.gif" width="317" />
+        </p>
+        <p class="subheading">Analyzer Detection</p>
+        <p>Aspen IQ can accept new analyzer values with or
+ without a new signal flag. If the new analyzer value specification option,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/aznewopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWOPT</a>, is set to 1, then the
+ DCS sets the new analyzer flag value, <a href="../../Subsystems/Iq_entrydict/Content/html/aznewflag.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWFLAG</a>,
+ to1 that indicates that a new analyzer value is available in the <a href="../../Subsystems/Iq_entrydict/Content/html/newanz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZ</a>
+ entry. <a href="../../Subsystems/Iq_entrydict/Content/html/newanzpntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZPNTSTS</a> is the external status of new analyzer value used
+ for analyzer bias updates. Aspen IQ will
+ reset the AZNEWFLAG parameter to zero after reading the analyzer value.</p>
+        <p>When <a href="../../Subsystems/Iq_entrydict/Content/html/aznewopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWOPT</a>
+ parameter is set to 2, then the analyzer signal is monitored for changes
+ exceeding the freezedeadband, <a href="../../Subsystems/Iq_entrydict/Content/html/avfrzdb.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVFRZDB</a>.
+ An analyzer update is forced if a new analyzer signal is not detected
+ within the forced update interval limit, <a href="../../Subsystems/Iq_entrydict/Content/html/aznewitvlmax.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWITVLMAX</a>
+ (in minutes).</p>
+        <p>After an analyzer update is detected, the previous
+ analyzer samples array is shifted down to make room for the new analyzer
+ sample values in sample #1. Online views of the IQ application can display
+ up to fifty previous analyzer updates.</p>
+        <p>The raw analyzer value is copied from the <a href="../../Subsystems/Iq_entrydict/Content/html/newanz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZ</a>
+ entry and stored in the <a href="../../Subsystems/Iq_entrydict/Content/html/pazuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZURAZ</a>
+ entry for the current sample.</p>
+        <p>Frequently, the raw analyzer value has a somewhat
+ constant offset from the corresponding lab value. This offset can occur
+ because the analyzer and lab samples are drawn from different locations
+ and/or due to different calibration techniques used for the two measurements.
+ The <a href="../../Subsystems/Iq_entrydict/Content/html/azulabofst.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZULABOFST</a>, which is added
+ to the raw analyzer value <a href="../../Subsystems/Iq_entrydict/Content/html/pazuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZURAZ</a>,
+ can be used to account for this offset. The result of PAZURAZ + AZULABOFST
+ is stored in the <a href="../../Subsystems/Iq_entrydict/Content/html/azuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUVAZ</a> entry and
+ referred to as the validated analyzer value.</p>
+        <p>A fraction of analyzer drift correction factor,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/anzrdrift.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ANZRDRIFT</a>, calculated by the
+ lab update (LBU) module, <a href="../../Subsystems/Iq_entrydict/Content/html/azudrftfrac.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUDRFTFRAC</a>,
+ can be applied to the current validated analyzer signal, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUVAZ</a>,
+ using the drift correction factor, <a href="../../Subsystems/Iq_entrydict/Content/html/azudrftfrac.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUDRFTFRAC</a>.
+ This factor can be set to zero to eliminate any drift correction. A factor
+ of 1.0 ensures a smooth transition when switching between lab and analyzer
+ bias update sources. This factor should be used in conjunction with the
+ <a href="../../Subsystems/Iq_entrydict/Content/html/drftnumvals.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DRFTNUMVALS</a> to prevent any
+ unwanted perturbations to the analyzer bias.</p>
+        <p>The current validated analyzer value, AZUVAZ, is
+ calculated as follows:</p>
+        <p>PAZUVAZ = PAZURAZ + PAZULABOFST</p>
+        <p>The current drift corrected analyzer value, AZUCAZ,
+ is calculated as:</p>
+        <p>PAZUCAZ = PAZUVAZ + (ANZRDRIFT * AZUDRFTFRAC)</p>
+        <p>The analyzer bias calculation requires the unbiased
+ and biased prediction values corresponding to each analyzer update. The
+ user can choose either the dynamic prediction values (UAZ and BAZ) or
+ the steady state prediction values (UPR and BPR) using the <a href="../../Subsystems/Iq_entrydict/Content/html/azudyn.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUDYN</a>
+ entry. The prediction values for the current analyzer signal are stored
+ in <a href="../../Subsystems/Iq_entrydict/Content/html/pazuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUUAZ</a> and <a href="../../Subsystems/Iq_entrydict/Content/html/pazubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUBAZ</a>
+ entries.</p>
+        <p>The entries <a href="../../Subsystems/Iq_entrydict/Content/html/azuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZURAZ</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/azuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUVAZ</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/azucaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUCAZ</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/azuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUUAZ</a>, and <a href="../../Subsystems/Iq_entrydict/Content/html/azubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBAZ</a>
+ represent analyzer sample values corresponding to last good analyzer sample
+ and are updated only when the validation status for the corresponding
+ <a href="../../Subsystems/Iq_entrydict/Content/html/pazuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZURAZ</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUVAZ</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/pazucaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUCAZ</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUUAZ</a>,
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/pazubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUBAZ</a> entries for the current
+ sample are good.</p>
+        <p>The new valid analyzer output flag, <a href="../../Subsystems/Iq_entrydict/Content/html/azuflag.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUFLAG</a>,
+ is only set when the analyzer signal passes all the validity checks. Since
+ Aspen IQ handles all of the bias updating, under normal circumstances
+ AZUFLAG will not be needed. However, there can be a case where Aspen IQ
+ is used only for analyzer signal validation and a DMCplus controller receives
+ the validated analyzer as an intermittent CV. AZUFLAG can then be used
+ to signal the controller of CV updates.</p>
+        <p class="subheading">Analyzer Validation</p>
+        <p>The raw analyzer value is tested against minimum
+ and maximum limits, <a href="../../Subsystems/Iq_entrydict/Content/html/avminlim.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMINLIM</a>
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/avmaxlim.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXLIM</a>, respectively. The
+ analyzer validation compares the change in subsequent analyzer values
+ with the freezedeadband, <a href="../../Subsystems/Iq_entrydict/Content/html/avfrzdb.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVFRZDB</a>,
+ to determine the frozen signal status of the analyzer.</p>
+        <p>If the analyzer remains frozen beyond the maximum
+ freeze time specified in <a href="../../Subsystems/Iq_entrydict/Content/html/avmaxtimfrz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXTIMFRZ</a>,
+ then the analyzer value is flagged as frozen and bad. The frozen signal
+ detection is bypassed by the analyzer validation when the freeze dead
+ band is less than or equal to zero.</p>
+        <p>Aspen IQ will ignore all analyzer updates detected
+ via <a href="../../Subsystems/Iq_entrydict/Content/html/aznewflag.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWFLAG</a> or <a href="../../Subsystems/Iq_entrydict/Content/html/aznewitvlmax.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWITVLMAX</a>,
+ while the analyzer is frozen and changes in the analyzer value do not
+ exceed the freezedeadband.</p>
+        <p>
+            <img alt="image\azumodule.gif" border="0" height="292" src="../image/azumodule.gif" title="image\azumodule.gif" width="588" />
+        </p>
+        <p>Increasing or decreasing spikes are screened by
+ the increasing and decreasing analyzer rate of change limits, <a href="../../Subsystems/Iq_entrydict/Content/html/avroclimi.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVROCLIMI</a>
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/avroclimd.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVROCLIMD</a>, respectively.
+ If a signal decreases lower than AVROCLIMD, then it is flagged as a decreasing
+ spike and given a Bad status (a similar action occurs for increases above
+ AVROCLIMI).</p>
+        <p>If the signal remains outside the rate of change
+ limit, then the increasing or decreasing time signal is outside of range
+ counters are incremented, <a href="../../Subsystems/Iq_entrydict/Content/html/avtimord.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORD</a>
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/avtimori.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORI</a>, respectively.</p>
+        <p>The spike detection is bypassed if the analyzer
+ rate of change limit is less than or equal to zero.</p>
+        <p>If the analyzer signal has changed by a value greater
+ than the increasing or decreasing rate of change limits, but remains at
+ the same level for a period longer than the minimum time limit specified
+ by <a href="../../Subsystems/Iq_entrydict/Content/html/avmintimor.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMINTIMOR</a>, (<a href="../../Subsystems/Iq_entrydict/Content/html/avtimord.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORD</a>
+ &gt;= AVMINTIMOR, or <a href="../../Subsystems/Iq_entrydict/Content/html/avtimori.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORI</a>
+ &gt;= AVMINTIMOR), then it is assumed that the process has shifted to
+ a new operating level. In this case, all the previous signals that were
+ flagged as spikes in the same direction are changed to a good status and
+ can now be used for bias update.</p>
+        <p>When the analyzer signal status remains bad beyond
+ a specified maximum number of hours for analyzer bias update, <a href="../../Subsystems/Iq_entrydict/Content/html/avmaxhours.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXHOURS</a>,
+ the analyzer status is set to bad.</p>
+        <p>This check is bypassed by setting the AVMAXHOURS
+ value to less than or equal to zero.</p>
+        <p>The analyzer drift, <a href="../../Subsystems/Iq_entrydict/Content/html/anzrdrift.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ANZRDRIFT</a>,
+ calculated by the lab update (LBU) module, is checked against the maximum
+ drift limit, <a href="../../Subsystems/Iq_entrydict/Content/html/avmaxdrift.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXDRIFT</a>, to
+ determine the validity status of the analyzer. The maximum drift check
+ is bypassed during analyzer validation if the analyzer drift limit is
+ less than or equal to zero.</p>
+        <p>The new analyzer bias value, <a href="../../Subsystems/Iq_entrydict/Content/html/abiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASNEW</a>,
+ is available for validation via the <a href="validation_overview.htm" class="MCTopicPopup MCTopicPopupHotSpot a">validation
+ section</a>.</p>
+        <p class="subheading">Analyzer Bias Calculation</p>
+        <p>The analyzer bias calculation uses the previous
+ drift corrected analyzer sample values, <a href="../../Subsystems/Iq_entrydict/Content/html/pazucaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUCAZ</a>,
+ and their corresponding unbiased and biased predictions, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUUAZ</a>
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/pazubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUBAZ</a>, to calculate a raw
+ bias value <a href="../../Subsystems/Iq_entrydict/Content/html/pabiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASRAW</a>. The raw
+ bias value is calculated as the difference between an average of previous
+ drift corrected analyzer values, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGCAZ</a>,
+ and an average of corresponding unbiased prediction values, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavguaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGUAZ</a>.</p>
+        <p>PABIASRAW = PAZUAVGCAZ - PAZUAVGUAZ</p>
+        <p>The number of analyzer values averaged to obtain <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGCAZ</a> depends on the
+ <a href="../../Subsystems/Iq_entrydict/Content/html/azunumvals.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUNUMVALS</a> entry and may vary
+ depending on the bias update method specified in the <a href="../../Subsystems/Iq_entrydict/Content/html/azupdmeth.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUPDMETH</a>
+ entry. The same bias update methods are available for both lab and analyzer
+ bias calculations. These methods are explained in the lab update (LBU)
+ module section later in this chapter.</p>
+        <p>A fraction of the change in prediction bias recommended
+ by the raw bias value, <a href="../../Subsystems/Iq_entrydict/Content/html/pabiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASRAW</a>,
+ is applied to the existing prediction bias and stored in the new analyzer
+ bias value, <a href="../../Subsystems/Iq_entrydict/Content/html/pabiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASNEW</a>. The fraction
+ is specified using the <a href="../../Subsystems/Iq_entrydict/Content/html/abiasfrac.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASFRAC</a>
+ entry:</p>
+        <p>PABIASNEW = PREDBIAS + (PABIASRAW PREDBIAS) * ABIASFRAC</p>
+        <p>The analyzer values and the corresponding prediction
+ values used in analyzer bias calculation must have a "Good"
+ status. If there is an insufficient number of previous analyzer samples
+ with "Good" status, then the bias update calculation will fail
+ and the bias update message, PABIASNUM, will be set accordingly.</p>
+        <p>A successful bias calculation will cause the values
+ of the <a href="../../Subsystems/Iq_entrydict/Content/html/abiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASNEW</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/abiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASRAW</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/azuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGCAZ</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/azuavguaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGUAZ</a>,
+ and <a href="../../Subsystems/Iq_entrydict/Content/html/azuavgbaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGBAZ</a> entries to be
+ updated from the corresponding <a href="../../Subsystems/Iq_entrydict/Content/html/pabiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASNEW</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/pabiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASRAW</a>, <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGCAZ</a>,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavguaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGUAZ</a>, and <a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgbaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGBAZ</a>
+ entries for the current sample. The analyzer bias update time entry, <a href="../../Subsystems/Iq_entrydict/Content/html/abiastmstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASTMSTR</a>, will be updated
+ to the current time.</p>
+        <p>If there are no successful bias updates for a period
+ exceeding the number of hours specified in <a href="../../Subsystems/Iq_entrydict/Content/html/avmaxhours.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXHOURS</a>,
+ then the analyzer bias status, <a href="../../Subsystems/Iq_entrydict/Content/html/abiaspntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASPNTSTS</a>,
+ will be set to bad.</p>
+        <p class="subheading">AZU history file</p>
+        <p>The analyzer bias update history file stores the
+ following information for each inferential quality when a new analyzer
+ is available:</p>
+        <table style="vertical-align: Center;">
+            <col />
+            <col />
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><b>RAZ</b><![CDATA[
+                    ]]></p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Raw Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">AVS</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Analyzer Validation Status (for internal
+		 use only)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">VAZ</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Validated Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">CAZ</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Drift Corrected Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">IUAZ</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Unbiased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">IBAZ</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Biased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">ABS</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Analyzer Bias Update Status (for internal
+		 use only)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">ARB</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Analyzer Raw Bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">ANB</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Analyzer New Bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">CAZA</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Drift Corrected Analyzer Value Average</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">UAZA</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Unbiased Analyzer Prediction Average</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.379%;">
+                    <p><span style="font-weight: bold;">BAZA</span>
+                    </p>
+                </td>
+                <td style="width: 75.621%;">
+                    <p>Biased Analyzer Prediction Average</p>
+                </td>
+            </tr>
+        </table>
+        <p>The maximum number of lab records stored in the
+ AZU history file is specified using the <a href="../../Subsystems/Iq_entrydict/Content/html/azumaxrec.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUMAXREC</a>
+ parameter. The AZU history backup option, <a href="../../Subsystems/Iq_entrydict/Content/html/azubckopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBCKOPT</a>,
+ can be configured to automatically generate backup copies of historical
+ data. The current file information can be copied to the backup file several
+ times each day as specified by the backup frequency in hours parameter,
+ <a href="../../Subsystems/Iq_entrydict/Content/html/azubckhrs.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBCKHRS</a>. The <a href="../../Subsystems/Iq_entrydict/Content/html/azubckvers.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBCKVERS</a>
+ parameter specifies the number of daily backup versions to keep.</p>
+        <p class="subheading">AZU Configuration Entries</p>
+        <p>The following entries are used to configure the
+ AZU module:</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.786%;" />
+            <col style="width: 75.214%;" />
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azubckopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBCKOPT</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>AZU history file backup option</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azubckvers.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBCKVERS</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>AZU number of daily backup versions</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azumaxrec.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUMAXREC</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>AZU maximum number of analyzer records</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">AZU Input Entries</p>
+        <p>The following entries provide input values to the
+ AZU module:</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.722%;" />
+            <col style="width: 75.278%;" />
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiasfrac.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASFRAC</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Bias Fraction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avfrzdb.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVFRZDB</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Freeze Deadband</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avmaxdrift.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXDRIFT</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Maximum Analyzer Drift Limit</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avmaxhours.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXHOURS</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Maximum Hours for Analyzer Update</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avmaxtimfrz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMAXTIMFRZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Maximum Freeze Time in Minutes</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avminlim.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMINLIM</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Value Minimum Limit</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avmintimor.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVMINTIMOR</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Minimum Time Outside Range in Minutes</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avroclimd.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVROCLIMD</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Decreasing Rate of Change Limit</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avroclimi.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVROCLIMI</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Increasing Rate of Change Limit</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/aznewitvlmax.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWITVLMAX</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>New Analyzer Forced Update Interval
+		 (only when AZNEWOPT No Flag = 1)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/aznewflag.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWFLAG</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>New Analyzer Input Flag (only when
+		 AZNEWOPT = Flag)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/aznewopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZNEWOPT</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>New Analyzer Specification Option</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azudrftfrac.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUDRFTFRAC</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Drift Correction Factor</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azudyn.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUDYN</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Prediction Used for Analyzer Bias Update</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azulabofst.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZULABOFST</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Offset from Lab</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azunumvals.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUNUMVALS</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Number of Analyzer Samples Used for
+		 Bias Update</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azupdmeth.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUPDMETH</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Bias Update Method</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuscorlim.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUSCORLIM</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Bias Update Score Limit (only
+		 when AZUPDMETH = Scores</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azucusumlim.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUCUSUMLIM</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>Analyzer Bias Update Cusum Error Limit
+		 (AZUPDMETH = Cusum Only)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/newanz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>New Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.722%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/newanzpntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 75.278%;">
+                    <p>External Status
+		 of New Analyzer Value used for Analyzer Bias Updates.
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">AZU Output Entries</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.924%;" />
+            <col style="width: 75.076%;" />
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASNEW</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>New Analyzer Bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiasnum.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASNUM</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Analyzer Bias Update Message Number</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiaspntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Analyzer Bias Value Quality</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASRAW</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Raw Analyzer Bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiastmstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASTMSTR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Analyzer Bias Update Time</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/anzpntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ANZPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Analyzer Value Quality</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avtimfrz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMFRZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Time Analyzer Equal is Frozen</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avtimord.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORD</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Time Signal is Outside Range (Decreasing)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/avtimori.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AVTIMORI</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Time Signal is Outside Range (Increasing)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuacumcntr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUACUMCNTR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Cusum Accumulated Counter (only when
+		 AZUPDMETH = Cusum)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuacumerr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUACUMERR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Cusum Accumulated Error (only when
+		 AZUPDMETH = Cusum)</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuavgbaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGBAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Average of Biased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGCAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Average of Drift Corrected Analyzer
+		 Values</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuavguaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUAVGUAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Average of Unbiased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUBAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Biased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azucaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUCAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Drift Corrected Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuflag.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUFLAG</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>New Analyzer Output Flag</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZURAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Raw Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azutmstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUTMSTR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Analyzer Value Update Time</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUUAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Unbiased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUVAZ</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Validated Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuvldnum.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUVLDNUM</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Analyzer Validation Message
+		 Number</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuacumscor.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUACUMSCOR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Accumulated Analyzer Bias Update Score
+		 (only when AZUPDMETH = SCORES</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azucurrscor.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUCURRSCOR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Current Analyzer Bias Update Score</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/azuprevscor.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZUPREVSCOR</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Previous Analyzer Bias Update Score</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.924%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/newanzx.htm" class="MCTopicPopup MCTopicPopupHotSpot a">NEWANZX</a>
+                    </p>
+                </td>
+                <td style="width: 75.076%;">
+                    <p>Transformed New Analyzer Value</p>
+                </td>
+            </tr>
+        </table>
+        <p>The AZU module maintains the following entries for
+ each analyzer update for up to fifty previous samples. The <span style="font-weight: bold;">Number
+ of Previous Samples Connected to Database</span> on the <span style="font-weight: bold;">Analyzer
+ Update</span> dialog box indicates how many of these previous values can
+ be written to the database.&#160;</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 25.228%;" />
+            <col style="width: 74.772%;" />
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pabiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASNEW</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Analyzer Bias Values</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pabiasnum.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASNUM</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Analyzer Bias Update Message
+		 Number</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pabiasraw.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PABIASRAW</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Analyzer Raw Bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgbaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGBAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Average of Biased Analyzer
+		 Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuavgcaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGCAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Average of Drift Corrected
+		 Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuavguaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUAVGUAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Average of Unbiased Analyzer
+		 Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazubaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUBAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Biased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazucaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUCAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Drift Corrected Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuraz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZURAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Raw Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazutmstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUTMSTR</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Analyzer Value Update Time</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuuaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUUAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Unbiased Analyzer Prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuvaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUVAZ</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Validated Analyzer Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 25.228%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/pazuvldnum.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PAZUVLDNUM</a>
+                    </p>
+                </td>
+                <td style="width: 74.772%;">
+                    <p>Previous Analyzer Validation Message
+		 Number</p>
+                </td>
+            </tr>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

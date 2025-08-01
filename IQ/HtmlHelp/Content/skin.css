@@ -1,0 +1,25 @@
+﻿/* version 6, February 29, 2016 - move search bar back to header, widen search field */
+/* version 5, September 12, 2014 - remove version number */
+/* version 4, August 27, 2014 - rearrange header */
+/* version 3, July 7, 2014 - Hide paths in search results */
+/* Teardrop version - June 26, 2014 - different placement of version number text */
+
+div.search-bar
+{
+}
+#search-field, .search-field
+{
+	width: 322px;
+}
+div.url
+{
+	display: none;
+}
+button.previous-topic-button
+{
+	display: none;
+}
+button.next-topic-button
+{
+	display: none;
+}

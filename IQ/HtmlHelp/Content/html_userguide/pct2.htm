@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQconfig|Working with IQs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>pct2</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor333"></a>PCT2</h1>
+        <p class="subheading">Pressure Compensated Temperature</p>
+        <p>In control applications, a column temperature is frequently used as an indication of composition, which is only valid if the pressure is constant. By using an equation of state, the measured temperature may be compensated to a reference state. This compensated temperature accounts for pressure changes and is therefore a better indication of composition.</p>
+        <p class="subheading">Equations</p>
+        <p>For pure substances, the relationship between vapor pressure and temperature can be approximated by the Antoine equation:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure1.gif" border="0" height="44" src="../image/pct2figure1.gif" title="image\pct2figure1.gif" width="135" />
+                    </p>
+                </td>
+                <td>
+                    <p>(1)</p>
+                </td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <ul>
+            <li>P&#160;= absolute pressure</li>
+            <li>T&#160;= temperature</li>
+            <li>A,B,C&#160;= Antoine coefficients</li>
+        </ul>
+        <p>This relationship is also often used to approximate the behavior of mixtures.</p>
+        <p>For pressure compensation, we are interested in how the temperature changes as we adjust from the measured pressure to a reference or base pressure. If this equation is written for two temperature/pressure pairs [<span style="font-style: italic;">T1,P1</span>] (the measured conditions) and [<span style="font-style: italic;">T2,P2</span>] (the reference conditions), the equations can be subtracted and then rearranged to show how temperature changes with pressure:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure2.gif" border="0" height="54" src="../image/pct2figure2.gif" title="image\pct2figure2.gif" width="239" />
+                    </p>
+                </td>
+                <td>
+                    <p>(2)</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">Determining B and C</p>
+        <p>The <span style="font-style: italic;">B</span> and <span style="font-style: italic;">C</span> constants may be determined in a number of ways, including:</p>
+        <ul>
+            <li>
+                <p>Averaging pure component data</p>
+            </li>
+            <li>
+                <p>Stream simulation</p>
+            </li>
+            <li>
+                <p>Plant testing.</p>
+            </li>
+        </ul>
+        <p>For the second and third bullets above, three different pressure and temperature pairs are required, all at the same composition. The Antoine coefficients are calculated as follows:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure3.gif" border="0" height="46" src="../image/pct2figure3.gif" title="image\pct2figure3.gif" width="230" />
+                    </p>
+                </td>
+                <td>
+                    <p>(3)</p>
+                </td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure4.gif" border="0" height="49" src="../image/pct2figure4.gif" title="image\pct2figure4.gif" width="170" />
+                    </p>
+                </td>
+                <td>
+                    <p>(4)</p>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure5.gif" border="0" height="100" src="../image/pct2figure5.gif" title="image\pct2figure5.gif" width="209" />
+                    </p>
+                </td>
+                <td>
+                    <p>(5)</p>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure6.gif" border="0" height="55" src="../image/pct2figure6.gif" title="image\pct2figure6.gif" width="201" />
+                    </p>
+                </td>
+                <td>
+                    <p>(6)</p>
+                </td>
+            </tr>
+        </table>
+        <p>If the variation from the reference pressure is not too large, C may be set to 0.0 for simplicity, and B determined from two temperature-pressure pairs by:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure7.gif" border="0" height="99" src="../image/pct2figure7.gif" title="image\pct2figure7.gif" width="139" />
+                    </p>
+                </td>
+                <td>
+                    <p>(7)</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">Usage</p>
+        <p>The actual equation used is:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pct2figure8.gif" border="0" src="../image/pct2figure8.gif" title="image\pct2figure8.gif" />
+                    </p>
+                </td>
+                <td>
+                    <p>(8)</p>
+                </td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <ul>
+            <li><span style="font-style: italic;">Tpc</span>&#160;= pressure compensated temperature (°F)</li>
+            <li><span style="font-style: italic;">Tm</span>&#160;= measured temperature (°F)</li>
+            <li><span style="font-style: italic;">Pm</span>&#160;= measured pressure (PSIG)</li>
+            <li><span style="font-style: italic;">Pb</span>&#160;= base or reference pressure (PSIG)</li>
+            <li><span style="font-style: italic;">B,C</span>&#160;= Antoine coefficients</li>
+        </ul>
+        <p>The BIAS is an optional correction term for cases in which the pressure compensated temperature is used as an approximation of a laboratory analysis. If this feature is not desired, it should be set to 0.0. Either natural log or common (base 10) log may be used: an indicator is set to select the desired basis.</p>
+        <p>The B &amp; C constants used must be consistent with the temperature and pressure units used. Beyond this, there is no restriction on units or type (absolute temperature or other temperature scale). If NON-ABSOLUTE temperatures are used; the value of C in effect will include the conversion constant. The pressure used for determining B &amp; C must be absolute.</p>
+        <p class="subheading">Calling Sequence</p>
+        <p>The PCT2 calculation is called using the following syntax:</p>
+        <p class="code"><span class="code">@PCT2(Temp&lt;degF&gt;, Pres&lt;psig&gt;, Rpres&lt;psig&gt;, B, C, Bias&lt;degF&gt;, LogInd&lt;1=ln, 2=log10&gt;)</span>
+        </p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Running Models Offline">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Running a Sensor Validation Model</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor168"></a>Running a Sensor Validation Model</h1>
+        <p>To run a sensor validation model with data from files other than those used to train the model, IQmodel must be in <span style="font-weight: bold;font-style: italic;">Run Mode</span>, and data source(s) must be specified through the <span style="font-weight: bold;font-style: italic;">Run Mode</span> <a href="running_models_offline.htm#Reference_Run_Data_Specification"><span style="font-weight: bold;">Data Specification</span></a> dialog.</p>
+        <ol>
+            <li value="1">
+                <p>Click the <span style="font-weight: bold;">Run Sensor Validation</span> <img alt="image\iqrunsbt.gif" border="0" height="49" src="../image/iqrunsbt.gif" title="image\iqrunsbt.gif" width="74" /> box after the datasets have been loaded.</p>
+                <p>In <span style="font-weight: bold;font-style: italic;">Run Mode</span>, the <span style="font-weight: bold;">Variables</span> section in the <span style="font-weight: bold;">Sensor Validation</span> dialog displays the variables used in the model, and provides a mechanism for introducing faults in order to observe the performance of the model.</p>
+                <p>
+                    <img alt="image\iqrunsen.gif" border="0" height="461" src="../image/iqrunsen.gif" title="image\iqrunsen.gif" width="477" />
+                </p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Name</span> column lists the names of variables in the model.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Fault Type</span> column indicates the type of fault (if any) that has been introduced for the variable.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Magnitude</span> column indicates the magnitude of the introduced fault. If there is no sensor fault, the column is blank.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">First Sample</span> column shows the time stamp for the first data sample for the fault condition.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Last Sample</span> column shows the time stamp for the last data sample for the fault condition.</p>
+                    </li>
+                </ul>
+            </li>
+            <li value="2">
+                <p>Right-click the name of a variable in the Variables view and select <span style="font-weight: bold;">Properties. . .</span> to introduce a sensor fault:</p>
+                <p>
+                    <img alt="image\iqsvmnu5.gif" border="0" height="160" src="../image/iqsvmnu5.gif" title="image\iqsvmnu5.gif" width="170" />
+                </p>
+                <p>Selecting the <span style="font-weight: bold;">Properties. . .</span> option causes the <span style="font-weight: bold;">Properties:</span> dialog to appear. The name of the variable that you right-clicked is displayed in the <span style="font-weight: bold;">Properties:</span> dialog title bar:</p>
+                <p>
+                    <img alt="image\iqsvprpt.gif" border="0" height="463" src="../image/iqsvprpt.gif" title="image\iqsvprpt.gif" width="386" />
+                </p>
+                <p>Through the <span style="font-weight: bold;">Fault</span> page in the <span style="font-weight: bold;">Properties</span> dialog, you can specify the type of fault you want to introduce, the extent of the fault (the number of contiguous samples to force to a fault condition), and the magnitude of the values used to simulate the fault condition.</p>
+                <p>The <span style="font-weight: bold;">Type</span> section lists the fault type options.</p>
+                <ul>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">No Fault</span> indicates that no fault condition should be introduced for the variable (if <span style="font-weight: bold;font-style: italic;">No Fault</span> is selected, fields in the <span style="font-weight: bold;">Extent</span> and <span style="font-weight: bold;">Magnitude</span> sections are not available).</p>
+                    </li>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">Bad on Input</span> indicates that samples from the input data file should be marked bad before any processing is performed.</p>
+                    </li>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">Bias</span> indicates that a bias value should be applied to samples from the input file.</p>
+                    </li>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">Drift</span> indicates that values that simulate sensor drift should be applied to samples from the input file.</p>
+                    </li>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">Precision Loss</span> indicates that random noise should be added to input data file values to simulate a loss of precision.</p>
+                    </li>
+                    <li>
+                        <p><span style="font-weight: bold;font-style: italic;">Flat Line</span> indicates that samples from the input data file should be set to a constant value.</p>
+                    </li>
+                </ul>
+                <p>In the <span style="font-weight: bold;">Extent</span> section, you specify the number of samples that you want to use to simulate the selected fault condition.</p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;">First Sample:</span> edit box allows you to specify (by sample number) the first data sample of a contiguous block of samples that should simulate the selected fault condition. The corresponding <span style="font-weight: bold;">Start:</span> edit box contains the time stamp for the selected starting data sample.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Bad Samples:</span> edit box allows you to specify the number of samples in the block that you want to use to simulate the selected fault condition. The corresponding <span style="font-weight: bold;">End:</span> edit box contains the time stamp for the last sample in the specified block of data that you want to simulate the selected fault condition.</p>
+                    </li>
+                </ul>
+                <p>In the <span style="font-weight: bold;">Magnitude</span> section, you set parameters that govern the magnitude of the fault that is introduced.</p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Minimum:</span> edit box shows the minimum value that occurs in the range specified by the parameters in the <span style="font-weight: bold;">Extent</span> section.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Current:</span> edit box shows the value of the current (first) sample in specified range.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Maximum:</span> edit box shows the maximum value that occurs in the specified range.</p>
+                    </li>
+                </ul>
+                <table class="notebox">
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><span style="font-weight: bold;">Note:</span> &#160;If the fault type is <span style="font-weight: bold;font-style: italic;">Bad on Input</span>, fields in the <span style="font-weight: bold;">Magnitude</span> section are not available.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>If the <span style="font-weight: bold;">Percent</span> radio button is selected, the fault value is computed by applying the percentage in the corresponding <span style="font-weight: bold;">Percent</span> edit box to the difference between the values shown in the <span style="font-weight: bold;">Minimum:</span> and <span style="font-weight: bold;">Maximum:</span> edit boxes.</p>
+                <p>If the <span style="font-weight: bold;">Value</span> radio button is selected, the fault value is directly specified in the corresponding edit box.</p>
+                <ul>
+                    <li>
+                        <p>If the fault type is <span style="font-weight: bold;font-style: italic;">Bias</span>, the computed fault value is applied to every sample in the specified range.</p>
+                    </li>
+                    <li>
+                        <p>If the fault type is <span style="font-weight: bold;font-style: italic;">Drift</span>, the fault condition is effected as ramping values that increase linearly, from the first sample in the specified range, to the last sample in the specified range. The value applied to the last sample in the range equals the computed percent or directly specified value.</p>
+                    </li>
+                    <li>
+                        <p>If the fault type is <span style="font-weight: bold;font-style: italic;">Precision Loss</span>, random noise with a standard deviation equal to the magnitude of the fault value is applied to all samples in the specified range.</p>
+                    </li>
+                    <li>
+                        <p>If the fault type is <span style="font-weight: bold;font-style: italic;">Flat Line</span>, all data samples in the specified range are set to the computed fault value.</p>
+                    </li>
+                </ul>
+            </li>
+            <li value="3">
+                <p>Click the <span style="font-weight: bold;">OK</span> button to close the <span style="font-weight: bold;">Properties:</span> dialog.</p>
+                <p>The <span style="font-weight: bold;">Experts</span> button provides access to the <span style="font-weight: bold;">Expert Parameters</span> dialog for <span style="font-weight: bold;">Sensor Validation</span> as described in <a href="sensor_validation_property_page.htm"><span style="font-weight: bold;font-style: italic;">The Sensor Validation Property Page</span></a>. Note, however, that only the fields in the <span style="font-weight: bold;">Run Parameters</span> section are available.</p>
+            </li>
+            <li value="4">
+                <p>Click the <span style="font-weight: bold;">Run</span> button to execute the sensor validation model using the available input data and specified fault conditions. After the model has processed all available data, the <span style="font-weight: bold;">Results</span> section contains information that reflects model performance:</p>
+                <p>
+                    <img alt="image\iqrunsrs.gif" border="0" height="219" src="../image/iqrunsrs.gif" title="image\iqrunsrs.gif" width="465" />
+                </p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Name</span> column lists the names of variables in the model.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Bad Input</span> column contains the number of data samples that were flagged as bad.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Bias</span> column indicates the number of samples that were classified as sensor bias faults.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Drift</span> column indicates the number of samples that were classified as sensor drift faults.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Precision</span> column indicates the number of samples that were classified as precision faults.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Frozen</span> column indicates the number of samples that were classified as frozen (that is, the sensor value remained constant).</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Unknown</span> column indicates the number of samples whose fault classification could not be determined.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Model Status</span> edit box indicates the status of the model.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Faults Detected:</span> edit box indicates the total number of faults that the sensor validation model detected.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Faults Identified:</span> edit box indicates the number of faults that were identified (that is, associated with a specific variable).</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Faults Classified:</span> edit box indicates the number of faults that were classified (that is, a specific type was assigned to the detected fault).</p>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <p>&#160;</p>
+    </body>
+</html>

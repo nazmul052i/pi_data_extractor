@@ -1,0 +1,1 @@
+define({r:0.5,st:'Stem',n:1,t:[0,242],m:[],u:['../Content/html/Welcome.htm'],s:['+','make'],p:[['+',19],['arrange',303],['click',143],['discussion',79],['from',134],['iqconfig',44],['models',38],['pabiasnum',36],['schedule',33],['that',114],['to',118],['will',34]]});

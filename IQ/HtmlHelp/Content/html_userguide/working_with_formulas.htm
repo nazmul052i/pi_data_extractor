@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQconfig|Working with IQ Modules">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Creating or Editing a Formula</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor158"></a>Creating or Editing a Formula</h1>
+        <div class="sidebar">
+            <p class="seealso">See Also</p>
+            <p class="listhypertext"><a href="input_calculation_ic_module.htm" name="kanchor159">Input Calculation (IC) and Output Calculation (OC) Modules</a>
+            </p>
+        </div>
+        <p>This section describes how to create or edit a formula (input or output) in Aspen IQ. A formula is a definition of how a <a href="input_calculation_ic_module.htm#Calculation_aspeniq">Calculation</a> is performed without specifying from where the inputs are read and to where the outputs are written.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The sections on the Calculation modules focus largely on the IC module because the only difference between the modules is the timing of their execution. Also, because Aspen IQ is using the Aspen Calc Calculation and Formula functionalities, see the <span style="font-style: italic;">Aspen Calc Help</span> for detailed instructions on creating and editing a formula.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>To create or edit a formula:</p>
+        <ol>
+            <li value="1">
+                <p>Right-click the CONFIG folder or an IC folder to display the context menu.</p>
+                <table style="vertical-align: Center;">
+                    <col />
+                    <col />
+                    <col />
+                    <tr style="vertical-align: middle;">
+                        <td>
+                            <p>
+                                <img alt="image\configfor.gif" border="0" height="83" src="../image/configfor.gif" title="image\configfor.gif" width="193" />
+                            </p>
+                        </td>
+                        <td>-or-</td>
+                        <td>
+                            <p>
+                                <img alt="image\icform.gif" border="0" height="82" src="../image/icform.gif" title="image\icform.gif" width="192" />
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+            <li value="2">
+                <p>Select <span style="font-weight: bold;">Formula</span> <span style="font-weight: bold;">Library</span>. The <span style="font-weight: bold;">Formula Library</span> dialog box is displayed.</p>
+                <p>
+                    <img alt="image\forlib.gif" border="0" height="258" src="../image/forlib.gif" title="image\forlib.gif" width="316" />
+                </p>
+            </li>
+            <li value="3">
+                <p>Click <span style="font-weight: bold;">Add</span> to create a formula. (The <span style="font-weight: bold;">Edit</span> button will allow you make changes to an existing formula.) The Aspen Calc <span style="font-weight: bold;">Formula Wizard</span> is displayed.</p>
+                <table class="notebox">
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><span style="font-weight: bold;">Note:</span> &#160;If Aspen IQ cannot connect to the Aspen Calc engine, then an error box is displayed. Start the Aspen Calc service and try and connect to Aspen Calc again. Each time you click <span style="font-weight: bold;">Edit Calculation</span>, Aspen IQ will try to connect to the Aspen Calc engine.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    <img alt="image\forwiz.gif" border="0" height="367" src="../image/forwiz.gif" title="image\forwiz.gif" width="489" />
+                </p>
+            </li>
+            <li value="4">
+                <p>In the <span style="font-weight: bold;">Formula Name</span> box, enter a name.</p>
+            </li>
+            <li value="5">
+                <p>In the <span style="font-weight: bold;">Description</span> box, enter a short description for the formula.</p>
+            </li>
+            <li value="6">
+                <p>Click <span style="font-weight: bold;">Next</span>. In the next screen, choose a formula type. Five options are available:</p>
+                <ul>
+                    <li>
+                        <p>CalcScript</p>
+                    </li>
+                    <li>
+                        <p>VBScript</p>
+                    </li>
+                    <li>
+                        <p>Excel</p>
+                    </li>
+                    <li>
+                        <p>COM object</p>
+                    </li>
+                    <li>
+                        <p>EXE</p>
+                    </li>
+                </ul>
+                <table class="notebox">
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><span style="font-weight: bold;">Note:</span> &#160;For detailed information on the five options, see the <span style="font-style: italic;">Aspen Calc Help</span>.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>The screen that is displayed next will depend on the option you selected. All the options require you to enter a formula. For example if you selected CalcScript, you must enter a CalcScript formula. For more information on the options and fields in each dialog box, see the <span style="font-style: italic;">Aspen Calc Help</span>.</p>
+            </li>
+            <li value="7">
+                <p>Enter the required information.</p>
+            </li>
+            <li value="8">
+                <p>Click <span style="font-weight: bold;">Next</span> and complete the required steps.</p>
+            </li>
+            <li value="9">
+                <p>Click <span style="font-weight: bold;">Finish</span>. The formula is added to the Formula Library. Click <span style="font-weight: bold;">OK</span> to close the <span style="font-weight: bold;">Formula Library</span> dialog box.</p>
+                <p>After completing the formula, you can use this formula when working with Calculations. The formula will be stored in the iqf. All formulas created for a given iqf will be available to all inferentials within that iqf.</p>
+            </li>
+        </ol>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;For more information on formulas, see the <span style="font-style: italic;">Aspen Calc Help</span>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Aspen IQ Modules|Models">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Analyzer Predictor</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor231"></a>Analyzer Predictor</h1>
+        <p>If you are using analyzers in closed-loop control applications, you can create inferential sensors as a redundancy for these analyzers.</p>
+        <p>These inferential sensors do not need to be as rigorous as those for other types of service, but must be of high-enough fidelity to predict accurately the analyzer’s response over a prolonged period.</p>
+        <p>Often, analyzer predictors are used in open-loop applications to provide a level of redundancy that is not otherwise possible. Inferential sensors are most beneficial in situations where the analyzer is frequently out-of-service, or if significant delays exist between the desired control point and the analyzer’s sample point.</p>
+        <p>Analyzer predictors are based on DMCplus model files (also known as Finite Impulse Response Models, or FIR). A model file should contain one dependant variable and as many independent variables as required. Typically, two to four independent variables is sufficient, however, there is no practical maximum limit.</p>
+        <p>In a closed-loop control strategy, use the biased steady-state prediction, BPR, as the CV. The biased analyzer prediction, BAZ, should overlay the analyzer on a trend plot. This technique is helpful in determining the appropriate analyzer update tuning.</p>
+        <p class="subheading">Initialization of DMCplus (FIR) models</p>
+        <p>The FIR models maintain an internal bias for each dependent variable, which must be initialized using dependent variable measurements. When the FIR model is used to calculate an inferred quality, the initial dependent variable value can be an analyzer value, a lab measurement, or a user-defined initial value. Aspen IQ selects the initialization source based on the update source, UPDSRC, entry. If the update source is analyzer, the dependent value is initialized using AZUCAZ; the quality of the analyzer value is read from the ANZPNTSTS entry.</p>
+        <p>If the update source is lab, the dependent value is initialized from the LBULAB entry and the quality of the lab value is read from the LABPNTSTS entry. If the update source is "Both Analyzer and LAB", then the initialization value will be read, preferably from the analyzer. The lab value will be used only if the analyzer quality is bad. If the update source is "Manual Entry", then the dependent value is read from the BAZ entry and the quality is read from the BPRSTS entry.</p>
+        <p>The prediction from the FIR model will show a bad quality until the internal bias is initialized successfully using an initial dependent value of good status.</p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQextract">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Get history record information</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor343"></a>Get History Record Information</h1>
+        <p>Choose this option to display a list of tagnames (also referred to as labels) stored in the history file. This list contains:</p>
+        <ul>
+            <li>
+                <p>History tagname</p>
+            </li>
+            <li>
+                <p>History tagname index</p>
+            </li>
+            <li>
+                <p>Time of first (oldest) data record for this tag</p>
+            </li>
+            <li>
+                <p>Time of last (latest) data record for this tag</p>
+            </li>
+            <li>
+                <p>Number of data records</p>
+            </li>
+            <li>
+                <p>Maximum number of data records</p>
+            </li>
+        </ul>
+        <p>At the beginning of each history tag is a selection flag. An asterisk ‘<span style="font-weight: bold;">*</span>’ indicates that the tag will be included for extraction when the command (or menu option) to generate a CLC or CSV format output file is selected.</p>
+        <p>The list of tags selected for extraction can be changed using the select and deselect commands, or the corresponding menu options.</p>
+        <p>Select history records for extraction or clear history records from the extract list. When a history file is opened, all the tags in the history file are selected for extraction by default.</p>
+        <p class="subheading">Format arguments for the recinfo command</p>
+        <p>You can specify a different format for the list in the optional argument for the <span style="font-weight: bold;">recinfo</span> command. The following codes are used to represent specific pieces of information:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">%N</span>&#160;– History label</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%G</span>&#160;– History DCS tag name</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%D</span>&#160;– History description</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%U</span>&#160;– History engineering units</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%E</span>&#160;– Percent Tolerance</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%R</span>&#160;– Percent Good Required</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%#</span>&#160;– History tag index</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%F</span>&#160;– First history record time</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%L</span>&#160;– Last history record time</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%Q</span>&#160;– Update Frequency</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%n</span>&#160;– Number of History records</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%m</span>&#160;– Maximum history records</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">%*</span>&#160;– Selection indicator (*)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">\n</span>&#160;– End of line (carriage return)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">\t&#160;</span>– Tab</p>
+            </li>
+        </ul>
+        <p>Any other text will be reproduced as is.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The above codes are case sensitive. For example, <span style="font-weight: bold;">%f</span> will not work.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="tipbox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Tip:</span> &#160;You will typically want to end the line using the <span style="font-weight: bold;">\n</span> code (for end of line, or carriage return). Otherwise, the list will all be one line.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="subheading">Default format</p>
+        <p>The default format as used by the menu option is:</p>
+        <p class="code"><span class="code">"%*%# %N %F %L %n %m\n"</span>
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The format of the timestamp values (which include <span style="font-weight: bold;">%F</span> and <span style="font-weight: bold;">%L</span>) can be modified by using the Aspen IQ History Output Options Menu - option [2] <span style="font-weight: bold;">Set the date and time format</span>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

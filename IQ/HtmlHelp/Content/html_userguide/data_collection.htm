@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Aspen IQ Modules">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Data Collection (DC) module</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor170"></a>Data Collection Module</h1>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note: &#160;</span>
+                            The data collection (DC) module is required if you include the prediction, analyzer update, and/or lab update modules in an IQ. For more information, see <a href="creating_a_data_collection.htm">Creating a Data Collection Module</a>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Aspen IQ includes a data collection utility, which allows you to create a snapshot of your process data at a specified frequency. This data is then stored in a data collection history file. This file is a circular file, defined to be long enough for a lab sample to be entered into the Aspen IQ system, be returned from the lab, then entered into the Aspen IQ system.</p>
+        <p>The DC history file stores binary data for a list of points specified in the data collection module. A new value, <a href="../../Subsystems/Iq_entrydict/Content/html/dcpntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPNTVAL</a>, is written for these specified points during each cycle, using an update frequency specified in the Config module <a href="../../Subsystems/Iq_entrydict/Content/html/dcupdfreq.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCUPDFREQ</a> parameter.</p>
+        <p>
+            <img alt="image\dcmodule.gif" border="0" height="148" src="../image/dcmodule.gif" title="image\dcmodule.gif" width="623" />
+        </p>
+        <p>The data collection history file includes values for tags configured in the data collection DC module, and for tags specified in the steady-state detection SSD module. In addition to the <a href="../../Subsystems/Iq_entrydict/Content/html/dcpntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPNTVAL</a> entries, the following values for the inferred quality are also added to the data collection list when you include a prediction and steady-state module in an IQ.
+        </p>
+        <ul>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/upr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">UPR</a> &#160;– Unbiased Steady-State Prediction</p>
+            </li>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/bpr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">BPR</a> &#160;– Biased Steady-State Prediction</p>
+            </li>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/uaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">UAZ</a> &#160;– Unbiased Dynamic Prediction</p>
+            </li>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/baz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">BAZ</a> &#160;– Biased Dynamic Prediction</p>
+            </li>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/sstotal.htm" class="MCTopicPopup MCTopicPopupHotSpot a">SS</a>&#160;&#160;– Total Percentage Steady State</p>
+            </li>
+            <li>
+                <p><a href="../../Subsystems/Iq_entrydict/Content/html/ssind.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ISS</a>&#160;&#160;– Individual Percentage Steady State</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\dcmodule2.gif" border="0" height="244" src="../image/dcmodule2.gif" title="image\dcmodule2.gif" width="645" />
+        </p>
+        <p>The maximum number of historical values stored for each data point is specified in the Config module using the maximum number of records, <a href="../../Subsystems/Iq_entrydict/Content/html/dcmaxrec.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCMAXREC</a>, and the data collection frequency in seconds, <a href="../../Subsystems/Iq_entrydict/Content/html/dcupdfreq.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCUPDFREQ</a>. For example, if DCMAXREC is set to 1440 and DCUPDFREQ is set to 60, then the file will over-write itself in 24 hours (1440/60). AspenTech recommends that DCMAXREC and DCUPDFREQ be set so that the resulting ratio provides ample time for a lab sample to return from the laboratory.</p>
+        <p>The data collection update tolerance, <a href="../../Subsystems/Iq_entrydict/Content/html/dcpctupdtol.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPCTUPDTOL</a>, is used to control missed update cycle messages. When the time difference between the last update and the current update exceeds the update period, DCUPDFREQ, by more than the tolerance interval, then the message is logged. The tolerance interval is calculated as the data collection update tolerance multiplied by the data collection frequency, divided by 100.</p>
+        <p>The data collection module calculates a running average of all data collection points, which are stored at a fixed update frequency. The average value is computed using all the data points stored in the history file for a given record. The status of the average value is determined by comparing the percentage of points with good status in the history file with the <a href="../../Subsystems/Iq_entrydict/Content/html/dcpctgood.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPCTGOOD</a> parameter. The average value is available for output by entering a DCS tag name in the <a href="../../Subsystems/Iq_entrydict/Content/html/dcavgout.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCAVGOUT</a> entry. Inferential calculations frequently use averaged process values as model inputs; the DCAVGOUT parameter provides a quick way of configuring an averaging calculation.</p>
+        <p>The DC history file backup option, <a href="../../Subsystems/Iq_entrydict/Content/html/dcbckopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKOPT</a>, can be configured to automatically generate backup copies of historical data. The current file information can be copied to the backup file several times each day as specified by the backup frequency in hours parameter, <a href="../../Subsystems/Iq_entrydict/Content/html/dcbckhrs.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKHRS</a>. The <a href="../../Subsystems/Iq_entrydict/Content/html/dcbckvers.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKVERS</a> parameter specifies the number of daily backup versions to keep.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The parameters for defining the data collection frequency, record size, update tolerance, percentage good, and backup generation are specified in the IQconfig section, and apply to all inferential qualities within the IQF application.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="subheading">Configuration Entries</p>
+        <p>The following entries are used to configure data collection modules:</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.786%;" />
+            <col style="width: 75.214%;" />
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcbckhrs.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKHRS</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Backup Frequency</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcbckopt.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKOPT</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection History File Backup Option</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcbckvers.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCBCKVERS</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Number of Daily Backup Versions</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcmaxrec.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCMAXREC</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Maximum Number of Records</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcpctgood.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPCTGOOD</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Percent Good Values Required for Average</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcpctupdtol.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPCTUPDTOL</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Update Tolerance as Percentage of Update Frequency</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcupdfreq.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCUPDFREQ</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Update Frequency</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">Input Entries</p>
+        <p>The following entries provide input values to the data collection module:</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.786%;" />
+            <col style="width: 75.214%;" />
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcdesc.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCDESC</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point Description</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dceu.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCEU</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point Engineering Units</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dclabel.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCLABEL</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point History Label</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcpntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point External Status</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcpntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCPNTVAL</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point Value</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">Output Entries</p>
+        <p>The following entry holds the output values from the data collection module:</p>
+        <table style="vertical-align: Center;">
+            <col style="width: 24.786%;" />
+            <col style="width: 75.214%;" />
+            <tr>
+                <td style="width: 24.786%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/dcavgout.htm" class="MCTopicPopup MCTopicPopupHotSpot a">DCAVGOUT</a>
+                    </p>
+                </td>
+                <td style="width: 75.214%;">
+                    <p>Data Collection Point Running Average</p>
+                </td>
+            </tr>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

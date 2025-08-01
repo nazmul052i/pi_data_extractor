@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQconfig|Working with IQs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>pfpct</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor337"></a>PFPCT</h1>
+        <p class="subheading">Petroleum Fraction Pressure Compensated Temperature</p>
+        <p>In control applications, a column temperature is frequently used as an indication of composition, which is only valid if the pressure is constant. The following procedure can be used to determine a pressure compensated temperature, which is a better indication of composition.</p>
+        <p class="subheading">Equations</p>
+        <p>The corrected normal boiling temperature is calculated as follows [1]:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure1.gif" border="0" height="46" src="../image/pfpctfigure1.gif" title="image\pfpctfigure1.gif" width="250" />
+                    </p>
+                </td>
+                <td>
+                    <p>(1)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="text-align: center;">2 mmHg ≤ p * ≤ 760 mmHg</p>
+                </td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure2.gif" border="0" height="43" src="../image/pfpctfigure2.gif" title="image\pfpctfigure2.gif" width="243" />
+                    </p>
+                </td>
+                <td>
+                    <p>(2)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="text-align: center;">p* &gt; 760 mmHg</p>
+                </td>
+                <td>&#160;</td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <table style="vertical-align: top;">
+            <col />
+            <tr>
+                <td>
+                    <p>p* = Vapor pressure (abs mmHg)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure3.gif" border="0" height="65" src="../image/pfpctfigure3.gif" title="image\pfpctfigure3.gif" width="201" />
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <table style="vertical-align: top;">
+            <col />
+            <tr>
+                <td>
+                    <p>Tb&#160;= Corrected normal boiling point at 760 mmHg (°R)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>T&#160;= Absolute temperature (°R)</p>
+                </td>
+            </tr>
+        </table>
+        <p>Rearranging the above equations and solving for the corrected normal boiling temperature results in the following:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure3a.gif" border="0" height="104" src="../image/pfpctfigure3a.gif" title="image\pfpctfigure3a.gif" width="502" />
+                    </p>
+                </td>
+                <td>
+                    <p>(3a)</p>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure3b.gif" border="0" height="103" src="../image/pfpctfigure3b.gif" title="image\pfpctfigure3b.gif" width="499" />
+                    </p>
+                </td>
+                <td>
+                    <p>(3b)</p>
+                </td>
+            </tr>
+        </table>
+        <p>PSTD is the base reference pressure for the final pressure compensated temperature.</p>
+        <p>If PSTD = 760 mmHg, add the correction for Watson K factor as follows:</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>IF Tb &gt; 400 °F</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>&#160;&#160;&#160;&#160;Fcorr = 1.0</p>
+                </td>
+                <td style="width: 21.28%;">
+                    <p>&#160;</p>
+                </td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>IF Tb &lt; 200 °F</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>&#160;&#160;&#160;&#160;Fcorr = 0</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>IF 200 °F ≤ Tb ≤ 400 °F</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>&#160;&#160;&#160;&#160;Fcorr = (Tb - 659.7) / 200.0</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>&#160;&#160;&#160;&#160;ΔTb = 2.5 * Fcorr (WK -12.0) log10</p>
+                </td>
+                <td style="width: 21.28%;">
+                    <p> <span style="text-decoration: underline;">(p*</span> )</p>
+                </td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">&#160;</td>
+                <td style="width: 21.28%;">
+                    <p>
+                        <p> (760)</p>
+                    </p>
+                </td>
+                <td style="width: 10.64%;">&#160;</td>
+            </tr>
+            <tr>
+                <td style="width: 68.09%;">
+                    <p>&#160;&#160;&#160;&#160;Tpc= Tb + ΔTb</p>
+                </td>
+                <td style="width: 21.28%;">&#160;</td>
+                <td style="width: 10.64%;">
+                    <p>(4)</p>
+                </td>
+            </tr>
+        </table>
+        <p>where:</p>
+        <p>Tpc = Pressure compensated temperature at base pressure of 760 mmHg (°R)</p>
+        <p>If PSTD ≠ 760 mmHg, substitute Tpc for T and PSTD for p* in equation 3. Rearranging the resulting equation and solving for Tpc results in the following:</p>
+        <table>
+            <col />
+            <col />
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure5a.gif" border="0" height="85" src="../image/pfpctfigure5a.gif" title="image\pfpctfigure5a.gif" width="500" />
+                    </p>
+                </td>
+                <td>
+                    <p>(5a)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="text-align: center;">2 mmHg ≤ P<span class="sub">STD</span> ≤ 760 mmHg</p>
+                </td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <img alt="image\pfpctfigure5b.gif" border="0" height="76" src="../image/pfpctfigure5b.gif" title="image\pfpctfigure5b.gif" width="502" />
+                    </p>
+                </td>
+                <td>
+                    <p>(5b)</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p style="text-align: center;">P<span class="sub">STD</span> &gt; 760 mmHg</p>
+                </td>
+                <td>&#160;</td>
+            </tr>
+        </table>
+        <p class="subheading">List of References</p>
+        <ul>
+            <li>
+                <p><span style="text-decoration: underline;">Technical Data Book-Petroleum Refining</span>, Vol. 1, pp 5.19 - 5.20.</p>
+            </li>
+        </ul>
+        <p class="subheading">Calling Sequence</p>
+        <p>The PFPCT calculation is called using the following syntax:</p>
+        <p class="code"><span class="code">@PFPCT(Temp&lt;degF&gt;, Pres&lt;psig&gt;, StdP&lt;psig&gt;, WatK)</span>
+        </p>
+        <p>&#160;</p>
+    </body>
+</html>

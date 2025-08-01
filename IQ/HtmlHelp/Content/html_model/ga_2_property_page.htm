@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Expert Parameters Dialogs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>GA[2] Property Page</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor84"></a>GA[2] Property Page</h1>
+        <p>The <span style="font-weight: bold;">GA [2]</span> property page is visible in the <span style="font-weight: bold;">Expert Parameters</span> dialog for the <span style="font-weight: bold;">Align Data, Select Variables,</span> and <span style="font-weight: bold;">Analyze Dynamics</span> steps. The <span style="font-weight: bold;">GA [2]</span> page is one of two property pages that provide access to parameters that govern execution of the Genetic Algorithm:</p>
+        <p>
+            <img alt="image\iqst3e03.gif" border="0" height="403" src="../image/iqst3e03.gif" title="image\iqst3e03.gif" width="386" />
+        </p>
+        <p>The <span style="font-weight: bold;">Fitness Evaluation</span> section on the <span style="font-weight: bold;">GA [2]</span> tab allows you to specify the fitness parameter.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Favor Best/Average:</span> edit box allows you to specify the ratio that represents the fitness of the best member of the population compared to the average fitness of the population. Fitness values in the initial population are scaled such that this ratio is satisfied.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Parent Selection</span> section allows you to specify parent selection techniques for the genetic algorithm (refer to the <a href="glossary.htm"><span style="font-weight: bold;font-style: italic;">Glossary</span></a> for explanations of these techniques).</p>
+        <ul>
+            <li>
+                <p>If the <span style="font-weight: bold;">Roulette Wheel</span> radio button is selected, the <a href="roulette_wheel_glossary1.htm">Roulette Wheel</a> technique is used to determine parents for the next generation.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Modified Roulette Wheel</span> radio button is selected, a <a href="modified_roulette_wheel_glossary1.htm">Modified Roulette Wheel</a> technique is used to determine parents for the next generation.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Gaussian Distribution</span> radio button is selected, a Gaussian distribution technique is used to determine parents for the next generation.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Elitism Copies:</span> edit box allows you to specify an <a href="elitism_glossary1.htm">elitism</a> value (i.e., how many of the most fit members of a population should be directly copied into the next generation).</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Reproduction</span> section allows you to specify a reproduction technique and other parameters that govern how new populations are generated after parents are selected.</p>
+        <ul>
+            <li>
+                <p>If the <span style="font-weight: bold;">Uniform Crossover</span> radio button is selected, <a href="uniform_crossover_glossary1.htm">Uniform Crossover</a> is used to produce child populations. <span style="font-weight: bold;">Uniform Crossover</span> creates two children from two parents, with a probability of 0.5 that corresponding parental chromosomes (bits) are swapped in each child.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">One-Point Crossover</span> radio button is selected, <a href="one_point_crossover_glossary1.htm">One-point Crossover</a> is used to produce child populations. <span style="font-weight: bold;">One-point Crossover</span> creates two children from two parents by swapping all of each parent’s chromosomes (bits) after some randomly selected point.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Two-Point Crossover</span> radio button is selected, <a href="two_point_crossover_glossary1.htm">Two-point Crossover</a> is used to produce child populations. <span style="font-weight: bold;">Two-point Crossover</span> creates two children from two parents by swapping each parent’s chromosomes (bits) between two randomly selected points.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Crossover Rate:</span> edit box allows you to specify the <a href="crossover_rate_glossary1.htm">Crossover Rate</a>. The <span style="font-weight: bold;">Crossover Rate</span> indicates how frequently crossover occurs in a population.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Mutation Rate:</span> edit box allows you to specify the <a href="mutation_rate_glossary1.htm">Mutation Rate</a>. The <span style="font-weight: bold;">Mutation Rate</span> indicates how frequently mutation occurs.</p>
+            </li>
+            <li>
+                <p>If the <a href="tournament_with_parents_glossary1.htm"><span style="font-weight: bold;">Tournament with Parents</span></a> check box is checked, in the final selection of population members for the next generation, children compete with their parents for inclusion in the new generation.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

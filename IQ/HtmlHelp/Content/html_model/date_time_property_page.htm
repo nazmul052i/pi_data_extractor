@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Expert Parameters Dialogs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Date/Time Property Page</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor65"></a>Date/Time Property Page</h1>
+        <p>The <span style="font-weight: bold;">Date/Time</span> property page is part of the <span style="font-weight: bold;">Expert Parameters</span> dialog that is accessed through the <span style="font-weight: bold;">Expert</span> button on the <a href="the_data_specification_dialog.htm#Specifying_Input_File_Format_Information"><span style="font-weight: bold;">File Format</span></a> dialog. (The <span style="font-weight: bold;">File Format</span> dialog is displayed when a data file is first loaded from the <a href="the_data_specification_dialog.htm"><span style="font-weight: bold;">Data Specification</span></a> dialog or when the <span style="font-weight: bold;">Format...</span> button on the <span style="font-weight: bold;">Data Specification</span> dialog is clicked). The <span style="font-weight: bold;">Date/Time</span> property page is used to define the format of date and time fields that occur in a data file:</p>
+        <p>
+            <img alt="image\iqst1ex1_shg.gif" border="0" height="377" src="../image/iqst1ex1_shg.gif" title="image\iqst1ex1_shg.gif" usemap="#AreaMap0" width="386" />
+            <map id="AreaMap0" name="AreaMap0">
+                <area alt="" coords="22,61,364,130" href="#" shape="rect" class="selected" />
+                <area alt="" coords="21,155,364,220" href="#" shape="rect" class="selected" />
+                <area alt="" coords="21,242,367,323" href="#" shape="rect" class="selected" />
+                <area alt="" coords="77,27,175,52" href="bad_missing_values_property_page.htm" shape="rect" />
+                <area alt="" coords="179,28,263,53" href="field_definition_property_page.htm" shape="rect" />
+            </map>
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;To jump directly to the <span style="font-weight: bold;font-style: italic;">IQmodel Reference</span> topic that describes a specific section or tab of the <span style="font-weight: bold;">Experts Parameters</span> dialog, click the area that corresponds to the section or tab in the illustration above.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>IQmodel checks values in fields defined as dates or times to ensure that:</p>
+        <ul>
+            <li>
+                <p>The year is greater than or equal to 1970 and less than or equal to 2038.</p>
+            </li>
+            <li>
+                <p>The month is valid (1 through 12) or a standard 3-character month name.</p>
+            </li>
+            <li>
+                <p>The day is valid (1 through 31).</p>
+            </li>
+            <li>
+                <p>Seconds range from 0 to 59.</p>
+            </li>
+            <li>
+                <p>Minutes range from 0 to 59.</p>
+            </li>
+            <li>
+                <p>Hours range from 0 to 23.</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Date and time field locations within a larger data record are specified on the main <a href="the_data_specification_dialog.htm#Specifying_Input_File_Format_Information"><span style="font-weight: bold;">File Format</span></a> dialog.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a id="DateTime_Date" name="DateTime_Date"></a>The <span style="font-weight: bold;">Date</span> section contains drop-down lists that define the content of each sub-field in a date. A date consists of up to three sub-fields, with a separator between sub-fields.</p>
+        <p>A date component (Year, Month, Day) can be in any sub-field. Drop-down lists for each sub-field position contain all possible date component choices for the position. Select the appropriate value from the list, as illustrated below for the first sub-field:</p>
+        <p>
+            <img alt="image\iqst1xm1.gif" border="0" height="150" src="../image/iqst1xm1.gif" title="image\iqst1xm1.gif" width="349" />
+        </p>
+        <p>Date sub-field drop-down list elements have the following meaning:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">YYYY</span> - A 4-digit year (for example 1998)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">YY</span> - A 2-digit year (for example 98)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">MMMM</span> - A full month name (for example, April)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">MMM</span> - A 3-character month name abbreviation (for example, Apr).</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">DD</span> - A 2-digit day of the month (for example, 15)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">blank</span> - Nothing in the field position</p>
+            </li>
+        </ul>
+        <p>Date separator drop-down list options are shown below:</p>
+        <p>
+            <img alt="image\iqst1xm2.gif" border="0" height="152" src="../image/iqst1xm2.gif" title="image\iqst1xm2.gif" width="354" />
+        </p>
+        <p>Date separator characters contain no semantic information – they are simply placeholders that separate sub-field components of a complete date.</p>
+        <p><a id="DateTime_Time" name="DateTime_Time"></a>The <span style="font-weight: bold;">Time</span> section contains drop-down lists that define the content of each sub-field in a time. A time consists of up to three sub-fields, with a separator between sub-fields, followed by a sub-field that identifies whether times are 12 hour or 24 hour format.</p>
+        <p>A time component (Hour, Minute, Second) can be in any of the first three sub-fields. The 12 Hour/24 Hour format identification field is the last sub-field. Drop-down lists for each sub-field position contain all possible component choices for the position. Select the appropriate value from the list, as illustrated below for the first time sub-field:</p>
+        <p>
+            <img alt="image\iqst1xm3.gif" border="0" height="105" src="../image/iqst1xm3.gif" title="image\iqst1xm3.gif" width="351" />
+        </p>
+        <p>Time sub-field drop-down list elements have the following meaning:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">hh</span> - A 2-digit hour (for example 04)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">mm</span> - A 2-digit minute (for example 59)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">ss</span> - A 2-digit minute (for example 59)</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">blank</span> - Nothing in the sub-field position</p>
+            </li>
+        </ul>
+        <p>The 12 Hour/24 Hour format identification option list is shown below:</p>
+        <p>
+            <img alt="image\iqst1xm4.gif" border="0" height="83" src="../image/iqst1xm4.gif" title="image\iqst1xm4.gif" width="349" />
+        </p>
+        <p>The list elements have the following meaning:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">AM/PM</span> - A 1 or 2-character sub-field containing either <span style="font-weight: bold;font-style: italic;">A</span>, <span style="font-weight: bold;font-style: italic;">AM</span>, <span style="font-weight: bold;font-style: italic;">P</span>, or <span style="font-weight: bold;font-style: italic;">PM</span> follows the time</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">Blank</span> - No format identifier follows the time; times are 24 hour format</p>
+            </li>
+        </ul>
+        <p>Time separator drop-down list options are shown below:</p>
+        <p>
+            <img alt="image\iqst1xm5.gif" border="0" height="132" src="../image/iqst1xm5.gif" title="image\iqst1xm5.gif" width="350" />
+        </p>
+        <p>Time separator characters contain no semantic information – they are simply placeholders that separate sub-components of a complete time.</p>
+        <p><a id="DateTime_Delimiters" name="DateTime_Delimiters"></a>The <span style="font-weight: bold;">Delimiters</span> section contains check boxes that specify whether (and where) date/time field delimiters occur:</p>
+        <p>
+            <img alt="image\iqst1xm6.gif" border="0" height="91" src="../image/iqst1xm6.gif" title="image\iqst1xm6.gif" width="353" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Delimiter characters are defined on the <a href="field_definition_property_page.htm"><span style="font-weight: bold;">Field Definition</span></a> property page.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>If the <span style="font-weight: bold;">Has Delimiter between Date and Time</span> check box is checked, a delimiter occurs between the complete date and the complete time field (for example, 04/14/98 04:59:59PM).</p>
+            </li>
+            <li>
+                <p>If the check box is not checked, date and time fields are contiguous (for example, 04/14/9804:59:59PM).</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Has Delimiter after Date and Time</span> check box is checked, a delimiter occurs after the combined date and time fields (for example, 04/14/98 04:59:59PM 123.45 where 123.45 represents a data value).</p>
+            </li>
+            <li>
+                <p>If the check box is not checked, no delimiter occurs after the combined date and time fields (for example, 04/14/98 04:59:59PM123.45 where 123.45 represents a data value).</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

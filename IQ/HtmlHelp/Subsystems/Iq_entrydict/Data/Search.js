@@ -1,0 +1,1 @@
+define({r:0.5,st:'Stem',n:1,t:[0,275],m:[],u:['../Content/html/abiasfrac.htm'],s:['+','record'],p:[['+',63],['bad',377],['examined',330],['label',344],['output',74],['state',249],['used',4]]});

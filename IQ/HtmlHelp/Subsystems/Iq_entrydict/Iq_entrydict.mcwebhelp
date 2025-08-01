@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WebHelpSystem DefaultUrl="Content/html/list_of_all_entries_sorted_by_name.htm" Toc="Data/Tocs/iqentry.js" Index="Data/Index.js" Concepts="Data/Concepts.js" BrowseSequence="Data/BrowseSequences/iqentry.js" SearchDatabase="Data/Search.js" Alias="Data/Alias.xml" Synonyms="Data/Synonyms.xml" PathToScriptsFolder="Resources/Scripts/" SkinName="AT_HTML5_skin" SkinID="AT_HTML5_skin" Multilingual="false" Skins="AT_HTML5_skin" BuildTime="8/13/2024 6:37:13 PM" BuildVersion="18.2.8431.26678" TargetType="WebHelp2" SkinTemplateFolder="Skin/" InPreviewMode="false" TopNavTocPath="true" MoveOutputContentToRoot="false" ReplaceReservedCharacters="false" MakeFileLowerCase="false" UseCustomTopicFileExtension="false" PreventExternalUrls="false" EnableResponsiveOutput="false" IncludeGlossarySearchResults="true" ResultsPerPage="20" FeaturedSnippetsScopeID="AllFiles" FeaturedSnippetsResults="1" KnowledgePanelResults="1" IncludeMicroContent="true" xml:lang="en-us" LanguageName="English" SearchEngine="MadCapSearch" IncludeCSHRuntime="true" DebugMode="false" ShowMadCapBacklink="false" HasELearning="false">
+    <CatapultSkin Version="6" SkinType="WebHelp2" Comment="HTML5 skin" Anchors="Width,Height" Width="800" Height="600" Top="0" Left="0" Bottom="0" Right="0" Tabs="TOC,Index,Community" DefaultTab="TOC" UseBrowserDefaultSize="True" UseDefaultBrowserSetup="True" AutoSyncTOC="true" EnableResponsiveOutput="false" RemoveImagesOnSave="true" Name="AT_HTML5_skin" SkinID="AT_HTML5_skin" SkinClass="_Skins_AT_HTML5_skin" HideNavOnStartup="False" LogoUrl="">
+        <Toolbar EnableCustomLayout="true" Buttons="Print|ExpandAll|RemoveHighlight|PreviousTopic|NextTopic|Filler">
+            <Script>$('&lt;link&gt;')
+  .appendTo($('head'))
+  .attr({type : 'text/css', rel : 'stylesheet'})
+  .attr('href', 'Content/skin.css');
+var _lastsearch = "";
+$( document ).ready( function() {
+window.setInterval( function() {
+                var newsearch = $("#results-heading").find(".query").html();
+                if( newsearch  == undefined || newsearch == "")
+                                return;
+                if( newsearch.substring(0,1) == '"' )
+                {
+                                newsearch = newsearch.substring(1, newsearch.length-1 );
+                }
+                newsearch = newsearch.trim();
+                if( newsearch != "" &amp;&amp; newsearch != _lastsearch )
+                {
+                                _lastsearch = newsearch;
+                                var totalResults = $("#results-heading").find(".total-results").html();
+                                console.log("SearchResult:"+totalResults+":"+newsearch);
+
+                }
+}, 500 );
+});
+</Script>
+        </Toolbar>
+        <WebHelpOptions NavigationPaneWidth="291" />
+        <MicroContentOptions FeaturedSnippetsViewMode="Truncated" KnowledgePanelViewMode="Truncated" />
+        <ProxyOptions FAQProxyViewMode="DropDown" KnowledgeProxyViewMode="Truncated" PromotionProxyViewMode="PlainText" />
+    </CatapultSkin>
+</WebHelpSystem>

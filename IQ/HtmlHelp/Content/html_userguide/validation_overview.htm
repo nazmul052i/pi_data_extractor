@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Aspen IQ Validation">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Validation Overview</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor421"></a>Validation Overview</h1>
+        <div class="sidebar">
+            <p class="seealso">See Also</p>
+            <p class="listhypertext"><a href="configuring_validation.htm">Configuring Validation for Variables</a>
+            </p>
+            <p class="listhypertext"><a href="connecting_validation_to_cim_io.htm">Connecting Validation Variables to a Database</a>
+            </p>
+        </div>
+        <p>The validation functionality allows you to configure input and output validation on variables. Configuring validation will help prevent the propagation of bad calculations through the program. For example, a measurement that spikes for one cycle may dramatically change the prediction. However if you are allowed to validate the calculation (for example, set limits on it or clamp it), you will be able to prevent abnormal data from influencing the calculation.</p>
+        <p class="subheading"><a id="List_of_variables_available_for_validation" name="List_of_variables_available_for_validation"></a>Variables available for validation:</p>
+        <table style="vertical-align: Center;width: 85%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>
+                        <p>Parameter Name
+                    </p>
+                    </th>
+                    <th>
+                        <p style="text-align: center;">Module
+                    </p>
+                    </th>
+                    <th>
+                        <p style="text-align: center;">Type
+                    </p>
+                    </th>
+                    <th>
+                        <p>Description
+                    </p>
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <td>
+                    <p>MVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/mvarout.htm" class="MCTopicPopup MCTopicPopupHotSpot a">MVAROUT</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Input*</p>
+                </td>
+                <td>
+                    <p>Model variable output value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>CVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/cvarpntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">CVARPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Input</p>
+                </td>
+                <td>
+                    <p>Connection variable</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/bpr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">BPR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Biased steady state prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/baz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">BAZ</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Biased dynamic prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/upr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">UPR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Unbiased steady state prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/uaz.htm" class="MCTopicPopup MCTopicPopupHotSpot a">UAZ</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Unbiased dynamic prediction</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/predbias.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PREDBIAS</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="prediction_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">PR</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Prediction bias</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/lbiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">LBIASNEW</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="lab_update.htm" class="MCTopicPopup MCTopicPopupHotSpot a">LBU</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>New lab bias value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/abiasnew.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ABIASNEW</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="analyzer_update.htm" class="MCTopicPopup MCTopicPopupHotSpot a">AZU</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>New analyzer bias value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>SSD:<a href="../../Subsystems/Iq_entrydict/Content/html/sspntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">SSPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="steady_state_detection.htm" class="MCTopicPopup MCTopicPopupHotSpot a">SSD</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Input</p>
+                </td>
+                <td>
+                    <p>Steady state detection value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>INVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/icipntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICIPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="input_calculation_ic_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">IC</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Input</p>
+                </td>
+                <td>
+                    <p>Input Calculation Input Point Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>INVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/ocipntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCIPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="input_calculation_ic_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OC</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Input</p>
+                </td>
+                <td>
+                    <p>Output Calculation Input Point Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>OUTVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/icopntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICOPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="input_calculation_ic_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">IC</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Input Calculation Output Point Value</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>OUTVAR:<a href="../../Subsystems/Iq_entrydict/Content/html/ocopntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCOPNTVAL</a></p>
+                </td>
+                <td>
+                    <p style="text-align: center;"><a href="input_calculation_ic_module.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OC</a>
+                    </p>
+                </td>
+                <td>
+                    <p style="text-align: center;">Output</p>
+                </td>
+                <td>
+                    <p>Output Calculation Output Point Value</p>
+                </td>
+            </tr>
+        </table>
+        <p><span style="font-weight: bold;">*</span> MVAR validation occurs after MVAROUT is calculated and filtered, but before the calculation of the unbiased prediction.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Input validation is triggered before the appropriate module uses the variable for calculations. Output validation is triggered after the appropriate module has been run. For example, the validation in MVAR and CVAR variables is triggered before the prediction is calculated. The validation on BPR, BAZ, UPR, UAZ, and PREDBIAS, however, is triggered after the prediction is calculated.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

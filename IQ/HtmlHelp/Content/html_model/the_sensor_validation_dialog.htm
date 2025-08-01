@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Building Models">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>The Sensor Validation Dialog</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor34"></a>The Sensor Validation Dialog</h1>
+        <p>The <span style="font-weight: bold;">Sensor Validation</span> dialog is used to specify parameters that govern building and running a sensor validation model.</p>
+        <p><span style="font-weight: bold;">Note:</span> The <span style="font-weight: bold;">Sensor Validation</span> dialog is only available when the <span style="font-weight: bold;">Sensor Validation</span> check box on the <a href="iqmodel_preferences.htm#Default_Components_Options"><span style="font-weight: bold;">Modeling page</span></a> in the <span style="font-weight: bold;">Options:</span> dialog is checked. Also, the basic appearance of the <span style="font-weight: bold;">Sensor Validation</span> dialog depends on whether IQmodel is in <span style="font-weight: bold;font-style: italic;">Build</span> <span style="font-weight: bold;font-style: italic;">Mode</span> or <span style="font-weight: bold;font-style: italic;">Run Mode</span>. This section describes the <span style="font-weight: bold;">Sensor Validation</span> dialog when IQmodel is in <span style="font-weight: bold;font-style: italic;">Build Mode</span>. For information about the <span style="font-weight: bold;">Sensor Validation</span> dialog when IQmodel is in <span style="font-weight: bold;font-style: italic;">Run Mode</span>, please refer to <a href="running_the_model_with_other_data.htm"><span style="font-weight: bold;font-style: italic;">Running Models Offline</span></a>.</p>
+        <p>In <span style="font-weight: bold;font-style: italic;">Build Mode</span>, the <span style="font-weight: bold;">Sensor Validation</span> dialog appears:</p>
+        <p>
+            <img alt="image\iqsvrdlg.gif" border="0" height="413" src="../image/iqsvrdlg.gif" title="image\iqsvrdlg.gif" width="477" />
+        </p>
+        <p>The list view in the <span style="font-weight: bold;">Sensor Validation</span> dialog displays information about variables (tags) available for building a sensor validation model.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Name</span> column contains the names of available input variables.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Status</span> column contains the current model input status for each variable (<span style="font-weight: bold;font-style: italic;">Active</span> means the variable will be used to build the model, <span style="font-weight: bold;font-style: italic;">Off</span> means the variable was removed from consideration in an earlier step).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Selected</span> column indicates whether the variable was selected for inclusion in the sensor validation model (this column is blank when the dialog is first opened).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Reconstructability</span> column is a measure of how well each variable can be reconstructed by the model when a failure is detected (this column is blank when the dialog is first opened).</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;If the model being built is an inferential sensor model that includes sensor validation, the dependent variable for the inferential sensor model is not shown and is not considered during sensor validation model training.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>On the <span style="font-weight: bold;">Statistics</span> line:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Variables</span> edit box indicates the total number of variables in the input dataset.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Active Variables</span> edit box indicates the current number of <span style="font-weight: bold;font-style: italic;">Active</span> variables (only <span style="font-weight: bold;font-style: italic;">Active</span> variables are used to build the sensor validation model)</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Inactive Variables</span> edit box indicates the current number of <span style="font-weight: bold;font-style: italic;">Inactive</span> variables.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Model Status</span> edit box indicates the current sensor validation model status (<span style="font-weight: bold;font-style: italic;">Invalid</span>, <span style="font-weight: bold;font-style: italic;">Ready, Out of Date</span>).</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;font-style: italic;">Invalid</span> means that the operations associated with this step have not yet been performed.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;font-style: italic;">Ready</span> means that the operations associated with this step have been completed and results of this step are ready for use in subsequent steps.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;font-style: italic;">Out of Date</span> means that operations associated with this step have been performed and results are available for use in subsequent steps; however, one or more parameters associated with this step have changed since the operations were performed.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

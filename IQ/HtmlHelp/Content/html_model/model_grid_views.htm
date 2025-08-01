@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Viewing Model Results">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Model Grid Views</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor124"></a>Model Grid Views</h1>
+        <p>IQmodel grid views display information in a spreadsheet-like format. Grid views of IQmodel data and results are made visible by selecting the desired grid from the drop-down menu located to the right of each box that represents a model building step in the <span style="font-weight: bold;">Commands</span> window.</p>
+        <p>The grid views associated with each model building step are:</p>
+        <ul>
+            <li>
+                <p><a href="the_data_specification_dialog.htm"><span style="font-weight: bold;">Specify Data</span></a>
+                </p>
+                <ul>
+                    <li><a href="#Reference_Input_Data_Grid" name="kanchor125">Input Data Grid</a>
+                    </li>
+                    <li><a href="#Reference_Input_Data_Statistics" name="kanchor126">Input Data Statistics Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_data_conditioning_dialog.htm">Condition Data</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Conditioned_Data_Grid" name="kanchor127">Conditioned Data Grid</a>
+                    </li>
+                    <li><a href="#The_Data_Statistics_Grid" name="kanchor128">Conditioned Data Statistics Grid</a>
+                    </li>
+                    <li><a href="#The_Correlations_Between_Variables_Grid" name="kanchor129">Correlations Between Variables Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_sensor_validation_dialog.htm">Build/Run Sensor Validation</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Detection_Index_Grid" name="kanchor130">Detection Index Grid</a>
+                    </li>
+                    <li><a href="#The_Sensor_Values_and_Faults_Grid" name="kanchor131">Sensor Values and Faults Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_data_alignment_dialog.htm">Align Data</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Data_Alignment_Results_Grid" name="kanchor132">Data Alignment Results Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_variable_selection_dialog.htm">Select Variables</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Variable_Selection_Results_Grid" name="kanchor133">Variable Selection Results Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_dynamics_identification_dialog.htm">Analyze Dynamics</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Deadtime_Dynamics_Grid" name="kanchor134">Dead Times / Dynamics Results Grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="the_model_dialog.htm">Build/Run Inferential Sensor</a></span>
+                </p>
+                <ul>
+                    <li><a href="#The_Model_Statistics_Grid" name="kanchor135">Model Statistics grid</a>
+                    </li>
+                    <li><a href="#The_Model_Results_Grid" name="kanchor136">Model Results grid</a>
+                    </li>
+                    <li><a href="#The_Model_Analysis_Grid" name="kanchor137">Model Analysis grid</a>
+                    </li>
+                    <li><a href="#The_Model_Predictions_Grid" name="kanchor138">Model Predictions grid</a>
+                    </li>
+                    <li><a href="#The_Univariate_Analysis_Grid" name="kanchor139">Univariate and Sensitivity Analysis grid</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a href="#Sensor_Validation_Expert_Grid_Views" name="kanchor140">Sensor Validation Expert Grid Views</a></span>
+                </p>
+                <ul>
+                    <li><a href="#SR_Transforms_Sensor_Values" name="kanchor141">Structured Residual Transforms (Sensor Values) grid</a>
+                    </li>
+                    <li><a href="#SR_Transforms_Equation_Error">Structured Residual Transforms (Equation Error) grid</a>
+                    </li>
+                    <li><a href="#Structured_Residuals" name="kanchor142">Structured Residuals grid</a>
+                    </li>
+                    <li><a href="#The_Equation_Errors_Grid" name="kanchor143">Equation Errors grid</a>
+                    </li>
+                    <li><a href="#The_Generalized_Likelihood_Ratio_Grid" name="kanchor144">Generalized Likelihood Ratio grid</a>
+                    </li>
+                    <li><a href="#The_Normalized_Cumulative_Mean_Grid" name="kanchor145">Normalized Cumulative Mean grid</a>
+                    </li>
+                    <li><a href="#The_Normalized_Cumulative_Variance_Grid" name="kanchor146">Normalized Cumulative Variance grid</a>
+                    </li>
+                    <li><a href="#Reconstruction_Model" name="kanchor147">Reconstruction Model grid</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p><a id="View_Grid_Menu" name="View_Grid_Menu"></a>Grid views can also be accessed through the <span style="font-weight: bold;">Grid</span> sub-menu that is added to the IQmodel <span style="font-weight: bold;">View</span> menu at the time a model is opened:</p>
+        <p>
+            <img alt="image\iqvwmnu1.gif" border="0" height="212" src="../image/iqvwmnu1.gif" title="image\iqvwmnu1.gif" width="310" />
+        </p>
+        <p>After a specific grid view is selected, a <span style="font-weight: bold;">Grid</span> menu that contains commands for manipulating data in a grid is added to the IQmodel menu bar (and the <span style="font-weight: bold;">Commands</span> and <span style="font-weight: bold;">Tools</span> menus are removed from the menu bar):</p>
+        <p>
+            <img alt="image\iqgrdmen.gif" border="0" height="116" src="../image/iqgrdmen.gif" title="image\iqgrdmen.gif" width="223" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Only commands that can be executed in the context of the visible grid are available.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Icons in the Toolbar for a grid view also provide single-click short-cuts to the commands available in the <span style="font-weight: bold;">Grid</span> menu.</p>
+        <ul>
+            <li>
+                <p><a id="Export_Data_Icon" name="Export_Data_Icon"></a>Click the <span style="font-weight: bold;">Diskette</span> icon <img alt="image\diskicon.gif" border="0" height="23" src="../image/diskicon.gif" title="image\diskicon.gif" width="24" /> to export grid data as a flat ASCII file. The file name and location is specified through a standard Windows file save dialog. Each row in the grid is output as a line in the file. Each line is terminated with a carriage return/linefeed sequence. Each column in a row becomes a field in the corresponding line in the file; fields are delimited by <span style="font-weight: bold;">tab</span> characters.</p>
+            </li>
+            <li>
+                <p><a id="Resize_Columns" name="Resize_Columns"></a>Click the <span style="font-weight: bold;">Auto-Resize Columns</span> icon <img alt="image\rsizicon.gif" border="0" height="27" src="../image/rsizicon.gif" title="image\rsizicon.gif" width="27" /> to automatically resize column widths to fit displayed data values.</p>
+            </li>
+            <li>
+                <p><a id="Shrink_To_Fit" name="Shrink_To_Fit"></a>Click the <span style="font-weight: bold;">Resize Window to Grid</span> icon <img alt="image\shrnicon.gif" border="0" height="27" src="../image/shrnicon.gif" title="image\shrnicon.gif" width="27" /> to automatically resize the grid window to fit the current grid (if the window is wider than necessary to display all grid data).</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The usual Windows techniques for bringing hidden data into view using scroll bars, or resizing windows by dragging corners or edges can be used to select the visible area of a grid.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a id="Grid_Control_Icons" name="Grid_Control_Icons"></a>Grid view Title bars also contain standard Windows control icons.</p>
+        <ul>
+            <li>
+                <p>To close a grid, click on its close <img alt="image\closebox.gif" border="0" height="23" src="../image/closebox.gif" title="image\closebox.gif" width="24" /> box.</p>
+            </li>
+            <li>
+                <p>To keep the grid open, but out of the way, by click the minimize <img alt="image\minimbox.gif" border="0" height="23" src="../image/minimbox.gif" title="image\minimbox.gif" width="24" /> box).</p>
+            </li>
+            <li>
+                <p>To enlarge a grid to its maximum size, click the maximize <img alt="image\maximbox.gif" border="0" height="23" src="../image/maximbox.gif" title="image\maximbox.gif" width="24" /> box.</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Grid views are automatically minimized if you open a dialog from the <span style="font-weight: bold;">Commands</span> window when a grid is visible.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="subheading"><a id="Reference_Input_Data_Grid" name="Reference_Input_Data_Grid"></a>The Input Data Grid</p>
+        <p>The <span style="font-weight: bold;">Input Data</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Specify Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Input Data</span> as illustrated below:</p>
+        <p>
+            <img alt="image\iqst1rm1.gif" border="0" height="111" src="../image/iqst1rm1.gif" title="image\iqst1rm1.gif" width="253" />
+        </p>
+        <p>The raw data available for all tags will be displayed in chronological order in a grid view, as illustrated below:</p>
+        <p>
+            <img alt="image\iqst1rid.gif" border="0" height="274" src="../image/iqst1rid.gif" title="image\iqst1rid.gif" width="548" />
+        </p>
+        <p>The values in each row were all obtained at the date and time shown in the <span style="font-weight: bold;">Date and Time</span> column for the row.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Grid cells in the first row show the input/output status for the tag in the corresponding column heading. Only the single dependent variable in the model will be shown as an output.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Trn</span> and <span style="font-weight: bold;">Val</span> columns indicate whether the output (dependent variable) data value in the row will be used for training or validation (a 1 indicates the value is used for the corresponding column operation). Validation values are also displayed in <span class="blue">blue</span>.</p>
+            </li>
+            <li>
+                <p>The remaining column headings are the names of tags available in the currently loaded data file(s).</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="Using_Input_Data_Grid_to_Identify_Bad_Data" name="Using_Input_Data_Grid_to_Identify_Bad_Data"></a><a name="kanchor148"></a>Using the Input Data Grid to Identify Bad Data</p>
+        <p>In addition to providing a summary view of input data, the <span style="font-weight: bold;">Input Data</span> grid provides a convenient mechanism to identify bad input data.</p>
+        <p>To identify bad data samples:</p>
+        <ol>
+            <li value="1">
+                <p>Select a block of data, and right-click on the selected block to access the pop-up menu shown below:</p>
+                <p>
+                    <img alt="image\iqrfr07.gif" border="0" height="115" src="../image/iqrfr07.gif" title="image\iqrfr07.gif" width="179" />
+                </p>
+            </li>
+            <li value="2">
+                <p>Select <span style="font-weight: bold;">Mark as Bad</span> to mark the block as bad.</p>
+                <p>-or-</p>
+                <p>Select <span style="font-weight: bold;">Mark as Good</span> to restore the block of data to good status.</p>
+            </li>
+            <li value="3">
+                <p>If you change the status of a block of data, a warning dialog similar to the dialog below will be displayed:</p>
+                <p>
+                    <img alt="image\datawarn.gif" border="0" height="176" src="../image/datawarn.gif" title="image\datawarn.gif" width="417" />
+                </p>
+            </li>
+            <li value="4">
+                <p>In the <span style="font-weight: bold;">Warning</span> message, the following occurs, depending upon your choice:</p>
+                <ul>
+                    <li>
+                        <p>If you click <span style="font-weight: bold;">OK</span>, the change will be made and, if needed, boxes representing subsequent model steps will be disabled.</p>
+                    </li>
+                    <li>
+                        <p>If you click <span style="font-weight: bold;">Cancel</span>, no changes will be applied to the selected block of data.</p>
+                    </li>
+                </ul>
+                <table class="notebox">
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><span style="font-weight: bold;">Note:</span> &#160;In the <span style="font-weight: bold;">Warning</span> message, if you click the <span style="font-weight: bold;">Dont Show This Again</span> checkbox, the warning will be suppressed if you make further changes to the model that might invalidate later steps. You can turn warnings back on through the Options: dialog as described in <a href="iqmodel_preferences.htm"><span style="font-weight: bold;font-style: italic;">The Tools Menu</span></a>.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ol>
+        <p class="subheading"><a id="Reference_Input_Data_Statistics" name="Reference_Input_Data_Statistics"></a>The Input Data Statistics Grid</p>
+        <p>The <span style="font-weight: bold;">Input Data Statistics</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Specify Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Input Data Statistics</span>:</p>
+        <p>
+            <img alt="image\iqst1rm2.gif" border="0" height="109" src="../image/iqst1rm2.gif" title="image\iqst1rm2.gif" width="253" />
+        </p>
+        <p>The grid view for basic input data statistics is illustrated in the two figures below:</p>
+        <p>
+            <img alt="image\iqst1rg5.gif" border="0" height="289" src="../image/iqst1rg5.gif" title="image\iqst1rg5.gif" width="472" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Type</span> column indicates the type of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Samples</span> column contains the number of samples available for the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Minimum</span> column contains the minimum value of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Average</span> column contains the average value of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Maximum</span> column contains the maximum value of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Mean Abs. Deviation</span> column contains the <a href="mean_absolute_deviation_glossary1.htm">mean absolute deviation</a> of the variable in the corresponding row.</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\iqst1rg6.gif" border="0" height="290" src="../image/iqst1rg6.gif" title="image\iqst1rg6.gif" width="424" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Standard Deviation</span> column contains the <a href="standard_deviation_glossary1.htm">standard deviation</a> of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Variance</span> column contains the <a href="variance_glossary1.htm">variance</a> of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Skewness</span> column contains the <a href="skewness_glossary1.htm">skewness</a> (a measure of the symmetry of the distribution) of the variable in the corresponding row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Kurtosis</span> column contains the <a href="kurtosis_glossary1.htm">kurtosis</a> value (a measure of the sharpness in the peak of the distribution) for the variable in the corresponding row.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Conditioned_Data_Grid" name="The_Conditioned_Data_Grid"></a>The Conditioned Data Grid</p>
+        <p>The <span style="font-weight: bold;">Conditioned Data</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Condition Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Conditioned Data</span>:</p>
+        <p>
+            <img alt="image\iqst2rm2.gif" border="0" height="143" src="../image/iqst2rm2.gif" title="image\iqst2rm2.gif" width="339" />
+        </p>
+        <p>Input data values after conditioning operations have been applied will be displayed in chronological order in a grid view, as illustrated below:</p>
+        <p>
+            <img alt="image\iqst2gr1.gif" border="0" height="273" src="../image/iqst2gr1.gif" title="image\iqst2gr1.gif" width="579" />
+        </p>
+        <p>The values in a particular row were all obtained at the date and time shown in the <span style="font-weight: bold;">Date and Time</span> column for the row.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;In the un-numbered row beneath the row containing column headings, grid cells immediately beneath tag names show the status for the corresponding tag. If an Inferential Sensor model is being built, its dependent variable is listed in the first column related to specific tags, and the status is <span style="font-weight: bold;font-style: italic;">Dependent</span>. For other variables, <span style="font-weight: bold;font-style: italic;">Active</span> means the variable was processed during the Condition Data step and is available for use in subsequent model building steps. <span style="font-weight: bold;font-style: italic;">Inactive</span> means the variable was not processed during the Condition Data step and is not available for use in subsequent model building steps.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Bad Tags</span> column indicates the number of tags whose values were bad at the sample date/time indicated in the <span style="font-weight: bold;">Date and Time</span> column in the row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Cond. Tags</span> column indicates the number of tags whose values were conditioned (based on parameters specified in the <span style="font-weight: bold;">Data Conditioning</span> dialog) at the date/time indicated in the corresponding column in the row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Trn</span> column indicates whether data samples in the corresponding row will be used for training the model (<span style="font-weight: bold;font-style: italic;">1</span> indicates use for training, <span style="font-weight: bold;font-style: italic;">0</span> indicates do not use for training).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Val</span> column indicates whether data samples in the corresponding row will be used for validating the model (<span style="font-weight: bold;font-style: italic;">1</span> indicates use for validation, <span style="font-weight: bold;font-style: italic;">0</span> indicates do not use for validation).</p>
+            </li>
+            <li>
+                <p>The remaining column headings are the names of tags represented in the currently loaded input data file(s). Values in the columns are the conditioned values at each sample time.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Data_Statistics_Grid" name="The_Data_Statistics_Grid"></a>The Conditioned Data Statistics Grid</p>
+        <p>The <span style="font-weight: bold;">Conditioned Data Statistics</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Condition Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Conditioned Data Statistics</span>:</p>
+        <p>
+            <img alt="image\iqst2rm3.gif" border="0" height="144" src="../image/iqst2rm3.gif" title="image\iqst2rm3.gif" width="340" />
+        </p>
+        <p>Summary statistics for all tags after the data conditioning process are displayed in the <span style="font-weight: bold;">Conditioned Data Statistics</span> grid view.</p>
+        <p>
+            <img alt="image\iqst2g21.gif" border="0" height="291" src="../image/iqst2g21.gif" title="image\iqst2g21.gif" width="554" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Use the horizontal slider to view columns that are not visible.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Status</span> column indicates the status of the corresponding variable. <span style="font-weight: bold;font-style: italic;">Dependent</span> means the variable is the dependent variable for the Inferential Sensor model. <span style="font-weight: bold;font-style: italic;">Active</span> means the variable was processed during the <span style="font-weight: bold;">Condition Data</span> step and is available for use in subsequent model building steps. <span style="font-weight: bold;font-style: italic;">Inactive</span> means the variable was not processed during the <span style="font-weight: bold;">Condition Data</span> step and is not available for use in subsequent model building steps.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Good Samples</span> column indicates the number of good samples for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Bad Samples</span> column indicates the number of bad samples for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Cond. Samples</span> column indicates the number of samples whose values were conditioned (based on parameters specified in the <span style="font-weight: bold;">Data Conditioning</span> dialog) for the corresponding variable in the row.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Flatline Period</span> column indicates the period (in absolute time units) that the variables values must remain below the <span style="font-weight: bold;">Flatline Threshold</span> to generate a <span style="font-weight: bold;">Flatline</span> fault. In other words, when a data sample falls below the <span style="font-weight: bold;">Flatline Threshold</span>, a timer for the <span style="font-weight: bold;">Flatline Period</span> is started, but no fault is generated (assuming <span style="font-weight: bold;">Flatline</span> detection is enabled). If all data samples subsequently collected during the <span style="font-weight: bold;">Flatline Period</span> remain below the <span style="font-weight: bold;">Flatline Threshold</span>, they are also considered good; however, if the first sample collected after the <span style="font-weight: bold;">Flatline Period</span> elapses is below the <span style="font-weight: bold;">Flatline Threshold</span>, the sample is marked bad and a <span style="font-weight: bold;">Flatline</span> fault is generated. Conversely, if before the <span style="font-weight: bold;">Flatline Period</span> has elapsed a data sample equals or exceeds the <span style="font-weight: bold;">Flatline Threshold</span>, the <span style="font-weight: bold;">Flatline Period</span> timer is turned off and no fault is generated.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Flatline Threshold</span> column indicates the threshold value that the variables value must fall below to cause a timer to start for the <span style="font-weight: bold;">Flatline Period</span> used to identify <span style="font-weight: bold;">Flatline</span> fault conditions (if <span style="font-weight: bold;">Flatline</span> detection is enabled).</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\iqst2g22.gif" border="0" height="290" src="../image/iqst2g22.gif" title="image\iqst2g22.gif" width="599" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Spike Period</span> column indicates the period (in absolute time units) that the variables values must remain above the <span style="font-weight: bold;">Spike Threshold</span> in order for subsequent data values to be considered normal. In other words, when a data sample exceeds the <span style="font-weight: bold;">Spike Threshold</span>, the sample is marked bad, a <span style="font-weight: bold;">Spike</span> fault is generated, and the <span style="font-weight: bold;">Spike Period</span> timer is started (assuming <span style="font-weight: bold;">Spike</span> detection is enabled). If all data samples collected during the <span style="font-weight: bold;">Spike</span> period remain above the <span style="font-weight: bold;">Spike Threshold</span>, they too are marked bad; however, the first data sample collected after the <span style="font-weight: bold;">Spike Period</span> has elapsed is marked good (the process is considered to have moved to another operating level).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Spike Threshold</span> column indicates the threshold value, which, when exceeded on a sample-to-sample basis, triggers a <span style="font-weight: bold;">Spike</span> fault (if <span style="font-weight: bold;">Spike</span> detection is enabled).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Raw Data Min.</span> column indicates the minimum value in the original raw dataset for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Lower Cutoff</span> column indicates the lower limit value (if specified) for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Cut Data Min.</span> column indicates the minimum value in the conditioned dataset after limits were applied for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Cut Data Avg.</span> column indicates the average value in the conditioned dataset after limits were applied for the corresponding variable.</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\iqst2g23.gif" border="0" height="289" src="../image/iqst2g23.gif" title="image\iqst2g23.gif" width="469" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Cut Data Max.</span> column indicates the maximum value in the conditioned dataset after limits were applied for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Upper Cutoff</span> column indicates the upper limit value (if specified) for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Raw Data Max.</span> column indicates the raw maximum value in the dataset for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Mean Abs. Deviation</span> column indicates the mean absolute deviation in the dataset for the corresponding variable.</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\iqst2g24.gif" border="0" height="288" src="../image/iqst2g24.gif" title="image\iqst2g24.gif" width="417" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Standard Deviation</span> column indicates the standard deviation in the dataset for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Variance</span> column indicates the variance in the dataset for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Skewness</span> column indicates the <a href="skewness_glossary1.htm">skewness</a> (a measure of the symmetry of the distribution) in the dataset for the corresponding variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Kurtosis</span> column indicates the <a href="kurtosis_glossary1.htm">kurtosis</a> (a measure of the sharpness in the peak of the distribution) in the dataset for the corresponding variable.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Correlations_Between_Variables_Grid" name="The_Correlations_Between_Variables_Grid"></a>The Correlations Between Variables Grid</p>
+        <p>The <span style="font-weight: bold;">Correlations between Variables</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Condition Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Correlations between Variables</span>:</p>
+        <p>
+            <img alt="image\iqst2rm4.gif" border="0" height="144" src="../image/iqst2rm4.gif" title="image\iqst2rm4.gif" width="337" />
+        </p>
+        <p>The <span style="font-weight: bold;">Correlations between Variables</span> grid shows the correlation between each input variable and the dependent variable, as well as the correlation between each input variable and every other input variable:</p>
+        <p>
+            <img alt="image\iqst2gr2.gif" border="0" height="289" src="../image/iqst2gr2.gif" title="image\iqst2gr2.gif" width="568" />
+        </p>
+        <p class="subheading"><a id="The_Detection_Index_Grid" name="The_Detection_Index_Grid"></a>The Detection Index Grid</p>
+        <p>The <span style="font-weight: bold;">Detection Index</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build / Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Detection</span> <span style="font-weight: bold;">Index</span>:</p>
+        <p>
+            <img alt="image\iqsvmnu1.gif" border="0" height="138" src="../image/iqsvmnu1.gif" title="image\iqsvmnu1.gif" width="283" />
+        </p>
+        <p>Sensor validation model <span style="font-weight: bold;">Detection Index</span> values will be displayed in a spreadsheet grid format:</p>
+        <p>
+            <img alt="image\iqsvrgr1.gif" border="0" height="240" src="../image/iqsvrgr1.gif" title="image\iqsvrgr1.gif" width="323" />
+        </p>
+        <p>In the <span style="font-weight: bold;">Detection Index</span> grid, each row contains the time stamp for a set of input variable data samples, the models <span style="font-weight: bold;">Detection Threshold</span>, and the computed <span style="font-weight: bold;">Detection Index</span> for the set of sample values.</p>
+        <p class="subheading"><a id="The_Sensor_Values_and_Faults_Grid" name="The_Sensor_Values_and_Faults_Grid"></a>The Sensor Values and Faults Grid</p>
+        <p>The <span style="font-weight: bold;">Sensor Values and Faults</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Sensor Values</span> <span style="font-weight: bold;">and</span> <span style="font-weight: bold;">Faults</span> as shown below:</p>
+        <p>
+            <img alt="image\iqsvmnu2.gif" border="0" height="136" src="../image/iqsvmnu2.gif" title="image\iqsvmnu2.gif" width="282" />
+        </p>
+        <p>Sensor values and fault conditions will be displayed in a spreadsheet grid format:</p>
+        <p>
+            <img alt="image\iqsvrgr2.gif" border="0" height="258" src="../image/iqsvrgr2.gif" title="image\iqsvrgr2.gif" width="451" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Use the horizontal slider bar to scroll the grid view and make values for other input variables visible.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>In the <span style="font-weight: bold;">Sensor Values and Faults</span> grid, each row contains the time stamp for a set of input variable data samples, and for each variable:</p>
+        <ul>
+            <li>
+                <p>The actual sample value;</p>
+            </li>
+            <li>
+                <p>The sensor validation model computed value;</p>
+            </li>
+            <li>
+                <p>The sensor validation model estimated value (if a fault condition was detected)</p>
+            </li>
+            <li>
+                <p>The fault classification (if a fault condition was detected).</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="Sensor_Validation_Expert_Grid_Views" name="Sensor_Validation_Expert_Grid_Views"></a>Sensor Validation Expert Grid Views</p>
+        <p>The availability of the following <span style="font-weight: bold;">Expert</span> grid views depends on the current IQmodel mode (<span style="font-weight: bold;font-style: italic;">Build Mode</span> or <span style="font-weight: bold;font-style: italic;">Run Mode</span>) as well as whether or not the sensor validation model has been built (i.e., <span style="font-weight: bold;">Expert</span> grid views are not available if the model status is <span style="font-weight: bold;font-style: italic;">Invalid</span>).</p>
+        <p class="subheading"><a id="SR_Transforms_Sensor_Values" name="SR_Transforms_Sensor_Values"></a>Structured Residual Transforms (Sensor Values) Grid</p>
+        <p>The <span style="font-weight: bold;">Structured Residual Transforms (Sensor Values)</span> grid shows the structured residual transform sensor values. The grid is available in both <span style="font-weight: bold;font-style: italic;">Build Mode</span> and <span style="font-weight: bold;font-style: italic;">Run Mode</span>:</p>
+        <p>
+            <img alt="image\iqsvegr1.gif" border="0" height="241" src="../image/iqsvegr1.gif" title="image\iqsvegr1.gif" width="574" />
+        </p>
+        <p>The <span style="font-weight: bold;">Structured Residual Transforms (Sensor Values)</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build / Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Expert <span style="font-weight: normal;">|</span> Structured Residual Transforms <span style="font-weight: normal;">|</span> Sensor Values</span> from the menu:</p>
+        <p>
+            <img alt="image\iqsvemn1.gif" border="0" height="188" src="../image/iqsvemn1.gif" title="image\iqsvemn1.gif" width="450" />
+        </p>
+        <p class="subheading"><a id="SR_Transforms_Equation_Error" name="SR_Transforms_Equation_Error"></a><a name="kanchor149"></a>Structured Residual Transforms (Equation Errors) Grid</p>
+        <p>The <span style="font-weight: bold;">Structured Residual Transforms (Equation Errors)</span> grid shows the structured residual transform equation error values. The grid is available in both <span style="font-weight: bold;font-style: italic;">Build Mode</span> and <span style="font-weight: bold;font-style: italic;">Run Mode</span>:</p>
+        <p>
+            <img alt="image\iqsvegr2.gif" border="0" height="224" src="../image/iqsvegr2.gif" title="image\iqsvegr2.gif" width="348" />
+        </p>
+        <p>The <span style="font-weight: bold;">Structured Residual Transforms (Equation Errors)</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build / Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Expert | Structured Residual Transforms | Equation Errors</span> from the menu:</p>
+        <p>
+            <img alt="image\iqsvemn2.gif" border="0" height="186" src="../image/iqsvemn2.gif" title="image\iqsvemn2.gif" width="453" />
+        </p>
+        <p class="subheading"><a id="Structured_Residuals" name="Structured_Residuals"></a>The Structured Residuals Grid</p>
+        <p>The <span style="font-weight: bold;">Structured Residuals</span> grid shows the <a href="structured_residual_glossary1.htm">structured residuals</a> computed by the sensor validation model. The grid is available in both <span style="font-weight: bold;font-style: italic;">Build Mode</span> and <span style="font-weight: bold;font-style: italic;">Run Mode</span>:</p>
+        <p>
+            <img alt="image\iqsvegr3.gif" border="0" height="256" src="../image/iqsvegr3.gif" title="image\iqsvegr3.gif" width="570" />
+        </p>
+        <p>The <span style="font-weight: bold;">Structured Residuals</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build / Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Expert | Structured Residuals</span> from the menu:</p>
+        <p>
+            <img alt="image\iqsvemn3.gif" border="0" height="187" src="../image/iqsvemn3.gif" title="image\iqsvemn3.gif" width="345" />
+        </p>
+        <p class="subheading"><a id="Reconstruction_Model" name="Reconstruction_Model"></a>The Reconstruction Model Grid</p>
+        <p>The <span style="font-weight: bold;">Reconstruction Model</span> grid shows the values generated by the sensor validation reconstruction model. The grid is available in both <span style="font-weight: bold;font-style: italic;">Build Mode</span> and <span style="font-weight: bold;font-style: italic;">Run Mode</span>:</p>
+        <p>
+            <img alt="image\iqsvemn4.gif" border="0" height="188" src="../image/iqsvemn4.gif" title="image\iqsvemn4.gif" width="344" />
+        </p>
+        <p>The <span style="font-weight: bold;">Reconstruction Model</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Expert | Reconstruction Model</span>.</p>
+        <p>
+            <img alt="image\iqsvegr4.gif" border="0" height="256" src="../image/iqsvegr4.gif" title="image\iqsvegr4.gif" width="529" />
+        </p>
+        <p class="subheading"><a id="The_Equation_Errors_Grid" name="The_Equation_Errors_Grid"></a>The Equation Errors Grid</p>
+        <p>The <span style="font-weight: bold;">Equation Errors</span> grid shows the <a href="equation_error_glossary1.htm">equation errors</a> (the vector of residual terms that represent uncertainty) computed by the sensor validation model when it is run offline. The <span style="font-weight: bold;">Equation Errors</span> grid is only available when IQmodel is in <span style="font-weight: bold;font-style: italic;">Run Mode</span> and the sensor validation model has been run.</p>
+        <p>
+            <img alt="image\svergri1.gif" border="0" height="241" src="../image/svergri1.gif" title="image\svergri1.gif" width="489" />
+        </p>
+        <p>The <span style="font-weight: bold;">Equation Errors</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Equation Errors</span> from the menu:</p>
+        <p>
+            <img alt="image\svergrm1.gif" border="0" height="357" src="../image/svergrm1.gif" title="image\svergrm1.gif" width="386" />
+        </p>
+        <p class="subheading"><a id="The_Generalized_Likelihood_Ratio_Grid" name="The_Generalized_Likelihood_Ratio_Grid"></a>The Generalized Likelihood Ratio Grid</p>
+        <p>The <span style="font-weight: bold;">Generalized Likelihood Ratio</span> grid shows the generalized likelihood ratio computed by the sensor validation model when it is run offline. The <span style="font-weight: bold;">Generalized Likelihood Ratio</span> grid is only available when IQmodel is in <span style="font-weight: bold;font-style: italic;">Run Mode</span> and the sensor validation model has been run.</p>
+        <p>
+            <img alt="image\svergri2.gif" border="0" height="257" src="../image/svergri2.gif" title="image\svergri2.gif" width="560" />
+        </p>
+        <p>The <span style="font-weight: bold;">Generalized Likelihood Ratio</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Generalized Likelihood Ratio</span> from the menu:</p>
+        <p>
+            <img alt="image\svergrm2.gif" border="0" height="357" src="../image/svergrm2.gif" title="image\svergrm2.gif" width="388" />
+        </p>
+        <p class="subheading"><a id="The_Normalized_Cumulative_Mean_Grid" name="The_Normalized_Cumulative_Mean_Grid"></a>The Normalized Cumulative Mean Grid</p>
+        <p>The <span style="font-weight: bold;">Normalized Cumulative Mean</span> grid shows the normalized cumulative mean computed by the sensor validation model when it is run offline. The <span style="font-weight: bold;">Normalized Cumulative Mean</span> grid is only available when IQmodel is in <span style="font-weight: bold;font-style: italic;">Run Mode</span>.</p>
+        <p>
+            <img alt="image\svergri3.gif" border="0" height="257" src="../image/svergri3.gif" title="image\svergri3.gif" width="557" />
+        </p>
+        <p>The <span style="font-weight: bold;">Normalized Cumulative Mean</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Normalized Cumulative Mean</span> from the menu:</p>
+        <p>
+            <img alt="image\svergrm6.gif" border="0" height="356" src="../image/svergrm6.gif" title="image\svergrm6.gif" width="385" />
+        </p>
+        <p class="subheading"><a id="The_Normalized_Cumulative_Variance_Grid" name="The_Normalized_Cumulative_Variance_Grid"></a>The Normalized Cumulative Variance Grid</p>
+        <p>The <span style="font-weight: bold;">Normalized Cumulative Variance</span> grid shows the normalized cumulative variance computed by the sensor validation model when it is run offline. The <span style="font-weight: bold;">Normalized Cumulative Variance</span> grid is only available when IQmodel is in <span style="font-weight: bold;font-style: italic;">Run Mode</span>.</p>
+        <p>
+            <img alt="image\svergri4.gif" border="0" height="257" src="../image/svergri4.gif" title="image\svergri4.gif" width="617" />
+        </p>
+        <p>The <span style="font-weight: bold;">Normalized Cumulative Variance</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Run Sensor Validation</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Normalized Cumulative Variance</span> from the menu:</p>
+        <p>
+            <img alt="image\svergrm4.gif" border="0" height="357" src="../image/svergrm4.gif" title="image\svergrm4.gif" width="388" />
+        </p>
+        <p class="subheading"><a id="The_Data_Alignment_Results_Grid" name="The_Data_Alignment_Results_Grid"></a>The Data Alignment Results Grid</p>
+        <p>The <span style="font-weight: bold;">Data Alignment Results</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Align Data</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Data Alignment Results</span> as shown below:</p>
+        <p>
+            <img alt="image\iqst3gmn.gif" border="0" height="95" src="../image/iqst3gmn.gif" title="image\iqst3gmn.gif" width="317" />
+        </p>
+        <p>The results of the GA search for nominal dead times used to time-align input data will be displayed as illustrated below:</p>
+        <p>
+            <img alt="image\iqst3g01.gif" border="0" height="273" src="../image/iqst3g01.gif" title="image\iqst3g01.gif" width="494" />
+        </p>
+        <p>The column on the left side of the grid contains labels for data in each grid row.</p>
+        <ul>
+            <li>
+                <p>The first (<span style="font-weight: bold;">RSQ</span>) row contains the R<span class="super">2</span> values for the PLS models built using results from each execution of the genetic algorithm (the execution count is defined through the <span style="font-weight: bold;">GA[1]</span> property page in the <span style="font-weight: bold;">Expert Parameters</span> dialog for the <span style="font-weight: bold;">Align Data</span> step). The <span style="font-weight: bold;">1. Best</span> column contains the R<span class="super">2</span> value for the GA execution that resulted in the best model, the <span style="font-weight: bold;">2. Best</span> column contains the R<span class="super">2</span> value for the next best model, and so forth for the <span style="font-weight: bold;">N. Best</span> column, where <span style="font-weight: bold;font-style: italic;">N</span> equals the specified execution count.</p>
+            </li>
+            <li>
+                <p>Subsequent rows in the left-most column contain the names of all input (independent) variables.</p>
+            </li>
+        </ul>
+        <p>For all rows other than the first row:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column lists the name of the group each variable belongs to, if the variable is in a group.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Status</span> column indicates the status of each variable. A 1 indicates the variable was considered in the nominal dead time calculations (or the variables dead time was explicitly set by the user).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">User Set</span> column contains a user-specified dead time value for the variable if the User Set option for the variable was selected.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Min</span> column contains the minimum dead time value allowed for the GA search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Max</span> column contains the maximum dead time value allowed for the GA search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Base</span> column contains the base time period used for dead time calculations (i.e., the time resolution of dead time values).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Confidence</span> column contains the confidence associated with the corresponding dead time generated by the best GA run.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">1. Best</span> through <span style="font-weight: bold;">N. Best</span> columns contain the nominal dead time results for each execution of the GA.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Variable_Selection_Results_Grid" name="The_Variable_Selection_Results_Grid"></a>The Variable Selection Results Grid</p>
+        <p>The Variable Selection Results grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Select Variables</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Variable Selection Results</span>:</p>
+        <p>
+            <img alt="image\iqst4rm1.gif" border="0" height="66" src="../image/iqst4rm1.gif" title="image\iqst4rm1.gif" width="278" />
+        </p>
+        <p>The results of the genetic algorithm variable selection search will be displayed in a grid view as illustrated below:</p>
+        <p>
+            <img alt="image\iqst4rg1.gif" border="0" height="272" src="../image/iqst4rg1.gif" title="image\iqst4rg1.gif" width="617" />
+        </p>
+        <p>The first row contains the threshold value (i.e., the minimum selection rate) in effect for the corresponding iteration of the variable selection algorithm search during cascaded variable selection.</p>
+        <p>For all rows other than the first row:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column contains the name of the group each variable belongs to (all variables are initially in the <span style="font-weight: bold;font-style: italic;">Default</span> group).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Dead Time</span> column contains the dead time value for the variable.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Status</span> column indicates the status of each variable. A 1 indicates the variable was active (i.e., was considered by the variable selection process).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Min</span> column contains the current minimum number of variables in the corresponding Group that must be <span style="font-weight: bold;font-style: italic;">Active</span>.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Max Init</span> column contains the current maximum number of variables in the corresponding group that can be <span style="font-weight: bold;font-style: italic;">Active</span> in the initial population for the genetic algorithm.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Max Glob</span> column contains the current maximum number of variables in the corresponding group that can be <span style="font-weight: bold;font-style: italic;">Active</span> in any population other than the initial population. The value of <span style="font-weight: bold;">Max Glob</span> must be greater than minimum number of variables required from the group, and it cannot exceed the number of variables in the group.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Result</span> column contains the final status of the corresponding variable (after the genetic algorithm search has been performed, or as a result of the user specifying the status). A 1 indicates the variable was selected as a model input.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">N.Iter</span>. columns indicate the fitness computed for each variable in each iteration of the Genetic Algorithm.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Deadtime_Dynamics_Grid" name="The_Deadtime_Dynamics_Grid"></a>The Dead Times / Dynamics Results Grid</p>
+        <p>The <span style="font-weight: bold;">Dead Times / Dynamics Results</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Analyze Dynamics</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Dead Times / Dynamics Results</span>:</p>
+        <p>
+            <img alt="image\iqst5rm1.gif" border="0" height="67" src="../image/iqst5rm1.gif" title="image\iqst5rm1.gif" width="314" />
+        </p>
+        <p>Model dead time and dynamics results will be displayed in a grid view:</p>
+        <p>
+            <img alt="image\iqst5rg1.gif" border="0" height="225" src="../image/iqst5rg1.gif" title="image\iqst5rg1.gif" width="457" />
+        </p>
+        <p>The column on the left side of the grid contains labels for data in each grid row.</p>
+        <ul>
+            <li>
+                <p>The first (<span style="font-weight: bold;">RSQ</span>) row contains the R<span class="super">2</span> values for the final dead time PLS models built using results from each execution of the genetic algorithm (the execution count is defined through the <span style="font-weight: bold;">GA[1]</span> property page in the <span style="font-weight: bold;">Expert Parameters</span> dialog for the <span style="font-weight: bold;">Analyze Dynamics</span> step).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">1. Best</span> column contains the R<span class="super">2</span> value for the GA execution that resulted in the best model,</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">2. Best</span> column contains the R<span class="super">2</span> value for the next best model, and so forth for the <span style="font-weight: bold;">N. Best</span> column, where <span style="font-weight: bold;font-style: italic;">N</span> equals the specified execution count.</p>
+            </li>
+        </ul>
+        <p>For all rows other than the first:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column lists the name of the group a variable belongs to, if it is in a group.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Status</span> column indicates the status of each variable. A 1 indicates the variable was used in the corresponding (dead time or dynamic filter) search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">User Set</span> column contains a user-specified dead time or dynamic filter value for the variable if the User Set option for the variable was selected.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Min</span> column contains the minimum dead time or filter value allowed for the GA search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Max</span> column contains the maximum dead time or filter value allowed for the GA search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">GA Base</span> column contains the base time period used for dead time or filter calculations (i.e., the time resolution of the corresponding value).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Confidence</span> column contains the confidence associated with the R<span class="super">2</span> value of the best model.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">1. Best</span> through <span style="font-weight: bold;">N. Best</span> columns contain the nominal dead time results for each execution of the GA.</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Rows in which variable names have the form <span style="font-weight: bold;font-style: italic;">DT: xxxx</span> contain results related to dead time calculations. Rows in which variable names have the form <span style="font-weight: bold;font-style: italic;">Dyn: xxxx</span> contain results related to dynamic filter calculations.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="subheading"><a id="The_Model_Statistics_Grid" name="The_Model_Statistics_Grid"></a>The Model Statistics Grid</p>
+        <p>The <span style="font-weight: bold;">Model Statistics</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build /Run Inferential Sensor</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Model Statistics</span>, as shown in the two figures below.</p>
+        <p>Selecting <span style="font-weight: bold;">Model Statistics</span> in <span style="font-weight: bold;font-style: italic;">Build Mode</span>:</p>
+        <p>
+            <img alt="image\iqst6rm1.gif" border="0" height="228" src="../image/iqst6rm1.gif" title="image\iqst6rm1.gif" width="322" />
+        </p>
+        <p>Selecting <span style="font-weight: bold;">Model Statistics</span> in <span style="font-weight: bold;font-style: italic;">Run Mode</span>:</p>
+        <p>
+            <img alt="image\iqst6rm7.gif" border="0" height="106" src="../image/iqst6rm7.gif" title="image\iqst6rm7.gif" width="283" />
+        </p>
+        <p>The <span style="font-weight: bold;">Model Statistics</span> grid contains summary model statistics:</p>
+        <p>
+            <img alt="image\iqst6rg1.gif" border="0" height="401" src="../image/iqst6rg1.gif" title="image\iqst6rg1.gif" width="559" />
+        </p>
+        <p>The top area of the grid (labeled <span style="font-weight: bold;">Model</span>) contains basic model information (some of the statistics are also displayed in the <span style="font-weight: bold;">Results</span> section of the <span style="font-weight: bold;">Model</span> dialog).</p>
+        <ul>
+            <li>
+                <p>The first row contains the tag name of the output (dependent) variable, the model type, the number of latent variables in the PLS model, and (if the model is a hybrid model), the number of hidden nodes in the neural net.</p>
+            </li>
+            <li>
+                <p>The second row contains labels for the basic statistic values computed for the model.</p>
+            </li>
+            <li>
+                <p>The following three rows contain model statistics for the training dataset, the validation dataset, and the entire dataset.</p>
+            </li>
+        </ul>
+        <p>
+            <img alt="image\iqst6rg2.gif" border="0" height="401" src="../image/iqst6rg2.gif" title="image\iqst6rg2.gif" width="465" />
+        </p>
+        <p>The middle area of the grid (labeled <span style="font-weight: bold;">Variables</span>) contains information about model input (independent) variables.</p>
+        <ul>
+            <li>
+                <p>The first row contains labels for variable attributes.</p>
+            </li>
+            <li>
+                <p>The following rows contain attribute values for the variable named in the first column of the row.</p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Status</span> column indicates whether the variable was active when the model was built (<span style="font-weight: bold;font-style: italic;">1</span> indicates the variable was active).</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Dead Time</span> column contains the variables dead time.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;">Filter</span> column contains the variables dynamic filter value.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p>The lower area of the grid (labeled <span style="font-weight: bold;">PLS</span>) contains information about the PLS component of the model.</p>
+        <ul>
+            <li>
+                <p>The first row identifies columns containing the weights of the latent variables (there will be a column for each latent variable in the model, labeled <span style="font-weight: bold;font-style: italic;">1</span><span style="font-style: italic;">.LV</span>, <span style="font-weight: bold;font-style: italic;">2</span><span style="font-style: italic;">.LV</span>, etc. up to <span style="font-weight: bold;font-style: italic;">N.</span> <span style="font-style: italic;">LV</span>, where <span style="font-weight: bold;font-style: italic;">N</span> is the number of latent variables in the model).</p>
+            </li>
+            <li>
+                <p>The last column indicates the variance in the model captured by the variable named in the first column of the row. This is a measure of the <span style="font-weight: bold;font-style: italic;">importance</span> of each input variance.</p>
+            </li>
+            <li>
+                <p>The following rows contain the weights of the variable named in the first column of the row, with respect to the latent variable in the corresponding column. In the example shown here, the first latent variable (1.LV) is constructed from the input variables as: <span style="font-weight: bold;font-style: italic;">1.LV = 1.0*H2_Ratio + 0.000055*C4_Ratio + ...</span></p>
+            </li>
+            <li>
+                <p>After the weights for all input variables are listed, the last two rows in the <span style="font-weight: bold;">PLS</span> section contain the variance and cumulative variance, respectively, captured by the latent variable named in the corresponding column.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Model_Results_Grid" name="The_Model_Results_Grid"></a>The Model Results Grid</p>
+        <p>The <span style="font-weight: bold;">Model Results</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build Inferential Sensor</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Model Results</span>:</p>
+        <p>
+            <img alt="image\iqst6rm2.gif" border="0" height="229" src="../image/iqst6rm2.gif" title="image\iqst6rm2.gif" width="323" />
+        </p>
+        <p>The <span style="font-weight: bold;">Model Results</span> grid shows the results of training and (if selected) validating a model on the input dataset:</p>
+        <p>
+            <img alt="image\iqst6rg3.gif" border="0" height="177" src="../image/iqst6rg3.gif" title="image\iqst6rg3.gif" width="374" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Date and Time</span> column in the grid shows when the data sample was collected.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Trn</span> column indicates whether the dependent variable value came from the training dataset (<span style="font-weight: bold;font-style: italic;">1</span> indicates yes, <span style="font-weight: bold;font-style: italic;">0</span> indicates no).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Val</span> column indicates whether the dependent variable value came from the validation dataset (<span style="font-weight: bold;font-style: italic;">1</span> indicates yes, <span style="font-weight: bold;font-style: italic;">0</span> indicates no).</p>
+            </li>
+            <li>
+                <p>Values in the column labeled with the name of the dependent variable represent conditioned input data from either the training or the validation dataset. Validation values are displayed in <span class="blue">blue</span>.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Model</span> column contains values computed by the model.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Error</span> column contains the difference between the model-computed value and the actual (conditioned) value for the dependent variable (from the corresponding training or validation dataset).</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="The_Model_Analysis_Grid" name="The_Model_Analysis_Grid"></a>The Model Analysis Grid</p>
+        <p>The <span style="font-weight: bold;">Model Analysis</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build Inferential Sensor</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Model Analysis</span>:</p>
+        <p>
+            <img alt="image\iqst6rm3.gif" border="0" height="226" src="../image/iqst6rm3.gif" title="image\iqst6rm3.gif" width="322" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The Model Analysis grid is only available for the PLS and Hybrid models. It is not available for the Monotonic Neural Network model.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The <span style="font-weight: bold;">Model Analysis</span> grid contains the results of PLS model computations for each dependent variable data sample in the training set.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note: &#160;</span>The picture immediately below illustrates values from the left-most portion of the grid; the next picture illustrates values from the right portion. Use the horizontal slider to select which columns you wish to view (the left-most time stamp column is always visible).</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <img alt="image\iqs6rg30.gif" border="0" height="192" src="../image/iqs6rg30.gif" title="image\iqs6rg30.gif" width="488" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">T2</span> column contains the Hotellings T<span class="super">2</span> statistic calculated from the independent variable values that were used (after dead time alignment and dynamic filtering) to calculate the dependent variable value at the corresponding sample time. A high T<span class="super">2</span> statistic indicates that the sample differs considerably from the average, and thus implies high variability within the basic structure of the PLS model.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">T2_95</span> column contains the associated 95% confidence limit.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Q</span> column contains the residual computed for the latent variables at the corresponding sample time. The residual is an indication of how well the sample fits into the PLS model. Larger residuals imply poorer fits.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Q_95</span> column contains the associated 95% confidence limit.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Leverage</span> column contains values that indicate how much influence the corresponding sample has on the model. Larger numbers indicate more influence.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Stud Res</span> column contains the Studentized Residual statistic for the data sample. The Studentized Residual is an indication of how well the model fits the output variable.</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The <span style="font-weight: bold;font-style: italic;">Leverage</span> and the <span style="font-weight: bold;font-style: italic;">Studentized Residual</span> statistics combine to make the best tool for detecting unwanted outliers (samples that have both a large Leverage and a large Studentized Residual).</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <img alt="image\iqs6rg31.gif" border="0" height="192" src="../image/iqs6rg31.gif" title="image\iqs6rg31.gif" width="491" />
+        </p>
+        <ul>
+            <li>
+                <p>The column labeled <span style="font-weight: bold;">LV_X(1)</span> contains the input scores for latent variable 1.</p>
+            </li>
+            <li>
+                <p>The column labeled <span style="font-weight: bold;">LV_Y(1)</span> contains the output latent variable score for latent variable 1.</p>
+            </li>
+            <li>
+                <p>The column labeled <span style="font-weight: bold;">f(LV_X(1))</span> contains the PLS model output for latent variable 1.</p>
+            </li>
+            <li>
+                <p>The remaining columns contain score and model output values for the remaining latent variables.</p>
+            </li>
+        </ul>
+        <p>A linear PLS model fits a straight line through the points [LV_X(i), LV_Y(i)], where LV_Y(i) is the linear function of LV_X(i). Similarly, with a nonlinear (fuzzy) PLS model LV_Y(i) would represent a nonlinear function.</p>
+        <p class="subheading"><a id="The_Model_Predictions_Grid" name="The_Model_Predictions_Grid"></a>The Model Predictions Grid</p>
+        <p>The <span style="font-weight: bold;">Model Predictions</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build / Run Inferential Sensor</span> box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Model Predictions</span>, as illustrated in the two figures below.</p>
+        <p>Selecting <span style="font-weight: bold;">Model Predictions</span> grid in Build Mode:</p>
+        <p>
+            <img alt="image\iqst6rm4.gif" border="0" height="226" src="../image/iqst6rm4.gif" title="image\iqst6rm4.gif" width="321" />
+        </p>
+        <p>Selecting <span style="font-weight: bold;">Model Predictions</span> grid in Run Mode:</p>
+        <p>
+            <img alt="image\iqst6rm6.gif" border="0" height="107" src="../image/iqst6rm6.gif" title="image\iqst6rm6.gif" width="285" />
+        </p>
+        <p>The <span style="font-weight: bold;">Model Predictions</span> grid shows the models predicted value for the dependent variable:</p>
+        <p>
+            <img alt="image\iqst6rg4.gif" border="0" height="176" src="../image/iqst6rg4.gif" title="image\iqst6rg4.gif" width="411" />
+        </p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Date and Time</span> column in the grid shows the independent variable data sample time stamp.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Trn</span> and <span style="font-weight: bold;">Val</span> columns indicate whether the dependent variable value shown in the column labeled with the dependent variables name came from the training or the validation dataset (<span style="font-weight: bold;font-style: italic;">1</span> indicates the respective dataset source).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Model (dyn.)</span> column contains the models dynamic prediction of the dependent variables value at the corresponding time.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Model (stat.)</span> column contains the models static (instantaneous) value at the corresponding time.</p>
+            </li>
+        </ul>
+        <p>Clicking the <span style="font-weight: bold;">Diskette</span> icon <img alt="image\diskicon.gif" border="0" height="23" src="../image/diskicon.gif" title="image\diskicon.gif" width="24" /> enables you to export the inferential predictions either as a tab delimited text file or as a .clc Collect file. The second option is recommended if you want to export the inferential predictions for use in DMCplus Model. (This option strips out the training/validation columns and flags bad data in a way that DMCplus Model can read it.)</p>
+        <p class="subheading"><a id="The_Univariate_Analysis_Grid" name="The_Univariate_Analysis_Grid"></a>The Univariate and Sensitivity Analysis Grid</p>
+        <p>The <span style="font-weight: bold;">Univariate and Sensitivity Analysis</span> grid is accessed through the drop-down menu located to the right of the <span style="font-weight: bold;">Build Inferential</span> Sensor box. Click the <span style="font-weight: bold;">Drop Menu</span> button <img alt="image\dropicon.gif" border="0" height="15" src="../image/dropicon.gif" title="image\dropicon.gif" width="14" /> and select <span style="font-weight: bold;">Univariate</span> <span style="font-weight: bold;">and</span> <span style="font-weight: bold;">Sensitivity Analysis</span>:</p>
+        <p>
+            <img alt="image\iqst6rm5.gif" border="0" height="228" src="../image/iqst6rm5.gif" title="image\iqst6rm5.gif" width="320" />
+        </p>
+        <p>The <span style="font-weight: bold;">Univariate and Sensitivity Analysis</span> grid shows how the value of the dependent variable changes with respect to the value of each independent variable. The following grid illustrates the results for a linear model:</p>
+        <p>
+            <img alt="image\iqst6rg5.gif" border="0" height="257" src="../image/iqst6rg5.gif" title="image\iqst6rg5.gif" width="554" />
+        </p>
+        <p>This grid is organized into triplets of columns. The first column of each triplet (for example, C4_C2) represents a specific independent variable and contains values for this variable increasing across the full range of the variable (and in fact extrapolating outside of its range). The second column of the triplet (for example f(C4_C2)) shows the corresponding values of the inferred variable, where, for non-linear models, all other independent variables (the "complementary" variables) are held constant. The third column of the triplet (for example f(C4_C2)) shows the corresponding sensitivity (i.e. the derivative) of the inferred variable with respect to the independent variable at that value, where, again, the complementary variables are held constant.</p>
+        <p>By default, complementary variables are kept constant at the mid-point of their range (their Average Value). If you do not want to use the mid-point value for the complementary variables, then right-click on the grid to display the <span style="font-weight: bold;">Evaluations Options&amp;</span> button. Then left-click that button to open the <span style="font-weight: bold;">Evaluations</span> <span style="font-weight: bold;">Options</span> dialog box.</p>
+        <p>
+            <img alt="image\eva2.gif" border="0" height="437" src="../image/eva2.gif" title="image\eva2.gif" width="593" />
+        </p>
+        <p>
+            <img alt="image\evaluation_options.gif" border="0" height="275" src="../image/evaluation_options.gif" title="image\evaluation_options.gif" width="486" />
+        </p>
+        <p><a id="evaluation_options_dialog" name="evaluation_options_dialog"></a>The <span style="font-weight: bold;">Evaluations Options</span> dialog box contains the following options:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">Values at Mid-points</span>: Average values are used for all complementary variables.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">Random Values</span>: Random values are generated for all complementary variables.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">Values from Data Set</span>: Values from a row of the collected data set will be used for the complementary variables. You may select the row of the data set that is used by using the scroll bar. The text box under the scroll bar will display the selected row number.</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Selections made in the <span style="font-weight: bold;">Evaluations Options</span> dialog box are immediately reflected in the grid or chart when you click the <span style="font-weight: bold;">Apply</span> button.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The value of the independent variable named in the column is varied the range of its values in the training dataset and an extrapolation range of plus or minus 10%. The extrapolation boundaries are shown in red on the <span style="font-weight: bold;">Univariate Analysis</span> graph.</p>
+        <p>&#160;</p>
+    </body>
+</html>

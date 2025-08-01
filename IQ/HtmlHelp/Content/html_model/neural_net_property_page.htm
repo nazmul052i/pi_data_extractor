@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Expert Parameters Dialogs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Neural Net Property Page</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor383"></a>Neural Net Property Page</h1>
+        <p>The <span style="font-weight: bold;">Neural Net</span> property page shown below appears in the <span style="font-weight: bold;">Expert Parameters</span> dialog for the <span style="font-weight: bold;">Build Inferential Sensor</span> step. Neural Net parameters govern the construction and execution of the neural network that is used when the <span style="font-weight: bold;font-style: italic;">Hybrid: PLS - Neural Network</span> model is selected:</p>
+        <p>
+            <img alt="image\iqst6e02.gif" border="0" height="403" src="../image/iqst6e02.gif" title="image\iqst6e02.gif" width="386" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The <span style="font-weight: bold;">Neural Net</span> page is only visible when the <span style="font-weight: bold;font-style: italic;">Hybrid: PLS – Neural Network</span> model type is selected.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The <span style="font-weight: bold;">Architecture</span> section allows you to specify general parameters for the neural network.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Max Hidden Units:</span> edit box indicates the maximum number of hidden units that the neural network can contain. If the training dataset is noisy, overfitting of the neural network to the training data can be avoided by limiting the number of hidden units.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Direct Connections</span> check box is checked, the input layer of the neural network will be directly connected to the output layer.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">Cascaded Connections</span> check box is checked, previously established hidden units will be connected to new hidden units as they are added to the neural network during construction.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Training</span> section allows you to specify parameters that govern neural network training.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Noise Level:</span> drop-down list allows you to specify how noisy the input dataset is.</p>
+                <p>
+                    <img alt="image\iqnnnois.gif" border="0" height="103" src="../image/iqnnnois.gif" title="image\iqnnnois.gif" width="352" />
+                </p>
+                <p>Select the description that most closely matches the noise characteristics of the input dataset.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Learning Rule:</span> drop-down list allows you to specify the learning rule for the neural network.</p>
+                <p>
+                    <img alt="image\iqnnlrnr.gif" border="0" height="100" src="../image/iqnnlrnr.gif" title="image\iqnnlrnr.gif" width="352" />
+                </p>
+                <ul>
+                    <li>
+                        <p>The <span style="font-weight: bold;font-style: italic;">Kalman Filter</span> learning rule considers neural network weights as states and the desired outputs as observations within a discrete state-space transition framework. Standard nonlinear Kalman filter theory is used to obtain the best estimate of the weights based on the available training data. Kalman filter training is most typically used with noisy data.</p>
+                    </li>
+                    <li>
+                        <p>The <span style="font-weight: bold;font-style: italic;">Adaptive Gradient</span> learning rule is a form of back-propagation that uses a variable metric to adjust weights during training. The error signal is the gradient of mean square error with respect to the adjustment. The <span style="font-weight: bold;font-style: italic;">Adaptive Gradient</span> rule is appropriate when input data is not particularly noisy.</p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Incremental Hidden Units</span> section allows you to specify parameters that govern the incremental addition of hidden units to the neural network.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Minimum:</span> edit box indicates the minimum number of hidden units that can be incrementally added at a time as the neural network is constructed.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Maximum:</span> edit box indicates the maximum number of hidden units that can be incrementally added at a time as the neural network is constructed.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

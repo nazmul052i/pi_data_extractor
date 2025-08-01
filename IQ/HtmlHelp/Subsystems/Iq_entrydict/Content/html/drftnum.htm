@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_entrydict.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="List of All Entry Dictionary|List of All Entries|LBU - General Entries">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>DRFTNUM</title>
+        <link href="../flare_styles.css" rel="stylesheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor136"></a>DRFTNUM</h1>
+        <p>Message corresponding to last successful drift update.  The message is initialized to "Fail: No Sample". This message will change to "Analyzer Drift OK" when a new drift value is calculated successfully and stay that way unless the time of drift update <a href="drfttmstr.htm">DRFTTMSTR</a> becomes older than <a href="lvmaxhours.htm">LVMAXHOURS</a>.  At that point the message changes back to "Fail: No Sample" and the status of the analyzer drift value (<a href="driftpntsts.htm">DRIFTPNTSTS</a>) is set to bad.</p>
+        <table class="tipbox">
+            <tr>
+                <td>0</td>
+                <td>Analyzer Drift OK</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Fail: No Sample</td>
+            </tr>
+        </table>
+        <p>DRFTNUM is included for systems where the full functionality of ASCII character string messages cannot be supported.</p>
+        <table class="invisible">
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Applies to:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>Lab Update: General variables</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Data Type:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>Integer</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Access:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>Write Only</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Range:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>-1 to 8</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Default:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>1</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Keywords:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p>(None) LOCAL WRITE</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p><span style="font-weight: bold;">Related Topics:</span>&#160;&#160;</p>
+                </td>
+                <td>
+                    <p><a href="drfttmstr.htm">DRFTTMSTR</a>, <a href="lvmaxhours.htm">LVMAXHOURS</a>, <a href="driftpntsts.htm">DRIFTPNTSTS</a></p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

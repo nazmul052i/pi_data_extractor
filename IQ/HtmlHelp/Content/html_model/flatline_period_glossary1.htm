@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Flatline Period</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor329"></a>Flatline Period</h1>
+        <p>The <span style="font-weight: bold;">Flatline Period</span> is the length of time, in absolute time units, that a variable’s values must remain below the <span style="font-weight: bold;">Flatline Threshold</span> to cause a <span style="font-weight: bold;">Flatline</span> fault (IQmodel ensures that the period is a multiple of the model’s <span style="font-weight: bold;">Base Time</span>). In other words, when a data sample for the variable falls below the <span style="font-weight: bold;">Flatline Threshold</span>, a timer for the <span style="font-weight: bold;">Flatline Period</span> is started, but no fault is generated (assuming <span style="font-weight: bold;">Flatline</span> detection is enabled). If all data samples subsequently collected during the <span style="font-weight: bold;">Flatline Period</span> remain below the <span style="font-weight: bold;">Flatline Threshold</span>, they are also considered good; however, if the first sample collected after the <span style="font-weight: bold;">Flatline Period</span> has elapsed is below the <span style="font-weight: bold;">Flatline Threshold</span>, the sample is marked bad and a <span style="font-weight: bold;">Flatline</span> fault is generated. Conversely, if before the <span style="font-weight: bold;">Flatline Period</span> has elapsed a data sample equals or exceeds the <span style="font-weight: bold;">Flatline Threshold</span>, the <span style="font-weight: bold;">Flatline Period</span> timer is turned off and no fault is generated.</p>
+        <p>See <a href="base_time1.htm">Base Time</a>, <a href="flatline_threshold_glossary1.htm">Flatline Threshold</a></p>
+        <p>&#160;</p>
+    </body>
+</html>

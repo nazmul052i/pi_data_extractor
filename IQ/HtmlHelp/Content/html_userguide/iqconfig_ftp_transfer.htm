@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQconfig">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>IQconfig FTP Transfer</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor180"></a>IQconfig FTP Transfer</h1>
+        <p>IQconfig can transfer your IQF and associated model files directly to an Aspen IQ Online host using FTP. Your Aspen IQ Online host must have the FTP service running and you must have a valid FTP account. You will need the following information in order to connect to your Aspen IQ Online host.</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">Server name</span>
+                    <br />
+The TCP/IP host name or the TCP/ IP address of the Aspen IQ Online host.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">User name</span>
+                    <br />
+A valid user name for the FTP login.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">Password</span>
+                    <br />
+A valid password for the FTP login.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">App directory</span>
+                    <br />
+The base Aspen IQ applications directory.</p>
+                <p>Please note that this path will be relative to the path you are at when you login to the FTP server. If IQconfig cannot change to this directory an error message will be displayed.</p>
+                <p>
+                    <img alt="image\bmp11.gif" border="0" height="117" src="../image/bmp11.gif" title="image\bmp11.gif" width="306" />
+                </p>
+            </li>
+        </ul>
+        <p class="subheading">Using IQconfig FTP transfer</p>
+        <p>
+            <img alt="image\bmp12.gif" border="0" height="396" src="../image/bmp12.gif" title="image\bmp12.gif" width="550" />
+        </p>
+        <p>The following screen appears after you click <span style="font-weight: bold;"><span style="text-decoration: underline;">N</span>ext</span>.</p>
+        <p>
+            <img alt="image\bmp13.gif" border="0" height="397" src="../image/bmp13.gif" title="image\bmp13.gif" width="547" />
+        </p>
+        <p>IQconfig will attempt to find the IQF file you are working with and then it will try to find any associated model files. (*.IQR, *.MDL). The status column displays if the file was found or not. For all files that are found you may uncheck the Transfer column entry of that file to stop it from begin transferred to the online host. The location column shows the physical path where the file is located. The application name defaults to the name of the IQF without the .IQF extension attached. You may override this if the application name is different from the IQF filename.</p>
+        <p>If you wish to override the location path for a file then click the button next to the location column.</p>
+        <p>If the application directory is not found IQconfig will prompt you to create it.</p>
+        <p>IQconfig will also prompt you if it is going to overwrite any files within the application directory.</p>
+        <p>&#160;</p>
+    </body>
+</html>

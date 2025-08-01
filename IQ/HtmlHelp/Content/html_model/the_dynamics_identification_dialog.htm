@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Building Models">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>The Model Dynamics Dialog</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor48"></a>The Model Dynamics Dialog</h1>
+        <p>The <span style="font-weight: bold;">Model Dynamics</span> dialog is used to specify parameters that govern how model dead time and dynamics relationships for the currently selected input variables are determined.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;The <span style="font-weight: bold;">Model Dynamics</span> dialog (i.e., the <span style="font-weight: bold;">Analyze Dynamics</span> box) is only available if the corresponding check box was checked in the <span style="font-weight: bold;">Model Defaults</span> dialog at the beginning of the model building process.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <img alt="image\iqst5r01.gif" border="0" height="517" src="../image/iqst5r01.gif" title="image\iqst5r01.gif" width="477" />
+        </p>
+        <p class="subheading">Dead Times Section</p>
+        <p>The <span style="font-weight: bold;">Dead Times</span> section contains a summary (based on dynamic analysis of the input data) of dead time information for each independent variable, reflecting the results of the best IQmodel search and/or user-specified values. When the dialog first opens for a new model, parameters and results default to values that reflect dead times from the <span style="font-weight: bold;">Align Data</span> step.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Name</span> column indicates each independent variable’s tag name.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column contains the variable’s dead time <a href="group_glossary1.htm">group</a> name if it is a member of a group. If the column is blank, the variable is not a member of a group.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Final</span> column contains the final dead time value for the corresponding variable if either the dead time was explicitly set by the user, or the user clicked the <span style="font-weight: bold;">Accept</span> button to accept IQmodel computed dead times. If the <span style="font-weight: bold;">Final</span> column is blank, IQmodel uses the computed value in the <span style="font-weight: bold;">Result</span> column.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Min</span> and <span style="font-weight: bold;">Max</span> columns contain the current minimum and maximum dead time limits for the IQmodel dead time search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Base</span> column indicates the time resolution of the search method (i.e., dead times determined by IQmodel will be multiples of the <span style="font-weight: bold;">Base</span> time).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Result</span> column contains the value of the corresponding variable’s dead time after the IQmodel search has been performed.</p>
+            </li>
+        </ul>
+        <p>On the <span style="font-weight: bold;">Statistics:</span> line:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Variables</span> edit box contains the total number of independent variables.</p>
+            </li>
+            <li>
+                <p>The "<span style="font-weight: bold;">Free</span>" <span style="font-weight: bold;">Variables</span> edit box contains the number of free, or effective variables (i.e., the number of variables that the GA will use for determining dead times).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Groups</span> edit box contains the number of groups currently defined.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Model Status:</span> edit box indicates the current model status at this step (<span style="font-weight: bold;font-style: italic;">Invalid</span>, <span style="font-weight: bold;font-style: italic;">Ready</span>, or <span style="font-weight: bold;font-style: italic;">Out of Date</span>, as defined previously).</p>
+        <p>The <span style="font-weight: bold;">Base Time:</span> edit box in the <span style="font-weight: bold;">Variables</span> section indicates the base sampling interval for the model.</p>
+        <p class="subheading">Dynamics Section</p>
+        <p>The <span style="font-weight: bold;">Dynamics</span> section contains a summary (based on dynamic analysis of the input data) of dynamic filter information for each independent variable, reflecting the results of the best genetic algorithm run and/or user-specified values.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Name</span> column indicates each independent variable’s tag name.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column contains the variable’s <a href="group_glossary1.htm">group</a> name if it is a member of a group (if the column is blank, the variable is not a member of a group).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Final</span> column contains the final dead time value for the corresponding variable if either the dead time was explicitly set by the user, or the user clicked the <span style="font-weight: bold;">Accept</span> button to accept IQmodel computed dead times. If the <span style="font-weight: bold;">Final</span> column is blank, IQmodel uses the computed value in the <span style="font-weight: bold;">Result</span> column.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Min</span> and <span style="font-weight: bold;">Max</span> columns contain the current minimum and maximum filter limits for IQmodel’s dynamic filter search.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Base</span> column indicates the time resolution of the search method (i.e., filters determined by IQmodel will be multiples of the <span style="font-weight: bold;">Base</span> time).</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Result</span> column contains the value of the corresponding variable’s dynamic filter after the IQmodel search has been performed.</p>
+            </li>
+        </ul>
+        <p>On the <span style="font-weight: bold;">Statistics:</span> line:</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Variables</span> edit box contains the total number of independent variables;</p>
+            </li>
+            <li>
+                <p>The "<span style="font-weight: bold;">Free</span>" <span style="font-weight: bold;">Variables</span> edit box contains the number of free, or effective variables (i.e., the number of variables that the GA will use for determining dynamics);</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Groups</span> edit box contains the number of dynamics groups defined.</p>
+            </li>
+        </ul>
+        <p>If you right-click on a variable name in either view, the pop-up menu shown below will be displayed. Click on <span style="font-weight: bold;">Properties...</span> to access a property page associated with the highlighted variable(s):</p>
+        <p>
+            <img alt="image\iqst5r02.gif" border="0" height="125" src="../image/iqst5r02.gif" title="image\iqst5r02.gif" width="130" />
+        </p>
+        <p><a id="Model_Dynamics_Property_Page" name="Model_Dynamics_Property_Page"></a>Separate property pages are available for the variables in each of the views in the <span style="font-weight: bold;">Model Dynamics</span> dialog.</p>
+        <p class="subheading"><a name="kanchor49"></a>The Dead Times Property Page</p>
+        <p>The <span style="font-weight: bold;">Dead Times</span> property page, shown below, allows you to change parameters that govern how dead times are computed during the <span style="font-weight: bold;">Identify Model Dynamics</span> step:</p>
+        <p>
+            <img alt="image\iqst5r03.gif" border="0" height="419" src="../image/iqst5r03.gif" title="image\iqst5r03.gif" width="386" />
+        </p>
+        <p>The <span style="font-weight: bold;">Variables</span> section on the <span style="font-weight: bold;">Dead Times</span> tab lists the name(s) highlighted when you clicked <span style="font-weight: bold;">Properties...</span> on the pop-up menu.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Name</span> column indicates the variables whose properties can be set using this page.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column contains the variable’s group name if the variable is a member of a Group. If the column is blank, the variable is not a member of a group.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Dead Times</span> section allows you to specify values for the dead times that are shown in the main <span style="font-weight: bold;">Model Dynamics</span> dialog.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Dead Times are specified as times in the form of Hours:Minutes:Seconds (<span style="font-weight: bold;font-style: italic;">HH:MM:SS</span>). Zero fields are not displayed. For example, <span style="font-weight: bold;font-style: italic;">:06</span> means 6 seconds, and <span style="font-weight: bold;font-style: italic;">:01:30</span> means 1 minute, 30 seconds. However, dead time values must be multiples of the Dead Time Base interval. If you use the edit box spinners to adjust dead times, the spinners automatically use increments of the Dead Time Base interval. If you enter a value directly into an edit box, the value is rounded to the closest multiple of the Dead Time Base interval.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>If the <span style="font-weight: bold;">User Set</span> radio button is selected, the adjacent <span style="font-weight: bold;">Dead Time:</span> edit box is enabled, and you can explicitly set a dead time value for the variables named in the <span style="font-weight: bold;">Variables</span> section.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">GA Search</span> radio button is selected, the adjacent <span style="font-weight: bold;">Minimum Dead Time:</span>, <span style="font-weight: bold;">Maximum Dead Time:</span>, and <span style="font-weight: bold;">Dead Time Base:</span> edit boxes are enabled, and you can enter values for these parameters.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Minimum Dead Time</span> field specifies the lower bound for dead times computed by the genetic algorithm.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Maximum Dead Time</span> field specifies the upper bound for dead times computed by the genetic algorithm.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Dead Time Base:</span> field specifies the basic Dead Time interval. The basic Dead Time interval is, in effect, the base sampling interval of input data.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="Dynamics_Property_Page" name="Dynamics_Property_Page"></a><a name="kanchor50"></a>The Dynamics Property Page</p>
+        <p>The <span style="font-weight: bold;">Dynamics</span> property page, shown below, allows you to change parameters that govern how model dynamic relationships are computed:</p>
+        <p>
+            <img alt="image\iqst5r04.gif" border="0" height="419" src="../image/iqst5r04.gif" title="image\iqst5r04.gif" width="386" />
+        </p>
+        <p>The <span style="font-weight: bold;">Variables</span> section on the <span style="font-weight: bold;">Dynamics</span> tab lists the name(s) highlighted when you clicked <span style="font-weight: bold;">Properties...</span> on the pop-up menu.</p>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Name</span> column indicates the variables whose properties can be set using this page.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Group</span> column contains the variable’s group name if the variable is a member of a Group. If the column is blank, the variable is not a member of a group.</p>
+            </li>
+        </ul>
+        <p>The <span style="font-weight: bold;">Dynamics</span> section allows you to specify values for the filters that are shown in the main <span style="font-weight: bold;">Model Dynamics</span> dialog.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;Filters are specified as times in the form of Hours:Minutes:Seconds (<span style="font-weight: bold;font-style: italic;">HH:MM:SS</span>). Zero fields are not displayed. For example, <span style="font-weight: bold;font-style: italic;">:06</span> means 6 seconds, and <span style="font-weight: bold;font-style: italic;">:01:30</span> means 1 minute, 30 seconds. You can either enter a value directly into an edit box, or use the spinners in the edit box to increase or decrease a value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>If the <span style="font-weight: bold;">User Set</span> radio button is selected, the adjacent <span style="font-weight: bold;">Filter:</span> edit box is enabled, and you can explicitly set a filter value for the variables named in the <span style="font-weight: bold;">Variables</span> section.</p>
+            </li>
+            <li>
+                <p>If the <span style="font-weight: bold;">GA Search</span> radio button is selected, the adjacent <span style="font-weight: bold;">Minimum Filter:</span>, <span style="font-weight: bold;">Maximum Filter:</span>, and <span style="font-weight: bold;">Filter Base:</span> edit boxes are enabled, and you can enter values for these parameters.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Minimum Filter</span> field specifies the lower bound for filters computed by the genetic algorithm.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Maximum Filter</span> field specifies the upper bound for filters computed by the genetic algorithm.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Filter Base:</span> field specifies the basic Filter interval. The basic Filter interval is the input data sampling interval used during dynamic filter calculations.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

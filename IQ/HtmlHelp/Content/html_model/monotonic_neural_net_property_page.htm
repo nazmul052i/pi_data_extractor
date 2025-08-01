@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="IQmodel|IQmodel Reference|Expert Parameters Dialogs">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Monotonic Neural Network Property Page</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor62"></a>Monotonic Neural Network Property Page</h1>
+        <p>The <span style="font-weight: bold;">Monotonic</span> <span style="font-weight: bold;">Neural Network</span> property page shown below appears in the <span style="font-weight: bold;">Expert Parameters</span> dialog for the <span style="font-weight: bold;">Build Inferential Sensor</span> step. Monotonic Neural Net parameters govern the configuration of the neural network that is used when the <span style="font-weight: bold;">Monotonic Neural Network</span> model is selected:</p>
+        <p>
+            <img alt="image\expert_parameters.gif" border="0" height="278" src="../image/expert_parameters.gif" title="image\expert_parameters.gif" width="510" />
+        </p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> The <span style="font-weight: bold;">Monotonic</span> <span style="font-weight: bold;">Neural Network</span> page is only visible when the <span style="font-weight: bold;">Monotonic Neural Network</span> model type is selected.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Number of Hidden Nodes</span> edit box allows you to set the number of hidden nodes that the neural network contains. This is directly related to the number of equations that the neural network represents. If you double the number of hidden nodes, you approximately double the number of equations, and, consequently, the number of model parameters that must be estimated from the data. Setting the hidden nodes represents a trade-off between the accuracy of the model on the training data and the generalization ability of the neural network. More hidden nodes allow the neural network to configure itself to more accurately fit the training data, but this may be at the expense of not fitting data that is not represented in the training set.</p>
+                <p>Setting the number of hidden nodes is often a manual iterative process in which you use the graphical analysis tools and model statistics to determine whether to increase or decrease the number of hidden nodes. A good tool in this analysis is to label some of the data as validation data. This data is not used in training the neural network; comparable performance on both the training data and validation data is indicative of a good model even if it may not apparently be as accurate as some other models.</p>
+                <table class="notebox">
+                    <col />
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p><span style="font-weight: bold;">Note:</span> &#160;If the training dataset is noisy, overfitting of the neural network to the training data can be avoided by limiting the number of hidden nodes.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <p>The <span style="font-weight: bold;">Weight Decay</span> edit box allows you set another training parameter that affects generalization. This is the weight decay parameter which acts as a "forgetting" mechanism for the training. A neural network is trained by showing it the training data many times. At each pass of the data, the neural network output is compared with the measured output from the plant. If there are consistent relationships in the data, then these relationships will be consolidated at each pass of the data. Spurious or isolated relationships in the data will be filtered out by the weight decay.</p>
+                <p>As with <span style="font-weight: bold;">Number of Hidden Nodes</span>, <span style="font-weight: bold;">Weight Decay</span> is usually set by a manual iterative process. The advantage of <span style="font-weight: bold;">Weight Decay</span> over <span style="font-weight: bold;">Number of Hidden Nodes</span> is that there is less trade-off with accuracy; you can keep the number of hidden nodes high, but still get good generalization.</p>
+            </li>
+            <li>
+                <p>The <span style="font-weight: bold;">Maximum Number of Iterations</span> edit box allows you to set the number of iterations used by the optimization algorithm that is adjusting the neural network parameters. Use the default the first time you train the neural network. If the status dialog displayed during training indicates that further improvements are still occurring in the last few iterations (especially improvements in the validation data result), then you should increase the <span style="font-weight: bold;">Maximum Number of Iterations</span>. If, however, over the course of several training runs, the optimum is always achieved much earlier than the final iteration, you can reduce <span style="font-weight: bold;">Maximum Number of Iterations</span>.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="Iq_builder.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Aspen IQ Modules">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" type="text/css" data-mc-generated="True" />
+        <link href="../../Skins/Default/Stylesheets/Components/Print.css" rel="stylesheet" type="text/css" data-mc-generated="True" /><title>Input Calculation (IC) and Output Calculation (OC) Modules</title>
+        <link href="../flare_styles.css" rel="StyleSheet" type="text/css" />
+        <script src="../../Resources/Scripts/jquery.min.js" type="text/javascript">
+        </script>
+        <script src="../../Resources/Scripts/purify.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js" type="text/javascript" defer="defer">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js" type="text/javascript" defer="defer">
+        </script>
+    </head>
+    <body>
+        <h1><a name="kanchor103"></a>Input Calculation (IC) and Output Calculation (OC) Modules</h1>
+        <div class="sidebar">
+            <p class="seealso">See Also</p>
+            <p class="listhypertext"><a href="adding_an_input_calculation.htm">Creating or Editing a Calculation</a>
+            </p>
+            <p class="listhypertext"><a href="working_with_formulas.htm">Creating or Editing a Formula</a>
+            </p>
+            <p class="listhypertext"><a href="mapping_calculation_variables.htm">Mapping Calculation Variables</a>
+            </p>
+        </div>
+        <p>The Input Calculation (IC) and the Output Calculation (OC) Modules are intended to provide a powerful calculation tool to aid in online inferential calculations. The IC module runs before the <a href="prediction_module.htm">Prediction module</a> (PR) and the OC module runs after the Prediction module.</p>
+        <p>The calculation itself is implemented using <a href="#Aspen_Calc">Aspen Calc</a>, which is a calculation tool for creating, scheduling, and running calculations in a real time environment. Several types of calculations are available, and since Aspen IQ is managing the input and output traffic, validations are readily accessible through the <a href="validation_overview.htm">validation section</a>. In addition, both inputs to and outputs from the calculation can be <a href="mapping_calculation_variables.htm">mapped to other variables</a> within the IQ application. Some hypothetical applications of the calculation module are:</p>
+        <ul>
+            <li>
+                <p>Call an in-house or third party modeling package to obtain an inferential prediction. Map the result to the model prediction in the PR section and configure IQ to update the bias through the <a href="analyzer_update.htm">Analyzer Update module</a> and/or the <a href="lab_update.htm">Lab Update module</a>.</p>
+            </li>
+            <li>
+                <p>Implement a decision-making calculation that writes out the result of one of several inferential predictions based on current operating conditions.</p>
+            </li>
+            <li>
+                <p>Implement more sophisticated data preprocessing than is currently available through the single line input calculations in the Prediction module.</p>
+            </li>
+            <li>
+                <p><a name="kanchor104"></a>Manipulate the analyzer and/or lab update parameters based on operating conditions. For example, on grade transitions in polymer control, reset the bias update configuration to only use the lab samples taken since the grade transition.</p>
+            </li>
+        </ul>
+        <p class="subheading"><a id="Aspen_Calc" name="Aspen_Calc"></a>Relationship between Aspen IQ and Aspen Calc</p>
+        <p>If you are an experienced Aspen Calc user or you have read some of the Aspen Calc Help, then it is important to understand how Aspen IQ makes use of Aspen Calc:</p>
+        <ul>
+            <li>
+                <p><span style="font-weight: bold;">Aspen Calc must be installed on the local machine</span>
+                </p>
+                <p>It is a requirement that Aspen Calc is installed on any machine running Aspen Inferential Quality Builder (Aspen IQ Desktop) or Aspen Inferential Qualities (Aspen IQ Online). Aspen IQ only communicates with the instance of Aspen Calc that is running on the local machine.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;"><a name="kanchor105"></a><a name="kanchor106"></a>Only one user formula library is accessible</span>
+                </p>
+                <p>IQconfig invokes a calculation / formula wizard that can create both calculations and formulas that can be referenced by calculations. While running IQconfig, a temporary Aspen Calc library will be created for each application. All formulas referenced by the calculations for a given application must be stored in this single library. This allows both the library and the calculation to be stored when the iqf file is saved.</p>
+                <p><span style="font-weight: bold;">Note:</span> &#160;Users can use the built-in library and one application specific library. This is more restrictive than working in Aspen Calc directly where many libraries are available.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">No calculation scheduling is needed</span>
+                </p>
+                <p>Aspen Calc has extensive scheduling capabilities. None of this functionality is needed, as Aspen IQ will manage the executing of all calculations.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">All I/O is configured within Aspen IQ</span>
+                </p>
+                <p>All input and output connections will be through Aspen IQ. All inputs and outputs used in the calculation will show up in IQconfig and will be available for connection to DCS tags via Aspen Cim-IO. In addition, internal tag mapping is available to connect the calculation variables to other variables in the IQ application.</p>
+            </li>
+            <li>
+                <p><span style="font-weight: bold;">Calculations used by Aspen IQ cannot be seen by the Aspen Calc User Interface</span>
+                </p>
+                <p>To protect the online applications from accidental editing or deletion of the calculations, the IQ calculations are visible only through the <a href="using_iqconfig.htm">Aspen IQconfig</a> application.</p>
+            </li>
+        </ul>
+        <p class="subheading">Calculation basics</p>
+        <p>The basic elements of Aspen Calc are formula, library, parameter, and calculation. These are described more fully as follows.</p>
+        <p class="subheading"><a id="Formula_aspeniq" name="Formula_aspeniq"></a>Formula</p>
+        <p>A Formula is a definition of how a Calculation is performed without specifying from where the inputs are read and to where the outputs are written. Formula can be defined in the following ways:</p>
+        <ul>
+            <li>
+                <p>CalcScript</p>
+            </li>
+            <li>
+                <p>VBScript</p>
+            </li>
+            <li>
+                <p>COM Object</p>
+            </li>
+            <li>
+                <p>Excel spreadsheet</p>
+            </li>
+            <li>
+                <p>Executable program</p>
+            </li>
+        </ul>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;For detailed information on the five options, see the <span style="font-style: italic;">Aspen Calc Help</span>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Formulas are defined in Libraries. A Formula is not used by itself; it is always included in a Calculation. A Formula can be used by many Calculations.</p>
+        <p class="subheading">Library</p>
+        <p>A Library is a collection of Formulas. A Library can contain several Formulas but a Formula can only exist in a single Library. Formulas must be unique in a Library.</p>
+        <p class="subheading"><a id="Parameters_aspeniq" name="Parameters_aspeniq"></a>Parameter</p>
+        <p>A Parameter is an input, input/output, or output of a formula. Each Parameter has a name, description, and engineering units. The name must be unique within the Formula and cannot be blank. The descriptions and engineering units can be blank.</p>
+        <p>Depending on formula type, a Parameter can also have additional information, such as command line switch or cell reference.</p>
+        <p>Every Formula also has a parameter called ReturnValue that is the result of the Calculation if it is used as an input to another calculation or referenced by a program. However, in order to get a ReturnValue, you must place it in the formula definition. For example:</p>
+        <p>a = b + c</p>
+        <p>ReturnValue = a</p>
+        <p class="subheading"><a id="Calculation_aspeniq" name="Calculation_aspeniq"></a>Calculation</p>
+        <p>A Calculation consists of a Formula and a specification of Parameters. A Calculation can either contain a Formula definition or can reference a Formula from a Formula Library.</p>
+        <table class="notebox">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><span style="font-weight: bold;">Note:</span> &#160;For more information on these basic elements, see the Aspen Calc Help.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="subheading">Calculation options</p>
+        <p>The following section details the calculation options that are available:</p>
+        <table style="vertical-align: top;">
+            <col style="width: 30.679%;" />
+            <col style="width: 69.321%;" />
+            <thead>
+                <tr>
+                    <th style="width: 30.679%;">
+                        <p>Option</p>
+                    </th>
+                    <th style="width: 69.321%;">
+                        <p>Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+                <td style="width: 30.679%;">
+                    <p style="font-weight: bold;">Creating and Editing a Calculation</p>
+                </td>
+                <td style="width: 69.321%;">
+                    <p>These options allow you to create and edit Calculations that have varying levels of complexity, from the simple to the very complex.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30.679%;">
+                    <p style="font-weight: bold;">Creating and Editing a Formula</p>
+                </td>
+                <td style="width: 69.321%;">
+                    <p>These options allow you to create and make changes to Formulas.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30.679%;">
+                    <p style="font-weight: bold;">Mapping Calculation Variables</p>
+                </td>
+                <td style="width: 69.321%;">
+                    <p>This option allows you to map calculation variables to a number of different variables from within Aspen IQ.</p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading">Variables available for calculation</p>
+        <p>The tables below itemize the variables that are available for calculations.</p>
+        <p class="subheading2">Input calculation: Input entries</p>
+        <table>
+            <col style="width: 19.666%;" />
+            <col style="width: 80.334%;" />
+            <tr>
+                <td style="width: 19.666%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icipntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICIPNTVAL</a>
+                    </p>
+                </td>
+                <td style="width: 80.334%;">
+                    <p>Input Calculation Input Point Value
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.666%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icipntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICIPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 80.334%;">
+                    <p>Input Calculation Input Point Status
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.666%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icilabel.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICILABEL</a>
+                    </p>
+                </td>
+                <td style="width: 80.334%;">
+                    <p>Input Calculation Input Label
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.666%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icimapstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICIMAPSTR</a>
+                    </p>
+                </td>
+                <td style="width: 80.334%;">
+                    <p>Input Calculation Input Map String
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading2">Input calculation: Output entries</p>
+        <table>
+            <col style="width: 19.363%;" />
+            <col style="width: 80.637%;" />
+            <tr>
+                <td style="width: 19.363%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icopntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICOPNTVAL</a>
+                    </p>
+                </td>
+                <td style="width: 80.637%;">
+                    <p>Input Calculation Output Point Value
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.363%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icopntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICOPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 80.637%;">
+                    <p>Input Calculation Output Point Status
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.363%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icolabel.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICOLABEL</a>
+                    </p>
+                </td>
+                <td style="width: 80.637%;">
+                    <p>Input Calculation Output Label
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.363%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/icomapstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">ICOMAPSTR</a>
+                    </p>
+                </td>
+                <td style="width: 80.637%;">
+                    <p>Input Calculation Output Map String
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading2">Output calculation: Input entries</p>
+        <table>
+            <col style="width: 19.767%;" />
+            <col style="width: 80.233%;" />
+            <tr>
+                <td style="width: 19.767%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocipntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCIPNTVAL</a>
+                    </p>
+                </td>
+                <td style="width: 80.233%;">
+                    <p>Output Calculation Input Point Value
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.767%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocipntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCIPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 80.233%;">
+                    <p>Output Calculation Input Point Status
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.767%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocilabel.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCILABEL</a>
+                    </p>
+                </td>
+                <td style="width: 80.233%;">
+                    <p>Output Calculation Input Label
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 19.767%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocimapstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCIMAPSTR</a>
+                    </p>
+                </td>
+                <td style="width: 80.233%;">
+                    <p>Output Calculation Input Map String
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="subheading2">Output calculation: Output entries</p>
+        <table>
+            <col style="width: 20.071%;" />
+            <col style="width: 79.929%;" />
+            <tr>
+                <td style="width: 20.071%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocopntval.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCOPNTVAL</a>
+                    </p>
+                </td>
+                <td style="width: 79.929%;">
+                    <p>Output Calculation Output Point Value
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20.071%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocopntsts.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCOPNTSTS</a>
+                    </p>
+                </td>
+                <td style="width: 79.929%;">
+                    <p>Output Calculation Output Point Status
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20.071%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocolabel.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCOLABEL</a>
+                    </p>
+                </td>
+                <td style="width: 79.929%;">
+                    <p>Output Calculation Output Label
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20.071%;">
+                    <p><a href="../../Subsystems/Iq_entrydict/Content/html/ocomapstr.htm" class="MCTopicPopup MCTopicPopupHotSpot a">OCOMAPSTR</a>
+                    </p>
+                </td>
+                <td style="width: 79.929%;">
+                    <p>Output Calculation Output Map String
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>
