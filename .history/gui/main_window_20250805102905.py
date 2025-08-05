@@ -499,7 +499,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         explanation_label.setWordWrap(True)
         window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
+        # Add example calculator
         example_layout = QHBoxLayout()
         example_label = QLabel("Quick Examples:")
         example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
@@ -550,7 +550,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         
         extraction_card.setLayout(extraction_layout)
         return extraction_card
-
     
     def create_export_card(self):
         """Create enhanced export options card"""
@@ -728,7 +727,12 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
         self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
         self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-               
+        
+            # ENHANCED: Connect example buttons for negative future windows
+        self.example_1h_early_btn.clicked.connect(lambda: self.set_future_window(-60))
+        self.example_3h_early_btn.clicked.connect(lambda: self.set_future_window(-180))
+        self.example_6h_early_btn.clicked.connect(lambda: self.set_future_window(-360))
+        
         # Tag browser signals
         self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
         self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)
@@ -1232,12 +1236,3 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.export_btn.setEnabled(False)
         
         self.log_output.append("🗑️ Data cleared - Charts and Preview tabs hidden")
-        
-    def set_future_window(self, minutes):
-        """Set the future window to specified minutes (can be negative)"""
-        self.future_window_spin.setValue(minutes)
-        
-        if minutes < 0:
-            self.log_output.append(f"⏰ Set future window to {minutes} min (sample taken {abs(minutes)} min before lab entry)")
-        else:
-            self.log_output.append(f"⏰ Set future window to {minutes} min")

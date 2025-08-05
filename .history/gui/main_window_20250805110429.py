@@ -465,7 +465,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(past_label, 0, 0)
         
         self.past_window_spin = QSpinBox()
-        self.past_window_spin.setRange(0, 1440)
+        self.past_window_spin.setRange(0, 1240)
         self.past_window_spin.setValue(20)
         window_layout.addWidget(self.past_window_spin, 0, 1)
 
@@ -475,54 +475,35 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(future_label, 1, 0)
         
         self.future_window_spin = QSpinBox()
-        self.future_window_spin.setRange(-1440, 1440)  # Allow negative values
+        self.future_window_spin.setRange(-1240, 1440)  # Allow negative values
         self.future_window_spin.setValue(0)
         self.future_window_spin.setSpecialValueText("No Future")  # Show for 0 value
         window_layout.addWidget(self.future_window_spin, 1, 1)
 
         # Add explanation for negative values
-        explanation_label = QLabel(
-            "💡 Use negative future window when lab entry time differs from actual sample time.\n"
-            "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
-        )
-        explanation_label.setStyleSheet("""
-            QLabel {
-                color: #6C757D;
-                font-size: 11px;
-                background-color: #E8F4FD;
-                border: 1px solid #B8E6FF;
-                border-radius: 6px;
-                padding: 8px;
-                line-height: 1.3;
-            }
-        """)
-        explanation_label.setWordWrap(True)
-        window_layout.addWidget(explanation_label, 2, 0, 1, 2)
+        # explanation_label = QLabel(
+        #     "💡 Use negative future window when lab entry time differs from actual sample time.\n"
+        #     "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
+        # )
+        # explanation_label.setStyleSheet("""
+        #     QLabel {
+        #         color: #6C757D;
+        #         font-size: 11px;
+        #         background-color: #E8F4FD;
+        #         border: 1px solid #B8E6FF;
+        #         border-radius: 6px;
+        #         padding: 8px;
+        #         line-height: 1.3;
+        #     }
+        # """)
+        # explanation_label.setWordWrap(True)
+        # window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
-        example_layout = QHBoxLayout()
-        example_label = QLabel("Quick Examples:")
-        example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
-        
-        self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
-        self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
-        self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
-        
-        for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
-            btn.setFixedSize(70, 28)
-            btn.setToolTip("Sample taken this many minutes before lab entry time")
-        
-        example_layout.addWidget(example_label)
-        example_layout.addWidget(self.example_1h_early_btn)
-        example_layout.addWidget(self.example_3h_early_btn)  
-        example_layout.addWidget(self.example_6h_early_btn)
-        example_layout.addStretch()
-        
-        window_layout.addLayout(example_layout, 3, 0, 1, 2)
 
-        self.window_group.setLayout(window_layout)
-        self.window_group.setVisible(False)
-        extraction_layout.addWidget(self.window_group)
+
+        # self.window_group.setLayout(window_layout)
+        # self.window_group.setVisible(False)
+        # extraction_layout.addWidget(self.window_group)
 
         # Fetch Button
         self.fetch_btn = ModernButton("🚀 Fetch Data", color="#007BFF")
@@ -550,7 +531,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         
         extraction_card.setLayout(extraction_layout)
         return extraction_card
-
     
     def create_export_card(self):
         """Create enhanced export options card"""
@@ -728,7 +708,8 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
         self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
         self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-               
+        
+       
         # Tag browser signals
         self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
         self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)

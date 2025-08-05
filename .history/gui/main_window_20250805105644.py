@@ -465,8 +465,8 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(past_label, 0, 0)
         
         self.past_window_spin = QSpinBox()
-        self.past_window_spin.setRange(0, 1440)
-        self.past_window_spin.setValue(20)
+        self.past_window_spin.setRange(0, 1240)
+        self.past_window_spin.setValue(30)
         window_layout.addWidget(self.past_window_spin, 0, 1)
 
         # ENHANCED Future window - now supports negative values
@@ -475,16 +475,16 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(future_label, 1, 0)
         
         self.future_window_spin = QSpinBox()
-        self.future_window_spin.setRange(-1440, 1440)  # Allow negative values
+        self.future_window_spin.setRange(-1240, 1440)  # Allow negative values
         self.future_window_spin.setValue(0)
         self.future_window_spin.setSpecialValueText("No Future")  # Show for 0 value
         window_layout.addWidget(self.future_window_spin, 1, 1)
 
         # Add explanation for negative values
-        explanation_label = QLabel(
-            "💡 Use negative future window when lab entry time differs from actual sample time.\n"
-            "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
-        )
+        # explanation_label = QLabel(
+        #     "💡 Use negative future window when lab entry time differs from actual sample time.\n"
+        #     "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
+        # )
         explanation_label.setStyleSheet("""
             QLabel {
                 color: #6C757D;
@@ -499,26 +499,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         explanation_label.setWordWrap(True)
         window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
-        example_layout = QHBoxLayout()
-        example_label = QLabel("Quick Examples:")
-        example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
-        
-        self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
-        self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
-        self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
-        
-        for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
-            btn.setFixedSize(70, 28)
-            btn.setToolTip("Sample taken this many minutes before lab entry time")
-        
-        example_layout.addWidget(example_label)
-        example_layout.addWidget(self.example_1h_early_btn)
-        example_layout.addWidget(self.example_3h_early_btn)  
-        example_layout.addWidget(self.example_6h_early_btn)
-        example_layout.addStretch()
-        
-        window_layout.addLayout(example_layout, 3, 0, 1, 2)
+
 
         self.window_group.setLayout(window_layout)
         self.window_group.setVisible(False)
@@ -550,65 +531,64 @@ class EnhancedPIDataExtractorGUI(QWidget):
         
         extraction_card.setLayout(extraction_layout)
         return extraction_card
+        
+        def create_export_card(self):
+            """Create enhanced export options card"""
+            export_card = ModernCard("💾 Export Options")
+            export_layout = QVBoxLayout()
+            export_layout.setSpacing(12)
+            export_layout.setContentsMargins(16, 20, 16, 16)
 
-    
-    def create_export_card(self):
-        """Create enhanced export options card"""
-        export_card = ModernCard("💾 Export Options")
-        export_layout = QVBoxLayout()
-        export_layout.setSpacing(12)
-        export_layout.setContentsMargins(16, 20, 16, 16)
+            # Format selection
+            format_label = QLabel("Export Format:")
+            format_label.setStyleSheet(self.get_label_style())
+            export_layout.addWidget(format_label)
+            
+            self.format_combo = QComboBox()
+            self.format_combo.addItems([".csv", ".tsv", ".txt", ".iq"])
+            export_layout.addWidget(self.format_combo)
 
-        # Format selection
-        format_label = QLabel("Export Format:")
-        format_label.setStyleSheet(self.get_label_style())
-        export_layout.addWidget(format_label)
-        
-        self.format_combo = QComboBox()
-        self.format_combo.addItems([".csv", ".tsv", ".txt", ".iq"])
-        export_layout.addWidget(self.format_combo)
-
-        # Format description
-        self.format_tooltip_label = QLabel("ℹ️ CSV: Comma-delimited | TSV: Tab-delimited | TXT: DMC format | IQ: Lab compatible")
-        self.format_tooltip_label.setStyleSheet("""
-            QLabel {
-                color: #6C757D;
-                font-size: 11px;
-                background-color: #F8F9FA;
-                border: 1px solid #DEE2E6;
-                border-radius: 6px;
-                padding: 8px;
-                line-height: 1.3;
-            }
-        """)
-        self.format_tooltip_label.setWordWrap(True)
-        export_layout.addWidget(self.format_tooltip_label)
-        
-        # Save path
-        path_label = QLabel("Export Location:")
-        path_label.setStyleSheet(self.get_label_style())
-        export_layout.addWidget(path_label)
-        
-        save_layout = QHBoxLayout()
-        save_layout.setSpacing(8)
-        
-        self.save_path_input = QLineEdit()
-        self.save_path_input.setPlaceholderText("Choose export location...")
-        save_layout.addWidget(self.save_path_input, 1)
-        
-        self.browse_btn = ModernButton("📁", color="#6C757D")
-        self.browse_btn.setFixedSize(44, 44)
-        save_layout.addWidget(self.browse_btn)
-        
-        export_layout.addLayout(save_layout)
-        
-        self.export_btn = ModernButton("💾 Export Data", color="#28A745")
-        self.export_btn.setEnabled(False)
-        self.export_btn.setMinimumHeight(44)
-        export_layout.addWidget(self.export_btn)
-        
-        export_card.setLayout(export_layout)
-        return export_card
+            # Format description
+            self.format_tooltip_label = QLabel("ℹ️ CSV: Comma-delimited | TSV: Tab-delimited | TXT: DMC format | IQ: Lab compatible")
+            self.format_tooltip_label.setStyleSheet("""
+                QLabel {
+                    color: #6C757D;
+                    font-size: 11px;
+                    background-color: #F8F9FA;
+                    border: 1px solid #DEE2E6;
+                    border-radius: 6px;
+                    padding: 8px;
+                    line-height: 1.3;
+                }
+            """)
+            self.format_tooltip_label.setWordWrap(True)
+            export_layout.addWidget(self.format_tooltip_label)
+            
+            # Save path
+            path_label = QLabel("Export Location:")
+            path_label.setStyleSheet(self.get_label_style())
+            export_layout.addWidget(path_label)
+            
+            save_layout = QHBoxLayout()
+            save_layout.setSpacing(8)
+            
+            self.save_path_input = QLineEdit()
+            self.save_path_input.setPlaceholderText("Choose export location...")
+            save_layout.addWidget(self.save_path_input, 1)
+            
+            self.browse_btn = ModernButton("📁", color="#6C757D")
+            self.browse_btn.setFixedSize(44, 44)
+            save_layout.addWidget(self.browse_btn)
+            
+            export_layout.addLayout(save_layout)
+            
+            self.export_btn = ModernButton("💾 Export Data", color="#28A745")
+            self.export_btn.setEnabled(False)
+            self.export_btn.setMinimumHeight(44)
+            export_layout.addWidget(self.export_btn)
+            
+            export_card.setLayout(export_layout)
+            return export_card
     
     def get_label_style(self):
         """Get consistent label styling"""
@@ -728,7 +708,12 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
         self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
         self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-               
+        
+        # ENHANCED: Connect example buttons for negative future windows
+        self.example_1h_early_btn.clicked.connect(lambda: self.set_future_window(-60))
+        self.example_3h_early_btn.clicked.connect(lambda: self.set_future_window(-180))
+        self.example_6h_early_btn.clicked.connect(lambda: self.set_future_window(-360))
+        
         # Tag browser signals
         self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
         self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)

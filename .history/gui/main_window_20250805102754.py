@@ -396,161 +396,160 @@ class EnhancedPIDataExtractorGUI(QWidget):
         return time_card
     
     def create_extraction_card(self):
-        """Create enhanced data extraction card with negative future window support"""
-        extraction_card = ModernCard("📊 Data Extraction")
-        extraction_layout = QVBoxLayout()
-        extraction_layout.setSpacing(12)
-        extraction_layout.setContentsMargins(16, 20, 16, 16)
+    """Create enhanced data extraction card with negative future window support"""
+    extraction_card = ModernCard("📊 Data Extraction")
+    extraction_layout = QVBoxLayout()
+    extraction_layout.setSpacing(12)
+    extraction_layout.setContentsMargins(16, 20, 16, 16)
 
-        # Mode selector
-        mode_label = QLabel("Extraction Mode:")
-        mode_label.setStyleSheet(self.get_label_style())
-        extraction_layout.addWidget(mode_label)
-        
-        self.mode_selector = QComboBox()
-        self.mode_selector.addItems(["Process Only", "Inferential (Lab + Process)"])
-        extraction_layout.addWidget(self.mode_selector)
+    # Mode selector
+    mode_label = QLabel("Extraction Mode:")
+    mode_label.setStyleSheet(self.get_label_style())
+    extraction_layout.addWidget(mode_label)
+    
+    self.mode_selector = QComboBox()
+    self.mode_selector.addItems(["Process Only", "Inferential (Lab + Process)"])
+    extraction_layout.addWidget(self.mode_selector)
 
-        # Instructions for inferential mode
-        self.inferential_instructions = QLabel(
-            "💡 In Inferential Mode:\n"
-            "• Select tags in Tags tab\n"
-            "• Use 'Mark as Lab Tags' to designate lab tags\n"
-            "• Lab tags determine sample times\n"
-            "• Process tags are averaged around lab samples\n"
-            "• Use negative future window if lab entry time ≠ actual sample time"
-        )
-        self.inferential_instructions.setStyleSheet("""
-            QLabel {
-                background-color: #FFF8E1;
-                border: 2px solid #FFB74D;
-                border-radius: 8px;
-                padding: 12px;
-                color: #E65100;
-                font-size: 12px;
-                line-height: 1.4;
-            }
-        """)
-        self.inferential_instructions.setVisible(False)
-        extraction_layout.addWidget(self.inferential_instructions)
+    # Instructions for inferential mode
+    self.inferential_instructions = QLabel(
+        "💡 In Inferential Mode:\n"
+        "• Select tags in Tags tab\n"
+        "• Use 'Mark as Lab Tags' to designate lab tags\n"
+        "• Lab tags determine sample times\n"
+        "• Process tags are averaged around lab samples\n"
+        "• Use negative future window if lab entry time ≠ actual sample time"
+    )
+    self.inferential_instructions.setStyleSheet("""
+        QLabel {
+            background-color: #FFF8E1;
+            border: 2px solid #FFB74D;
+            border-radius: 8px;
+            padding: 12px;
+            color: #E65100;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+    """)
+    self.inferential_instructions.setVisible(False)
+    extraction_layout.addWidget(self.inferential_instructions)
 
-        # ENHANCED Time window group with negative future window support
-        self.window_group = QGroupBox("⏳ Time Window Around Lab Sample")
-        self.window_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: 600;
-                font-size: 13px;
-                border: 2px solid #DEE2E6;
-                border-radius: 8px;
-                margin: 8px 0;
-                padding-top: 12px;
-                background-color: #FAFBFC;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 12px;
-                padding: 0 8px;
-                color: #495057;
-                background-color: #FAFBFC;
-            }
-        """)
-        
-        window_layout = QGridLayout()
-        window_layout.setSpacing(12)
-        window_layout.setContentsMargins(16, 16, 16, 16)
+    # ENHANCED Time window group with negative future window support
+    self.window_group = QGroupBox("⏳ Time Window Around Lab Sample")
+    self.window_group.setStyleSheet("""
+        QGroupBox {
+            font-weight: 600;
+            font-size: 13px;
+            border: 2px solid #DEE2E6;
+            border-radius: 8px;
+            margin: 8px 0;
+            padding-top: 12px;
+            background-color: #FAFBFC;
+        }
+        QGroupBox::title {
+            subcontrol-origin: margin;
+            left: 12px;
+            padding: 0 8px;
+            color: #495057;
+            background-color: #FAFBFC;
+        }
+    """)
+    
+    window_layout = QGridLayout()
+    window_layout.setSpacing(12)
+    window_layout.setContentsMargins(16, 16, 16, 16)
 
-        # Past window (keep existing)
-        past_label = QLabel("Past Window (min):")
-        past_label.setStyleSheet(self.get_label_style())
-        window_layout.addWidget(past_label, 0, 0)
-        
-        self.past_window_spin = QSpinBox()
-        self.past_window_spin.setRange(0, 1440)
-        self.past_window_spin.setValue(20)
-        window_layout.addWidget(self.past_window_spin, 0, 1)
+    # Past window (keep existing)
+    past_label = QLabel("Past Window (min):")
+    past_label.setStyleSheet(self.get_label_style())
+    window_layout.addWidget(past_label, 0, 0)
+    
+    self.past_window_spin = QSpinBox()
+    self.past_window_spin.setRange(0, 1440)
+    self.past_window_spin.setValue(20)
+    window_layout.addWidget(self.past_window_spin, 0, 1)
 
-        # ENHANCED Future window - now supports negative values
-        future_label = QLabel("Future Window (min):")
-        future_label.setStyleSheet(self.get_label_style())
-        window_layout.addWidget(future_label, 1, 0)
-        
-        self.future_window_spin = QSpinBox()
-        self.future_window_spin.setRange(-1440, 1440)  # Allow negative values
-        self.future_window_spin.setValue(0)
-        self.future_window_spin.setSpecialValueText("No Future")  # Show for 0 value
-        window_layout.addWidget(self.future_window_spin, 1, 1)
+    # ENHANCED Future window - now supports negative values
+    future_label = QLabel("Future Window (min):")
+    future_label.setStyleSheet(self.get_label_style())
+    window_layout.addWidget(future_label, 1, 0)
+    
+    self.future_window_spin = QSpinBox()
+    self.future_window_spin.setRange(-1440, 1440)  # Allow negative values
+    self.future_window_spin.setValue(0)
+    self.future_window_spin.setSpecialValueText("No Future")  # Show for 0 value
+    window_layout.addWidget(self.future_window_spin, 1, 1)
 
-        # Add explanation for negative values
-        explanation_label = QLabel(
-            "💡 Use negative future window when lab entry time differs from actual sample time.\n"
-            "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
-        )
-        explanation_label.setStyleSheet("""
-            QLabel {
-                color: #6C757D;
-                font-size: 11px;
-                background-color: #E8F4FD;
-                border: 1px solid #B8E6FF;
-                border-radius: 6px;
-                padding: 8px;
-                line-height: 1.3;
-            }
-        """)
-        explanation_label.setWordWrap(True)
-        window_layout.addWidget(explanation_label, 2, 0, 1, 2)
+    # Add explanation for negative values
+    explanation_label = QLabel(
+        "💡 Use negative future window when lab entry time differs from actual sample time.\n"
+        "Example: Lab entered at 10 PM but sample taken at 7 PM → use -180 min future window."
+    )
+    explanation_label.setStyleSheet("""
+        QLabel {
+            color: #6C757D;
+            font-size: 11px;
+            background-color: #E8F4FD;
+            border: 1px solid #B8E6FF;
+            border-radius: 6px;
+            padding: 8px;
+            line-height: 1.3;
+        }
+    """)
+    explanation_label.setWordWrap(True)
+    window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
-        example_layout = QHBoxLayout()
-        example_label = QLabel("Quick Examples:")
-        example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
-        
-        self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
-        self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
-        self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
-        
-        for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
-            btn.setFixedSize(70, 28)
-            btn.setToolTip("Sample taken this many minutes before lab entry time")
-        
-        example_layout.addWidget(example_label)
-        example_layout.addWidget(self.example_1h_early_btn)
-        example_layout.addWidget(self.example_3h_early_btn)  
-        example_layout.addWidget(self.example_6h_early_btn)
-        example_layout.addStretch()
-        
-        window_layout.addLayout(example_layout, 3, 0, 1, 2)
+    # Add example calculator
+    example_layout = QHBoxLayout()
+    example_label = QLabel("Quick Examples:")
+    example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
+    
+    self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
+    self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
+    self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
+    
+    for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
+        btn.setFixedSize(70, 28)
+        btn.setToolTip("Sample taken this many minutes before lab entry time")
+    
+    example_layout.addWidget(example_label)
+    example_layout.addWidget(self.example_1h_early_btn)
+    example_layout.addWidget(self.example_3h_early_btn)  
+    example_layout.addWidget(self.example_6h_early_btn)
+    example_layout.addStretch()
+    
+    window_layout.addLayout(example_layout, 3, 0, 1, 2)
 
-        self.window_group.setLayout(window_layout)
-        self.window_group.setVisible(False)
-        extraction_layout.addWidget(self.window_group)
+    self.window_group.setLayout(window_layout)
+    self.window_group.setVisible(False)
+    extraction_layout.addWidget(self.window_group)
 
-        # Fetch Button
-        self.fetch_btn = ModernButton("🚀 Fetch Data", color="#007BFF")
-        self.fetch_btn.setMinimumHeight(48)
-        extraction_layout.addWidget(self.fetch_btn)
+    # Fetch Button
+    self.fetch_btn = ModernButton("🚀 Fetch Data", color="#007BFF")
+    self.fetch_btn.setMinimumHeight(48)
+    extraction_layout.addWidget(self.fetch_btn)
 
-        # Progress bar
-        self.progress_bar = QProgressBar()
-        self.progress_bar.setVisible(False)
-        self.progress_bar.setStyleSheet("""
-            QProgressBar {
-                border: 2px solid #DEE2E6;
-                border-radius: 8px;
-                text-align: center;
-                font-weight: bold;
-                height: 28px;
-                background-color: #F8F9FA;
-            }
-            QProgressBar::chunk {
-                background-color: #4CAF50;
-                border-radius: 6px;
-            }
-        """)
-        extraction_layout.addWidget(self.progress_bar)
-        
-        extraction_card.setLayout(extraction_layout)
-        return extraction_card
-
+    # Progress bar
+    self.progress_bar = QProgressBar()
+    self.progress_bar.setVisible(False)
+    self.progress_bar.setStyleSheet("""
+        QProgressBar {
+            border: 2px solid #DEE2E6;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            height: 28px;
+            background-color: #F8F9FA;
+        }
+        QProgressBar::chunk {
+            background-color: #4CAF50;
+            border-radius: 6px;
+        }
+    """)
+    extraction_layout.addWidget(self.progress_bar)
+    
+    extraction_card.setLayout(extraction_layout)
+    return extraction_card
     
     def create_export_card(self):
         """Create enhanced export options card"""
@@ -728,7 +727,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
         self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
         self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-               
+        
         # Tag browser signals
         self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
         self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)
@@ -1232,12 +1231,3 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.export_btn.setEnabled(False)
         
         self.log_output.append("🗑️ Data cleared - Charts and Preview tabs hidden")
-        
-    def set_future_window(self, minutes):
-        """Set the future window to specified minutes (can be negative)"""
-        self.future_window_spin.setValue(minutes)
-        
-        if minutes < 0:
-            self.log_output.append(f"⏰ Set future window to {minutes} min (sample taken {abs(minutes)} min before lab entry)")
-        else:
-            self.log_output.append(f"⏰ Set future window to {minutes} min")

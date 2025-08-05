@@ -500,23 +500,23 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
         #Add example calculator
-        example_layout = QHBoxLayout()
-        example_label = QLabel("Quick Examples:")
-        example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
+        # example_layout = QHBoxLayout()
+        # example_label = QLabel("Quick Examples:")
+        # example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
         
-        self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
-        self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
-        self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
+        # self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
+        # self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
+        # self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
         
-        for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
-            btn.setFixedSize(70, 28)
-            btn.setToolTip("Sample taken this many minutes before lab entry time")
+        # for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
+        #     btn.setFixedSize(70, 28)
+        #     btn.setToolTip("Sample taken this many minutes before lab entry time")
         
-        example_layout.addWidget(example_label)
-        example_layout.addWidget(self.example_1h_early_btn)
-        example_layout.addWidget(self.example_3h_early_btn)  
-        example_layout.addWidget(self.example_6h_early_btn)
-        example_layout.addStretch()
+        # example_layout.addWidget(example_label)
+        # example_layout.addWidget(self.example_1h_early_btn)
+        # example_layout.addWidget(self.example_3h_early_btn)  
+        # example_layout.addWidget(self.example_6h_early_btn)
+        # example_layout.addStretch()
         
         window_layout.addLayout(example_layout, 3, 0, 1, 2)
 
