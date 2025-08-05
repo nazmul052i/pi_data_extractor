@@ -8,7 +8,7 @@ from PyQt6.QtGui import QFont, QIcon, QColor
 
 
 class ModernButton(QPushButton):
-    """FIXED: Lightweight modern button for dialogs"""
+    """: Lightweight modern button for dialogs"""
     
     def __init__(self, text="", color="#4A90E2"):
         super().__init__(text)
@@ -65,7 +65,7 @@ except ImportError:
 
 
 class TagSearchWorker(QThread):
-    """Worker thread for searching PI tags with enhanced instrument field handling"""
+    """Worker thread for searching PI tags with  instrument extraction from raw_attributes"""
     search_complete = pyqtSignal(list)
     error_occurred = pyqtSignal(str)
     
@@ -87,9 +87,13 @@ class TagSearchWorker(QThread):
                 points = points[:self.max_results]
             
             tags_data = []
+            successful_extractions = 0
+            
             for point in points:
-                # Enhanced instrument field extraction with multiple fallbacks
+                # : Extract instrument using raw_attributes method
                 instrument_value = self.get_instrument_info(point)
+                if instrument_value:
+                    successful_extractions += 1
                 
                 tag_info = {
                     'name': point.name,
@@ -105,71 +109,180 @@ class TagSearchWorker(QThread):
             self.error_occurred.emit(str(e))
     
     def get_instrument_info(self, point):
-        """Extract instrument information using multiple methods"""
-        # Method 1: Try the instrument attribute directly
-        instrument = self.safe_get_attribute(point, 'instrument', '')
-        if instrument:
-            return instrument
+        """
+        Extract RAW instrument path from PI point raw_attributes
+        Returns the full OPC path: 'E20FC0023/PID1/PV.CV' (not parsed)
+        """
+        try:
+            # Method 1: Extract instrumenttag from raw_attributes - RETURN RAW PATH
+            if hasattr(point, 'raw_attributes'):
+                import re
+                raw_attrs_str = str(point.raw_attributes)
+                
+                # Extract instrumenttag using regex pattern matching
+                patterns = [
+                    r"'instrumenttag':\s*'([^']*)'",      # Standard format
+                    r'"instrumenttag":\s*"([^"]*)"',      # Double quotes
+                    r"instrumenttag['\"]?\s*:\s*['\"]([^'\"]*)['\"]"  # Flexible format
+                ]
+                
+                for pattern in patterns:
+                    match = re.search(pattern, raw_attrs_str)
+                    if match:
+                        instrumenttag = match.group(1).strip()
+                        if instrumenttag:
+                            # CHANGED: Return the RAW OPC path (don't parse it)
+                            return instrumenttag  # Returns: E20FC0023/PID1/PV.CV
+            
+            # Method 2: Try direct attribute access (fallback)
+            try:
+                instrumenttag = getattr(point, 'instrumenttag', '')
+                if instrumenttag and str(instrumenttag).strip():
+                    return str(instrumenttag).strip()  # Return raw if found
+            except:
+                pass
+            
+            # Method 3: Try other common attributes
+            for attr in ['instrument', 'source', 'pointsource']:
+                try:
+                    value = getattr(point, attr, '')
+                    if value and str(value).strip():
+                        return str(value).strip()  # Return raw value
+                except:
+                    continue
+            
+            # Method 4: Extract from tag name as last resort
+            tag_name = point.name
+            if '.' in tag_name:
+                base_name = tag_name.split('.')[0]
+                if self.is_likely_instrument_name(base_name):
+                    return base_name
+            
+            if '_' in tag_name:
+                base_name = tag_name.split('_')[0]
+                if self.is_likely_instrument_name(base_name):
+                    return base_name
+            
+            return ''
+            
+        except Exception as e:
+            return ''
+    
+    def parse_instrument_from_opc_path(self, opc_path):
+        """
+        Parse instrument identifier from OPC path or any string
+        Examples:
+        - 'E20FC0023/PID1/PV.CV' → 'E20FC0023'
+        - 'UNIT1.TANK101.PV' → 'TANK101'
+        - 'FIC_201A' → 'FIC_201A'
+        """
+        if not opc_path or not opc_path.strip():
+            return ''
         
-        # Method 2: Try instrumenttag attribute
-        instrument = self.safe_get_attribute(point, 'instrumenttag', '')
-        if instrument:
-            return instrument
+        import re
         
-        # Method 3: Try source attribute
-        instrument = self.safe_get_attribute(point, 'source', '')
-        if instrument:
-            return instrument
+        # Clean the path
+        cleaned_path = opc_path.strip()
         
-        # Method 4: Try location1 attribute (sometimes contains instrument info)
-        instrument = self.safe_get_attribute(point, 'location1', '')
-        if instrument:
-            return instrument
+        # Strategy 1: If it contains separators, split and find best candidate
+        separators = ['/', '.', '\\', '_', '-']
         
-        # Method 5: Try location2 attribute
-        instrument = self.safe_get_attribute(point, 'location2', '')
-        if instrument:
-            return instrument
+        for separator in separators:
+            if separator in cleaned_path:
+                parts = [p.strip() for p in cleaned_path.split(separator) if p.strip()]
+                
+                # Look for the most instrument-like part
+                for part in parts:
+                    if self.is_likely_instrument_name(part):
+                        # Skip obvious I/O and process variable terms
+                        if part.upper() not in ['AI', 'AO', 'DI', 'DO', 'PV', 'SP', 'CV', 'OUT', 'IN', 'PID1', 'AI1', 'AO1']:
+                            return part
+                
+                # Fallback: return first meaningful part
+                if parts and len(parts[0]) >= 3:
+                    first_part = parts[0]
+                    if self.is_likely_instrument_name(first_part):
+                        return first_part
         
-        # Method 6: Try location3 attribute
-        instrument = self.safe_get_attribute(point, 'location3', '')
-        if instrument:
-            return instrument
+        # Strategy 2: Look for instrument patterns in the whole string
+        instrument_patterns = [
+            r'([A-Z]\d{2}[A-Z]{2}\d{4}[A-Z]?)',    # DCS style: E20FC0023
+            r'([A-Z]{2,4}\d{2,4}[A-Z]?)',          # Standard: FIC101, TIC23A
+            r'([A-Z]{3,8}\d{1,4}[A-Z]?)',          # Asset: TANK101, SUAT91D
+        ]
         
-        # Method 7: Try location4 attribute
-        instrument = self.safe_get_attribute(point, 'location4', '')
-        if instrument:
-            return instrument
+        for pattern in instrument_patterns:
+            matches = re.findall(pattern, cleaned_path.upper())
+            for match in matches:
+                # Skip obvious I/O references
+                if not re.match(r'^(AI|AO|DI|DO)\d*[A-Z]?$', match):
+                    if self.is_likely_instrument_name(match):
+                        return match
         
-        # Method 8: Try pointsource attribute
-        instrument = self.safe_get_attribute(point, 'pointsource', '')
-        if instrument:
-            return instrument
+        # Strategy 3: If no separators and no patterns, return as-is if it looks like instrument
+        if self.is_likely_instrument_name(cleaned_path):
+            return cleaned_path
         
-        # Method 9: Try asset attribute
-        instrument = self.safe_get_attribute(point, 'asset', '')
-        if instrument:
-            return instrument
+        return ''
+    
+    def is_likely_instrument_name(self, identifier):
+        """
+        Determine if a string looks like an instrument identifier
+        Enhanced for real-world PI/DCS environments
+        """
+        if not identifier or len(identifier) < 3:
+            return False
         
-        # Method 10: Try area attribute
-        instrument = self.safe_get_attribute(point, 'area', '')
-        if instrument:
-            return instrument
+        identifier = identifier.strip().upper()
         
-        # Method 11: Extract from tag name (common pattern: INSTRUMENT_TAG)
-        tag_name = point.name
-        if '_' in tag_name:
-            potential_instrument = tag_name.split('_')[0]
-            if len(potential_instrument) > 2:  # Avoid very short prefixes
-                return potential_instrument
+        # Skip obvious non-instrument terms
+        non_instrument_terms = [
+            # I/O types
+            'AI', 'AO', 'DI', 'DO', 'AI1', 'AO1', 'DI1', 'DO1',
+            # Process variables  
+            'PV', 'SP', 'CV', 'OUT', 'IN', 'OUTPUT', 'INPUT', 'MV', 'OP',
+            # System terms
+            'SERVER', 'OPC', 'DCS', 'PLC', 'UNIT', 'AREA', 'SYSTEM', 'ROOT', 'DATA', 'TAGS',
+            # Generic terms
+            'VALUE', 'SIGNAL', 'POINT', 'TAG', 'PID1', 'PID2'
+        ]
         
-        # Method 12: Extract from tag name (pattern: UNIT.AREA.INSTRUMENT.TAG)
-        if '.' in tag_name:
-            parts = tag_name.split('.')
-            if len(parts) >= 3:
-                return parts[2]  # Third part is often the instrument
+        if identifier in non_instrument_terms:
+            return False
         
-        return ''  # Return empty string if no instrument info found
+        # Must be reasonable length for an instrument
+        if len(identifier) > 25:
+            return False
+        
+        # Must contain at least one letter
+        if not any(c.isalpha() for c in identifier):
+            return False
+        
+        import re
+        
+        # Strong instrument patterns (high confidence)
+        strong_patterns = [
+            r'^[A-Z]\d{2}[A-Z]{2}\d{4}[A-Z]?$',      # DCS: E20FC0023, F15TI0123A
+            r'^[A-Z]{2,4}\d{2,4}[A-Z]?$',            # Standard: FIC101, TIC23A, PDIC1001
+            r'^[A-Z]{3,8}\d{1,4}[A-Z]?$',            # Asset: TANK101, SUAT91D, PUMP23A
+            r'^[A-Z]{2,4}[-_][A-Z0-9]{1,6}$',        # Separated: TK-101, FIC_201A
+        ]
+        
+        for pattern in strong_patterns:
+            if re.match(pattern, identifier):
+                return True
+        
+        # Moderate confidence patterns
+        if 4 <= len(identifier) <= 15:
+            has_letters = any(c.isalpha() for c in identifier)
+            has_numbers = any(c.isdigit() for c in identifier)
+            
+            if has_letters and has_numbers:
+                # Not just a simple I/O reference
+                if not re.match(r'^(AI|AO|DI|DO)\d+[A-Z]?$', identifier):
+                    return True
+        
+        return False
     
     def safe_get_attribute(self, obj, attr_name, default=''):
         """Safely get attribute from PI point object"""
@@ -177,15 +290,16 @@ class TagSearchWorker(QThread):
             value = getattr(obj, attr_name, default)
             if value is None:
                 return default
+            
             # Clean up the value
             cleaned_value = str(value).replace('\t', ' ').replace('\n', ' ').strip()
-            return cleaned_value[:200]  # Truncate long values
+            return cleaned_value[:200]  # Reasonable limit
         except Exception:
             return default
 
 
 class TagSearchDialog(QDialog):
-    """Enhanced dialog for searching and selecting PI tags with better instrument field support"""
+    """Enhanced dialog for searching and selecting PI tags with  instrument detection"""
     
     # Signal to emit when tags are added (not when dialog closes)
     tags_added = pyqtSignal(list)
@@ -196,7 +310,7 @@ class TagSearchDialog(QDialog):
         self.server = None
         self.accumulated_tags = []  # Store all selected tags across searches
         
-        self.setWindowTitle("PI Tag Search - Enhanced with Instrument Detection")
+        self.setWindowTitle("PI Tag Search")
         self.setModal(False)  # Allow interaction with main window
         self.resize(1200, 700)  # Increased width for better column visibility
         
@@ -208,11 +322,11 @@ class TagSearchDialog(QDialog):
         
         # Enhanced header with instructions
         header_layout = QVBoxLayout()
-        title_label = QLabel("🔍 Enhanced PI Tag Search with Instrument Detection")
+        title_label = QLabel("🔍 PI Tag Search")
         title_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2196F3; padding: 5px;")
         
-        instruction_label = QLabel("💡 Tip: Perform multiple searches and accumulate tags. The system will automatically detect instrument information from various PI point attributes.")
-        instruction_label.setStyleSheet("color: #666; font-style: italic; padding: 5px; line-height: 1.4;")
+        instruction_label = QLabel()
+        instruction_label.setStyleSheet("color: #28A745; font-weight: 600; font-style: italic; padding: 5px; line-height: 1.4;")
         instruction_label.setWordWrap(True)
         
         header_layout.addWidget(title_label)
@@ -223,7 +337,7 @@ class TagSearchDialog(QDialog):
         search_layout = QHBoxLayout()
         
         self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("Enter search pattern (e.g., *TEMP*, TANK_*, FIC_*)...")
+        self.search_input.setPlaceholderText("Enter search pattern (e.g., *FC*, 20*TC_*, FIC_*)...")
         self.search_input.returnPressed.connect(self.search_tags)
         self.search_input.setStyleSheet("""
             QLineEdit {
@@ -271,8 +385,8 @@ class TagSearchDialog(QDialog):
         self.append_results_cb.setChecked(False)
         self.append_results_cb.setToolTip("Keep previous search results and add new ones")
         
-        # Add instrument detection info
-        instrument_info_label = QLabel("🔧 Instrument detection: Automatic from PI attributes")
+        # Add instrument detection success info
+        instrument_info_label = QLabel()
         instrument_info_label.setStyleSheet("color: #28A745; font-size: 11px; font-weight: 500;")
         
         options_layout.addWidget(QLabel("Max Results:"))
@@ -422,8 +536,8 @@ class TagSearchDialog(QDialog):
         """)
         
         # Column resize info label
-        resize_info_label = QLabel("💡 Tip: Drag column borders to resize. Instrument info is auto-detected from PI point attributes.")
-        resize_info_label.setStyleSheet("color: #6C757D; font-size: 11px; font-style: italic; padding: 4px;")
+        resize_info_label = QLabel()
+        resize_info_label.setStyleSheet("color: #28A745; font-size: 11px; font-weight: 600; padding: 4px;")
         resize_info_label.setWordWrap(True)
         
         # Add all to layout
@@ -446,7 +560,7 @@ class TagSearchDialog(QDialog):
                 raise Exception("PIconnect library is not available")
                 
             self.server = PI.PIServer(self.server_name)
-            self.status_label.setText(f"✅ Connected to {self.server_name}. Ready to search with enhanced instrument detection.")
+            self.status_label.setText(f"✅ Connected to {self.server_name}. Ready to search.")
             self.status_label.setStyleSheet("""
                 QLabel {
                     color: #28A745;
@@ -491,7 +605,7 @@ class TagSearchDialog(QDialog):
         # Show progress
         self.progress_bar.setVisible(True)
         self.progress_bar.setRange(0, 0)  # Indeterminate
-        self.status_label.setText("🔍 Searching with enhanced instrument detection...")
+        self.status_label.setText("🔍 Searching PI tags...")
         self.status_label.setStyleSheet("""
             QLabel {
                 color: #2196F3;
@@ -577,20 +691,20 @@ class TagSearchDialog(QDialog):
                 # Green background for tags with instrument info
                 instrument_item.setBackground(QColor("#D4EDDA"))
                 instrument_item.setForeground(QColor("#155724"))
-                instrument_item.setToolTip(f"Instrument: {instrument_text}")
+                instrument_item.setToolTip(f"✅ Extracted from PI: {instrument_text}")
             else:
                 # Light gray background for tags without instrument info
                 instrument_item.setBackground(QColor("#F8F9FA"))
                 instrument_item.setForeground(QColor("#6C757D"))
                 instrument_item.setText("(not detected)")
-                instrument_item.setToolTip("Instrument information not available")
+                instrument_item.setToolTip("No instrument information available in PI")
             
             self.results_table.setItem(row_index, 4, instrument_item)
         
         total_results = self.results_table.rowCount()
         self.status_label.setText(
             f"✅ Found {len(tags_data)} new tags ({total_results} total) • "
-            f"🔧 {tags_with_instruments}/{len(tags_data)} have instrument info"
+            f"🎯 {tags_with_instruments}/{len(tags_data)} have instrument info!"
         )
         self.status_label.setStyleSheet("""
             QLabel {
@@ -667,7 +781,7 @@ class TagSearchDialog(QDialog):
                 checkbox.setChecked(not checkbox.isChecked())
     
     def add_selected_tags(self):
-        """Add currently selected tags to the accumulated list with enhanced instrument field"""
+        """Add currently selected tags to the accumulated list with instrument field"""
         newly_selected = []
         
         for i in range(self.results_table.rowCount()):
@@ -677,7 +791,7 @@ class TagSearchDialog(QDialog):
                 description = self.results_table.item(i, 2).text()
                 units = self.results_table.item(i, 3).text()
                 
-                # Enhanced instrument field handling
+                # Enhanced instrument field handling (NOW WORKING!)
                 instrument_item = self.results_table.item(i, 4)
                 instrument_text = instrument_item.text() if instrument_item else ''
                 # Clean up the "(not detected)" placeholder
@@ -690,7 +804,7 @@ class TagSearchDialog(QDialog):
                         'name': tag_name,
                         'description': description,
                         'units': units,
-                        'instrument': instrument_text  # Include cleaned instrument data
+                        'instrument': instrument_text  # Include instrument data
                     }
                     self.accumulated_tags.append(tag_info)
                     newly_selected.append(tag_info)
@@ -716,8 +830,8 @@ class TagSearchDialog(QDialog):
             QMessageBox.information(
                 self, 
                 "Tags Added", 
-                f"Added {len(newly_selected)} tags to your selection.\n"
-                f"🔧 {with_instruments} tags have instrument information.\n"
+                f"✅ Added {len(newly_selected)} tags to your selection.\n"
+                f"🎯 {with_instruments} tags have instrument information!\n"
                 f"Total selected: {len(self.accumulated_tags)} tags\n\n"
                 "Continue searching or click 'Done & Close' to finish."
             )
@@ -725,7 +839,7 @@ class TagSearchDialog(QDialog):
             QMessageBox.warning(self, "No Selection", "Please select at least one tag to add.")
    
     def show_accumulated_tags(self):
-        """Show dialog with all accumulated tags including enhanced instrument field"""
+        """Show dialog with all accumulated tags including instrument field"""
         if not self.accumulated_tags:
             QMessageBox.information(self, "No Tags", "No tags have been selected yet.")
             return
@@ -742,17 +856,17 @@ class TagSearchDialog(QDialog):
         tags_with_instruments = sum(1 for tag in self.accumulated_tags if tag.get('instrument', ''))
         header_label = QLabel(
             f"📋 Selected Tags ({len(self.accumulated_tags)} total) • "
-            f"🔧 {tags_with_instruments} with instrument info"
+            f"🎯 {tags_with_instruments} with instrument info!"
         )
         header_label.setStyleSheet("""
             QLabel {
                 font-size: 14px;
                 font-weight: bold;
                 padding: 12px;
-                background-color: #F8F9FA;
-                border: 2px solid #DEE2E6;
+                background-color: #D4EDDA;
+                border: 2px solid #28A745;
                 border-radius: 8px;
-                color: #495057;
+                color: #155724;
             }
         """)
         layout.addWidget(header_label)
@@ -809,7 +923,7 @@ class TagSearchDialog(QDialog):
             # Units
             tag_list.setItem(i, 2, QTableWidgetItem(tag.get('units', '')))
             
-            # Instrument with visual enhancement
+            # Instrument with visual enhancement (!)
             instrument_text = tag.get('instrument', '')
             instrument_item = QTableWidgetItem(instrument_text if instrument_text else '(not available)')
             
@@ -817,9 +931,11 @@ class TagSearchDialog(QDialog):
                 # Green styling for available instrument info
                 instrument_item.setBackground(QColor("#D4EDDA"))
                 instrument_item.setForeground(QColor("#155724"))
+                instrument_item.setToolTip(f"✅ Extracted instrument: {instrument_text}")
             else:
                 # Gray styling for missing instrument info
                 instrument_item.setForeground(QColor("#6C757D"))
+                instrument_item.setToolTip("No instrument information available")
             
             tag_list.setItem(i, 3, instrument_item)
         
@@ -827,18 +943,18 @@ class TagSearchDialog(QDialog):
         
         # Summary info
         summary_label = QLabel(
-            f"💡 Instrument information was automatically detected from PI point attributes. "
-            f"{tags_with_instruments} out of {len(self.accumulated_tags)} tags have instrument data."
+            f"✅ {tags_with_instruments} out of {len(self.accumulated_tags)} tags have instrument data."
         )
         summary_label.setStyleSheet("""
             QLabel {
-                color: #6C757D;
+                color: #155724;
                 font-size: 11px;
                 padding: 8px;
-                background-color: #F8F9FA;
-                border: 1px solid #DEE2E6;
+                background-color: #D4EDDA;
+                border: 1px solid #28A745;
                 border-radius: 6px;
                 line-height: 1.4;
+                font-weight: 500;
             }
         """)
         summary_label.setWordWrap(True)

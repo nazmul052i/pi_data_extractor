@@ -508,23 +508,23 @@ class EnhancedPIDataExtractorGUI(QWidget):
         return extraction_card
     
     def create_export_card(self):
-        """Create enhanced export options card"""
+        """Create enhanced export options card with XLSX support"""
         export_card = ModernCard("💾 Export Options")
         export_layout = QVBoxLayout()
         export_layout.setSpacing(12)
         export_layout.setContentsMargins(16, 20, 16, 16)
 
-        # Format selection
+        # Format selection - ADD .xlsx
         format_label = QLabel("Export Format:")
         format_label.setStyleSheet(self.get_label_style())
         export_layout.addWidget(format_label)
         
         self.format_combo = QComboBox()
-        self.format_combo.addItems([".csv", ".tsv", ".txt", ".iq"])
+        self.format_combo.addItems([".csv", ".tsv", ".txt", ".xlsx", ".iq"])  # Added .xlsx
         export_layout.addWidget(self.format_combo)
 
-        # Format description
-        self.format_tooltip_label = QLabel("ℹ️ CSV: Comma-delimited | TSV: Tab-delimited | TXT: DMC format | IQ: Lab compatible")
+        # Updated format description
+        self.format_tooltip_label = QLabel("ℹ️ CSV: Comma | TSV: Tab-delimited | TXT: DMC format with instrument tags | XLSX: Excel with embedded metadata | IQ: Lab compatible")
         self.format_tooltip_label.setStyleSheet("""
             QLabel {
                 color: #6C757D;
@@ -538,7 +538,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         """)
         self.format_tooltip_label.setWordWrap(True)
         export_layout.addWidget(self.format_tooltip_label)
-        
+            
         # Save path
         path_label = QLabel("Export Location:")
         path_label.setStyleSheet(self.get_label_style())
@@ -826,14 +826,30 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.search_dialog.show()
 
     def add_tags_immediately(self, selected_tags):
-        """Add tags immediately when they're selected in search dialog"""
+        """Add tags immediately when they're selected in search dialog - STORE INSTRUMENT PATHS"""
         if selected_tags:
-            self.tag_browser.add_tags(selected_tags)
+            # Store instrument paths BEFORE adding tags to browser
+            tag_to_instrument_map = {}
             for tag_info in selected_tags:
                 self.descriptions[tag_info['name']] = tag_info['description']
                 self.units[tag_info['name']] = tag_info['units']
+                
+                # Store instrument path mapping for later use
+                if 'instrument' in tag_info and tag_info['instrument']:
+                    tag_to_instrument_map[tag_info['name']] = tag_info['instrument']
+            
+            # Add tags to browser
+            self.tag_browser.add_tags(selected_tags)
+            
+            # AFTER adding tags to browser, find them and store instrument paths
+            for tag_name, instrument_path in tag_to_instrument_map.items():
+                tag_item = self.tag_browser.find_tag_item(tag_name)
+                if tag_item:
+                    tag_item._instrument_path = instrument_path  # Store raw OPC path
             
             self.log_output.append(f"✅ Added {len(selected_tags)} tags from search")
+            if tag_to_instrument_map:
+                self.log_output.append(f"🔧 Stored instrument paths for {len(tag_to_instrument_map)} tags")
     
     def load_tag_file(self):
         """Load tags from file"""
@@ -1076,7 +1092,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.log_output.append("🔄 Data fetch operation completed")
     
     def export_data(self):
-        """Export data in selected format"""
+        """Export data in selected format with instrument tag replacement for .txt"""
         if self.data_frame.empty:
             QMessageBox.warning(self, "No Data", "No data available to export.")
             return
@@ -1089,22 +1105,51 @@ class EnhancedPIDataExtractorGUI(QWidget):
         format_selected = self.format_combo.currentText()
         
         try:
+            # CREATE INSTRUMENT MAPPING for export - FIXED
+            instrument_mapping = {}
+            if hasattr(self, 'tag_browser'):
+                # Get instrument paths from tag browser - CORRECTED REFERENCE
+                root = self.tag_browser.tag_tree.invisibleRootItem()
+                
+                for i in range(root.childCount()):
+                    item = root.child(i)
+                    # Get tag name based on current mode
+                    if self.tag_browser.inferential_mode:
+                        tag_name = item.text(1)  # Tag column in inferential mode
+                    else:
+                        tag_name = item.text(0)  # Tag column in process mode
+                    
+                    # Check if we have instrument data stored for this tag
+                    if hasattr(item, '_instrument_path'):
+                        instrument_mapping[tag_name] = item._instrument_path
+            
+            # Create exporter with instrument mapping
             exporter = DataExporter(
                 self.data_frame, 
                 self.descriptions, 
                 self.units, 
-                self.timezone_combo.currentText()
+                self.timezone_combo.currentText(),
+                instrument_mapping  # Pass the mapping
             )
             
             if format_selected == ".csv":
                 exporter.export_csv(file_path)
-                self.log_output.append(f"✅ Data exported to CSV (comma-delimited): {file_path}")
+                self.log_output.append(f"✅ Data exported to CSV with embedded metadata headers: {file_path}")
+                self.log_output.append(f"📋 Format: Row 1=Tags, Row 2=Descriptions, Row 3=Units, Row 5+=Data")
             elif format_selected == ".tsv":
                 exporter.export_tsv(file_path)
                 self.log_output.append(f"✅ Data exported to TSV (tab-delimited): {file_path}")
+            elif format_selected == ".xlsx":
+                exporter.export_xlsx(file_path)
+                self.log_output.append(f"✅ Data exported to Excel XLSX with embedded metadata: {file_path}")
+                self.log_output.append(f"📊 Format: Row 1=Tags, Row 2=Descriptions, Row 3=Units, Row 5+=Data")
             elif format_selected == ".txt":
                 exporter.export_txt(file_path)
+                # Log instrument tag replacements
+                replacement_count = len([k for k, v in instrument_mapping.items() if k != v])
                 self.log_output.append(f"✅ Data exported to DMC TXT format: {file_path}")
+                if replacement_count > 0:
+                    self.log_output.append(f"🔄 Replaced {replacement_count} tags with instrument tags (e.g., SUFC23.PV → E20FC0023.PV)")
             elif format_selected == ".iq":
                 exporter.export_iq(file_path)
                 self.log_output.append(f"✅ Data exported to IQ format (lab compatible): {file_path}")
@@ -1114,9 +1159,11 @@ class EnhancedPIDataExtractorGUI(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Export Error", f"Failed to export data: {str(e)}")
             self.log_output.append(f"❌ Export failed: {str(e)}")
+            import traceback
+            self.log_output.append(f"🔍 Debug trace: {traceback.format_exc()}")  # Add debug info
 
     def browse_export_path(self):
-        """Browse for export file path"""
+        """Browse for export file path - UPDATED with .xlsx support"""
         selected_format = self.format_combo.currentText()
         default_name = f"pi_export_{QDateTime.currentDateTime().toString('yyyyMMdd_HHmmss')}{selected_format}"
         
@@ -1124,6 +1171,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
             ".csv": "CSV Files (*.csv);;All Files (*)",
             ".tsv": "TSV Files (*.tsv);;Text Files (*.txt);;All Files (*)",
             ".txt": "TXT Files (*.txt);;All Files (*)",
+            ".xlsx": "Excel Files (*.xlsx);;All Files (*)",  # Added .xlsx
             ".iq": "IQ Files (*.iq);;Text Files (*.txt);;All Files (*)"
         }
         
