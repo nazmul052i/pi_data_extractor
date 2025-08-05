@@ -1,12 +1,33 @@
-# Byte-compiled / optimized / DLL files
+# =====================
+# Python Bytecode
+# =====================
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
+# =====================
+# C Extensions
+# =====================
 *.so
 
-# Distribution / packaging
+# =====================
+# Virtual Environments
+# =====================
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+vpy/
+.vpy/
+pi_env/
+pi_venv/
+
+# =====================
+# Distribution / Packaging
+# =====================
 .Python
 build/
 develop-eggs/
@@ -27,119 +48,81 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# =====================
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
+# =====================
 *.spec
 
-# Installer logs
+# =====================
+# Logs and Reports
+# =====================
+*.log
+logs/
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
 coverage.xml
+htmlcov/
+.coverage*
+.cache
 *.cover
 *.py,cover
-.hypothesis/
 .pytest_cache/
+nosetests.xml
+.tox/
+.nox/
+.hypothesis/
+.dmypy.json
+dmypy.json
+.mypy_cache/
+.pyre/
 
-# Translations
-*.mo
-*.pot
+# =====================
+# Unit Tests
+# =====================
+tests/
+test/
+__tests__/
+*_test.py
+test_*.py
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
+# =====================
+# Jupyter & IPython
+# =====================
+.ipynb_checkpoints/
 profile_default/
 ipython_config.py
 
-# pyenv
-.python-version
+# =====================
+# Django / Flask / Scrapy / Web
+# =====================
+*.log
+local_settings.py
+db.sqlite3*
+instance/
+.webassets-cache
+.scrapy
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+# =====================
+# Sphinx / MkDocs
+# =====================
+docs/_build/
+site/
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# PyQt specific
-*.qrc
-*.ui~
-
-# IDE specific files
+# =====================
+# IDEs and Editor Settings
+# =====================
 .vscode/
 .idea/
-*.swp
 *.swo
+*.swp
 *~
+.spyderproject
+.spyproject
+.ropeproject
 
-# OS specific files
+# =====================
+# OS / System Files
+# =====================
 .DS_Store
 .DS_Store?
 ._*
@@ -147,12 +130,41 @@ dmypy.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+.AppleDouble
+.LSOverride
 
-# Application specific
-logs/
-exports/
+# =====================
+# Qt / PyQt / PySide
+# =====================
+*.ui
+*.qrc
+
+# =====================
+# Configuration & Secrets
+# =====================
+config.ini
+settings.json
+credentials.txt
+
+# =====================
+# PI Data Extractor - Custom
+# =====================
+archive/
+archive/**
+*.pda
+*.pdb
+*.txt
+*.csv
+*.tsv
+*.iq
+*.backup
+*.bak
+*.bk
+*.orig
+*.save
 temp/
-*.log
+tmp/
 *.tmp
 
 # PI Data Extractor specific
@@ -161,19 +173,13 @@ tag_lists/
 config/user_settings.json
 *.csv
 *.txt
-*.iq
 !examples/*.txt
 !examples/*.csv
 
 # Test files
 test_data/
 test_exports/
-archive
 
 # Documentation build
 docs/build/
 *.pdf
-
-# Local configuration
-local_config.py
-.env.local

@@ -1,0 +1,174 @@
+# =====================
+# Python Bytecode
+# =====================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =====================
+# C Extensions
+# =====================
+*.so
+
+# =====================
+# Virtual Environments
+# =====================
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+vpy/
+.vpy/
+pi_env/
+pi_venv/
+
+# =====================
+# Distribution / Packaging
+# =====================
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# =====================
+# PyInstaller
+# =====================
+*.spec
+
+# =====================
+# Logs and Reports
+# =====================
+*.log
+logs/
+pip-log.txt
+pip-delete-this-directory.txt
+coverage.xml
+htmlcov/
+.coverage*
+.cache
+*.cover
+*.py,cover
+.pytest_cache/
+nosetests.xml
+.tox/
+.nox/
+.hypothesis/
+.dmypy.json
+dmypy.json
+.mypy_cache/
+.pyre/
+
+# =====================
+# Unit Tests
+# =====================
+tests/
+test/
+__tests__/
+*_test.py
+test_*.py
+
+# =====================
+# Jupyter & IPython
+# =====================
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# =====================
+# Django / Flask / Scrapy / Web
+# =====================
+*.log
+local_settings.py
+db.sqlite3*
+instance/
+.webassets-cache
+.scrapy
+
+# =====================
+# Sphinx / MkDocs
+# =====================
+docs/_build/
+site/
+
+# =====================
+# IDEs and Editor Settings
+# =====================
+.vscode/
+.idea/
+*.swo
+*.swp
+*~
+.spyderproject
+.spyproject
+.ropeproject
+
+# =====================
+# OS / System Files
+# =====================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+.AppleDouble
+.LSOverride
+
+# =====================
+# Qt / PyQt / PySide
+# =====================
+*.ui
+*.qrc
+
+# =====================
+# Configuration & Secrets
+# =====================
+config.ini
+settings.json
+credentials.txt
+
+# =====================
+# PI Data Extractor - Custom
+# =====================
+archive/
+archive/**
+*.pda
+*.pdb
+*.txt
+*.csv
+*.tsv
+*.iq
+*.backup
+*.bak
+*.bk
+*.orig
+*.save
+temp/
+tmp/
+*.tmp
+
+# =====================
+# Windows / macOS Executables
+# =====================
+*.exe
+*.msi
