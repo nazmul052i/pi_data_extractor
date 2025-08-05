@@ -161,14 +161,12 @@ tag_lists/
 config/user_settings.json
 *.csv
 *.txt
-*.iq
 !examples/*.txt
 !examples/*.csv
 
 # Test files
 test_data/
 test_exports/
-archive
 
 # Documentation build
 docs/build/

@@ -161,7 +161,6 @@ tag_lists/
 config/user_settings.json
 *.csv
 *.txt
-*.iq
 !examples/*.txt
 !examples/*.csv
 
@@ -173,6 +172,8 @@ archive
 # Documentation build
 docs/build/
 *.pdf
+*.iq
+*.csv
 
 # Local configuration
 local_config.py
