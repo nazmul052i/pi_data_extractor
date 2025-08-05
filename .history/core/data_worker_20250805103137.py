@@ -142,7 +142,10 @@ class DataFetchWorker(QThread):
             # ENHANCED: Get weighted process data and actual sample time
             proc_vals, actual_sample_time = self.fetch_weighted_process(server, recorded_time)
 
-            merged = {"Timestamp": recorded_time}  # Keep only original recorded time
+            merged = {
+                "Timestamp": recorded_time,  # Keep original recorded time for lab data
+                "Actual_Sample_Time": actual_sample_time  # Add actual sample time for reference
+            }
             merged.update(lab_vals)
             merged.update(proc_vals)
             rows.append(merged)

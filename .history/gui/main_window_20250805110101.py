@@ -465,7 +465,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(past_label, 0, 0)
         
         self.past_window_spin = QSpinBox()
-        self.past_window_spin.setRange(0, 1440)
+        self.past_window_spin.setRange(0, 1240)
         self.past_window_spin.setValue(20)
         window_layout.addWidget(self.past_window_spin, 0, 1)
 
@@ -475,7 +475,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         window_layout.addWidget(future_label, 1, 0)
         
         self.future_window_spin = QSpinBox()
-        self.future_window_spin.setRange(-1440, 1440)  # Allow negative values
+        self.future_window_spin.setRange(-1240, 1440)  # Allow negative values
         self.future_window_spin.setValue(0)
         self.future_window_spin.setSpecialValueText("No Future")  # Show for 0 value
         window_layout.addWidget(self.future_window_spin, 1, 1)
@@ -499,26 +499,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         explanation_label.setWordWrap(True)
         window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
-        example_layout = QHBoxLayout()
-        example_label = QLabel("Quick Examples:")
-        example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
-        
-        self.example_1h_early_btn = ModernButton("-60 min", color="#9C27B0")
-        self.example_3h_early_btn = ModernButton("-180 min", color="#9C27B0") 
-        self.example_6h_early_btn = ModernButton("-360 min", color="#9C27B0")
-        
-        for btn in [self.example_1h_early_btn, self.example_3h_early_btn, self.example_6h_early_btn]:
-            btn.setFixedSize(70, 28)
-            btn.setToolTip("Sample taken this many minutes before lab entry time")
-        
-        example_layout.addWidget(example_label)
-        example_layout.addWidget(self.example_1h_early_btn)
-        example_layout.addWidget(self.example_3h_early_btn)  
-        example_layout.addWidget(self.example_6h_early_btn)
-        example_layout.addStretch()
-        
-        window_layout.addLayout(example_layout, 3, 0, 1, 2)
+
 
         self.window_group.setLayout(window_layout)
         self.window_group.setVisible(False)
@@ -550,7 +531,6 @@ class EnhancedPIDataExtractorGUI(QWidget):
         
         extraction_card.setLayout(extraction_layout)
         return extraction_card
-
     
     def create_export_card(self):
         """Create enhanced export options card"""
@@ -728,7 +708,12 @@ class EnhancedPIDataExtractorGUI(QWidget):
         self.last_hour_btn.clicked.connect(lambda: self.set_quick_time_range(1))
         self.last_day_btn.clicked.connect(lambda: self.set_quick_time_range(24))
         self.last_week_btn.clicked.connect(lambda: self.set_quick_time_range(168))
-               
+        
+        # ENHANCED: Connect example buttons for negative future windows
+        self.example_1h_early_btn.clicked.connect(lambda: self.set_future_window(-60))
+        self.example_3h_early_btn.clicked.connect(lambda: self.set_future_window(-180))
+        self.example_6h_early_btn.clicked.connect(lambda: self.set_future_window(-360))
+        
         # Tag browser signals
         self.tag_browser.select_all_btn.clicked.connect(self.select_all_tags)
         self.tag_browser.deselect_all_btn.clicked.connect(self.deselect_all_tags)

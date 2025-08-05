@@ -25,40 +25,40 @@ class DataFetchWorker(QThread):
         self.descriptions = {}
         self.units = {}
 
-    def fetch_weighted_process(self, server, sample_time):
-        """ENHANCED: Weighted average around lab sample with support for negative future window"""
-        from datetime import timedelta
-        
-        # ENHANCED: Handle negative future window
-        # If future_window is negative, it means the actual sample was taken BEFORE the recorded time
-        actual_sample_time = sample_time + timedelta(minutes=self.future_window)
-        
-        # Calculate the time window around the ACTUAL sample time
-        start = actual_sample_time - timedelta(minutes=self.past_window)
-        end = actual_sample_time + timedelta(minutes=abs(self.future_window) if self.future_window < 0 else self.future_window)
-        
-        result = {}
+def fetch_weighted_process(self, server, sample_time):
+    """ENHANCED: Weighted average around lab sample with support for negative future window"""
+    from datetime import timedelta
+    
+    # ENHANCED: Handle negative future window
+    # If future_window is negative, it means the actual sample was taken BEFORE the recorded time
+    actual_sample_time = sample_time + timedelta(minutes=self.future_window)
+    
+    # Calculate the time window around the ACTUAL sample time
+    start = actual_sample_time - timedelta(minutes=self.past_window)
+    end = actual_sample_time + timedelta(minutes=abs(self.future_window) if self.future_window < 0 else self.future_window)
+    
+    result = {}
 
-        for tag in self.tags:
-            try:
-                point = server.search(tag)[0]
-                raw = point.recorded_values(start, end)
-                df = pd.DataFrame(raw.items(), columns=["Timestamp", "Value"])
-                
-                if df.empty:
-                    result[tag] = None
-                    continue
-                    
-                # Weight based on distance from ACTUAL sample time (not recorded time)
-                df["Weight"] = 1.0 / ((df["Timestamp"] - actual_sample_time).abs().dt.total_seconds() + 1)
-                weighted = (df["Value"] * df["Weight"]).sum() / df["Weight"].sum()
-                result[tag] = weighted
-                
-            except Exception as e:
-                self.error_occurred.emit(f"⚠️ {tag} fetch around {sample_time} (actual: {actual_sample_time}) failed: {e}")
+    for tag in self.tags:
+        try:
+            point = server.search(tag)[0]
+            raw = point.recorded_values(start, end)
+            df = pd.DataFrame(raw.items(), columns=["Timestamp", "Value"])
+            
+            if df.empty:
                 result[tag] = None
+                continue
                 
-        return result, actual_sample_time
+            # Weight based on distance from ACTUAL sample time (not recorded time)
+            df["Weight"] = 1.0 / ((df["Timestamp"] - actual_sample_time).abs().dt.total_seconds() + 1)
+            weighted = (df["Value"] * df["Weight"]).sum() / df["Weight"].sum()
+            result[tag] = weighted
+            
+        except Exception as e:
+            self.error_occurred.emit(f"⚠️ {tag} fetch around {sample_time} (actual: {actual_sample_time}) failed: {e}")
+            result[tag] = None
+            
+    return result, actual_sample_time
 
     def fetch_lab_samples(self, server):
         """Get lab sample timestamps and values"""
@@ -142,7 +142,10 @@ class DataFetchWorker(QThread):
             # ENHANCED: Get weighted process data and actual sample time
             proc_vals, actual_sample_time = self.fetch_weighted_process(server, recorded_time)
 
-            merged = {"Timestamp": recorded_time}  # Keep only original recorded time
+            merged = {
+                "Timestamp": recorded_time,  # Keep original recorded time for lab data
+                "Actual_Sample_Time": actual_sample_time  # Add actual sample time for reference
+            }
             merged.update(lab_vals)
             merged.update(proc_vals)
             rows.append(merged)

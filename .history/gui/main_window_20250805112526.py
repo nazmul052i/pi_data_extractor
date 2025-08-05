@@ -499,7 +499,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
         explanation_label.setWordWrap(True)
         window_layout.addWidget(explanation_label, 2, 0, 1, 2)
 
-        #Add example calculator
+        Add example calculator
         example_layout = QHBoxLayout()
         example_label = QLabel("Quick Examples:")
         example_label.setStyleSheet("font-weight: bold; color: #495057; font-size: 12px;")
