@@ -104,83 +104,47 @@ class TagSearchWorker(QThread):
         except Exception as e:
             self.error_occurred.emit(str(e))
     
+
     def get_instrument_info(self, point):
-        """Extract instrument information using multiple methods"""
-        # Method 1: Try the instrument attribute directly
-        instrument = self.safe_get_attribute(point, 'instrument', '')
+        """Extract instrument information using multiple methods - FIXED for 'instrumenttag' attribute"""
+        
+        # Method 1: Try the "Instrument tag" attribute (the correct one!)
+        instrument = self.safe_get_attribute(point, 'path', '')
         if instrument:
             return instrument
-        
-        # Method 2: Try instrumenttag attribute
-        instrument = self.safe_get_attribute(point, 'instrumenttag', '')
-        if instrument:
-            return instrument
-        
-        # Method 3: Try source attribute
-        instrument = self.safe_get_attribute(point, 'source', '')
-        if instrument:
-            return instrument
-        
-        # Method 4: Try location1 attribute (sometimes contains instrument info)
-        instrument = self.safe_get_attribute(point, 'location1', '')
-        if instrument:
-            return instrument
-        
-        # Method 5: Try location2 attribute
-        instrument = self.safe_get_attribute(point, 'location2', '')
-        if instrument:
-            return instrument
-        
-        # Method 6: Try location3 attribute
-        instrument = self.safe_get_attribute(point, 'location3', '')
-        if instrument:
-            return instrument
-        
-        # Method 7: Try location4 attribute
-        instrument = self.safe_get_attribute(point, 'location4', '')
-        if instrument:
-            return instrument
-        
-        # Method 8: Try pointsource attribute
-        instrument = self.safe_get_attribute(point, 'pointsource', '')
-        if instrument:
-            return instrument
-        
-        # Method 9: Try asset attribute
-        instrument = self.safe_get_attribute(point, 'asset', '')
-        if instrument:
-            return instrument
-        
-        # Method 10: Try area attribute
-        instrument = self.safe_get_attribute(point, 'area', '')
-        if instrument:
-            return instrument
-        
-        # Method 11: Extract from tag name (common pattern: INSTRUMENT_TAG)
-        tag_name = point.name
-        if '_' in tag_name:
-            potential_instrument = tag_name.split('_')[0]
-            if len(potential_instrument) > 2:  # Avoid very short prefixes
-                return potential_instrument
-        
-        # Method 12: Extract from tag name (pattern: UNIT.AREA.INSTRUMENT.TAG)
-        if '.' in tag_name:
-            parts = tag_name.split('.')
-            if len(parts) >= 3:
-                return parts[2]  # Third part is often the instrument
         
         return ''  # Return empty string if no instrument info found
-    
+
+
     def safe_get_attribute(self, obj, attr_name, default=''):
-        """Safely get attribute from PI point object"""
+        """Safely get attribute from PI point object - UPDATED to handle spaces in attribute names"""
         try:
-            value = getattr(obj, attr_name, default)
+            # Handle attribute names with spaces by trying different access methods
+            if ' ' in attr_name:
+                # For attributes with spaces, try using getattr with the exact name
+                value = getattr(obj, attr_name, None)
+                
+                # If that doesn't work, try accessing as a property
+                if value is None:
+                    try:
+                        # Some PI systems might require accessing through a properties collection
+                        # or using bracket notation (this depends on your PI system implementation)
+                        value = getattr(obj, attr_name.replace(' ', '_'), None)
+                    except:
+                        pass
+            else:
+                value = getattr(obj, attr_name, default)
+            
             if value is None:
                 return default
+                
             # Clean up the value
             cleaned_value = str(value).replace('\t', ' ').replace('\n', ' ').strip()
             return cleaned_value[:200]  # Truncate long values
-        except Exception:
+            
+        except Exception as e:
+            # Debug: print what went wrong
+            print(f"Error getting attribute '{attr_name}': {e}")
             return default
 
 
