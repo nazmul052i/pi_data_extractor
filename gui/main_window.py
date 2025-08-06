@@ -565,11 +565,11 @@ class EnhancedPIDataExtractorGUI(QWidget):
         export_layout.addWidget(format_label)
         
         self.format_combo = QComboBox()
-        self.format_combo.addItems([".csv", ".tsv", ".txt", ".xlsx", ".iq"])  # Added .xlsx
+        self.format_combo.addItems([".csv", ".txt", ".xlsx", ".iq"])  # Removed .tsv
         export_layout.addWidget(self.format_combo)
 
         # Updated format description
-        self.format_tooltip_label = QLabel("ℹ️ CSV: Comma | TSV: Tab-delimited | TXT: DMC format with instrument tags | XLSX: Excel with embedded metadata | IQ: Lab compatible")
+        self.format_tooltip_label = QLabel("ℹ️ CSV: Tab-delimited with embedded metadata | TXT: DMC format with instrument tags | XLSX: Excel with embedded metadata | IQ: Lab compatible")
         self.format_tooltip_label.setStyleSheet("""
             QLabel {
                 color: #6C757D;
@@ -1150,8 +1150,23 @@ class EnhancedPIDataExtractorGUI(QWidget):
         format_selected = self.format_combo.currentText()
         
         try:
-            # GET INSTRUMENT MAPPING from the enhanced tag browser
-            instrument_mapping = self.tag_browser.get_instrument_mapping()
+            # CREATE INSTRUMENT MAPPING for export - FIXED
+            instrument_mapping = {}
+            if hasattr(self, 'tag_browser'):
+                # Get instrument paths from tag browser - CORRECTED REFERENCE
+                root = self.tag_browser.tag_tree.invisibleRootItem()
+                
+                for i in range(root.childCount()):
+                    item = root.child(i)
+                    # Get tag name based on current mode
+                    if self.tag_browser.inferential_mode:
+                        tag_name = item.text(1)  # Tag column in inferential mode
+                    else:
+                        tag_name = item.text(0)  # Tag column in process mode
+                    
+                    # Check if we have instrument data stored for this tag
+                    if hasattr(item, '_instrument_path'):
+                        instrument_mapping[tag_name] = item._instrument_path
             
             # Create exporter with instrument mapping
             exporter = DataExporter(
@@ -1159,7 +1174,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
                 self.descriptions, 
                 self.units, 
                 self.timezone_combo.currentText(),
-                instrument_mapping  # Pass the mapping from tag browser
+                instrument_mapping  # Pass the mapping
             )
             
             if format_selected == ".csv":
@@ -1176,10 +1191,10 @@ class EnhancedPIDataExtractorGUI(QWidget):
             elif format_selected == ".txt":
                 exporter.export_txt(file_path)
                 # Log instrument tag replacements
-                replacement_count = len([k for k, v in instrument_mapping.items() if v])
+                replacement_count = len([k for k, v in instrument_mapping.items() if k != v])
                 self.log_output.append(f"✅ Data exported to DMC TXT format: {file_path}")
                 if replacement_count > 0:
-                    self.log_output.append(f"🔄 Used instrument tags for {replacement_count} tags (e.g., E20FC0023/PID1/PV.CV → E20FC0023.PV)")
+                    self.log_output.append(f"🔄 Replaced {replacement_count} tags with instrument tags (e.g., SUFC23.PV → E20FC0023.PV)")
             elif format_selected == ".iq":
                 exporter.export_iq(file_path)
                 self.log_output.append(f"✅ Data exported to IQ format (lab compatible): {file_path}")
@@ -1199,9 +1214,8 @@ class EnhancedPIDataExtractorGUI(QWidget):
         
         format_filters = {
             ".csv": "CSV Files (*.csv);;All Files (*)",
-            ".tsv": "TSV Files (*.tsv);;Text Files (*.txt);;All Files (*)",
             ".txt": "TXT Files (*.txt);;All Files (*)",
-            ".xlsx": "Excel Files (*.xlsx);;All Files (*)",  # Added .xlsx
+            ".xlsx": "Excel Files (*.xlsx);;All Files (*)",
             ".iq": "IQ Files (*.iq);;Text Files (*.txt);;All Files (*)"
         }
         

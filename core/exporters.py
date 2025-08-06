@@ -27,10 +27,12 @@ class DataExporter:
     def parse_instrument_tag_from_opc_path(self, opc_path):
         """
         Parse instrument tag from OPC path for .txt export
+        Handles specific patterns: */AI1/PV.CV, */PID1/PV.CV, */PID1/OUT.CV, */PID1/SP.CV
         Examples:
+        - 'E20FC0023/AI1/PV.CV' → 'E20FC0023.PV'
         - 'E20FC0023/PID1/PV.CV' → 'E20FC0023.PV'
-        - 'UNIT1/TANK101/LEVEL.CV' → 'TANK101.LEVEL'
-        - 'FIC201A/OUT.CV' → 'FIC201A.OUT'
+        - 'E20FC0023/PID1/OUT.CV' → 'E20FC0023.OUT'
+        - 'E20FC0023/PID1/SP.CV' → 'E20FC0023.SP'
         """
         if not opc_path or not opc_path.strip():
             return ''
@@ -40,36 +42,46 @@ class DataExporter:
         # Clean the path
         cleaned_path = opc_path.strip()
         
-        # Strategy 1: Handle common OPC patterns with / separator
+        # Handle the three specific OPC patterns you mentioned
         if '/' in cleaned_path:
             parts = cleaned_path.split('/')
             
             # Pattern: INSTRUMENT/MODULE/SIGNAL.CV → INSTRUMENT.SIGNAL
-            if len(parts) >= 2:
+            if len(parts) >= 3:
                 instrument_part = parts[0]  # E20FC0023
-                signal_part = parts[-1]     # PV.CV
+                module_part = parts[1]      # AI1 or PID1
+                signal_part = parts[2]      # PV.CV, OUT.CV, SP.CV
                 
                 # Extract signal name from signal_part (remove .CV suffix)
                 if '.' in signal_part:
-                    signal_name = signal_part.split('.')[0]  # PV
+                    signal_name = signal_part.split('.')[0]  # PV, OUT, SP
                 else:
                     signal_name = signal_part
                 
-                # Common signal mappings
-                signal_mappings = {
-                    'PV': 'PV',     # Process Value
-                    'SP': 'SP',     # Set Point  
-                    'OUT': 'OP',    # Output
-                    'CV': 'PV',     # Control Value → Process Value
-                    'MV': 'OP',     # Manipulated Variable → Output
-                }
-                
-                # Map signal name if needed
-                mapped_signal = signal_mappings.get(signal_name.upper(), signal_name)
-                
-                return f"{instrument_part}.{mapped_signal}"
+                # Handle the specific module types you mentioned
+                if module_part in ['AI1', 'PID1']:
+                    # Common signal mappings for your system
+                    signal_mappings = {
+                        'PV': 'PV',     # Process Value
+                        'OUT': 'OP',   # Output 
+                        'SP': 'SP',     # Set Point
+                        'CV': 'PV',     # Control Value → Process Value (fallback)
+                    }
+                    
+                    # Map signal name
+                    mapped_signal = signal_mappings.get(signal_name.upper(), signal_name)
+                    
+                    return f"{instrument_part}.{mapped_signal}"
+            
+            # Fallback: if it has 2 parts, use first part as instrument
+            elif len(parts) >= 2:
+                instrument_part = parts[0]
+                signal_part = parts[1]
+                if '.' in signal_part:
+                    signal_name = signal_part.split('.')[0]
+                    return f"{instrument_part}.{signal_name}"
         
-        # Strategy 2: Handle dot-separated paths
+        # Strategy 2: Handle dot-separated paths (alternative format)
         elif '.' in cleaned_path:
             parts = cleaned_path.split('.')
             if len(parts) >= 2:
@@ -96,11 +108,11 @@ class DataExporter:
         return cleaned_path
     
     def export_csv(self, file_path):
-        """Export to CSV format with embedded metadata headers (comma-delimited)"""
+        """Export to CSV format with embedded metadata headers (TAB-DELIMITED)"""
         clean_df = self.get_clean_dataframe()
         
         with open(file_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f, delimiter=',')
+            writer = csv.writer(f, delimiter='\t')  # TAB-DELIMITED
             
             # Row 1: Tag names (column headers)
             tag_row = ['Timestamp'] + [col for col in clean_df.columns if col != 'Timestamp']
@@ -114,18 +126,14 @@ class DataExporter:
             units_row = [''] + [self.units.get(col, '') for col in clean_df.columns if col != 'Timestamp']
             writer.writerow(units_row)
             
-            # Blank row separator (optional)
-            writer.writerow([])
-            
-            # Data rows - convert DataFrame to CSV manually to maintain control
+            # Row 4+: Data rows (no blank separator)
             for _, row in clean_df.iterrows():
                 data_row = [row['Timestamp']] + [row[col] for col in clean_df.columns if col != 'Timestamp']
                 writer.writerow(data_row)
     
     def export_tsv(self, file_path):
-        """Export to TSV format (tab-delimited, clean data)"""
-        clean_df = self.get_clean_dataframe()
-        clean_df.to_csv(file_path, sep='\t', index=False)
+        """REMOVED - TSV format no longer available"""
+        raise NotImplementedError("TSV format has been removed. Use CSV (tab-delimited) instead.")
     
     def export_xlsx(self, file_path):
         """Export to Excel XLSX format with embedded metadata headers"""
@@ -248,16 +256,11 @@ class DataExporter:
                 header_row.extend([instrument_tag_name, "Status"])
             writer.writerow(header_row)
             
-            # Description row (use instrument tag names in descriptions)
+            # Description row (use original descriptions without modification)
             desc_row = [""]  # Empty for Time column
             for tag in available_tags:
                 tag_desc = self.descriptions.get(tag, '')
-                # If we have an instrument mapping, note it in the description
-                if tag in self.instrument_mapping and tag_name_mapping[tag] != tag:
-                    if tag_desc:
-                        tag_desc += f" (Original: {tag})"
-                    else:
-                        tag_desc = f"Mapped from {tag}"
+                # FIXED: Don't add "Original:" - just use the description as-is
                 desc_row.extend([tag_desc, ""])
             writer.writerow(desc_row)
             
