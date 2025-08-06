@@ -1105,23 +1105,8 @@ class EnhancedPIDataExtractorGUI(QWidget):
         format_selected = self.format_combo.currentText()
         
         try:
-            # CREATE INSTRUMENT MAPPING for export - FIXED
-            instrument_mapping = {}
-            if hasattr(self, 'tag_browser'):
-                # Get instrument paths from tag browser - CORRECTED REFERENCE
-                root = self.tag_browser.tag_tree.invisibleRootItem()
-                
-                for i in range(root.childCount()):
-                    item = root.child(i)
-                    # Get tag name based on current mode
-                    if self.tag_browser.inferential_mode:
-                        tag_name = item.text(1)  # Tag column in inferential mode
-                    else:
-                        tag_name = item.text(0)  # Tag column in process mode
-                    
-                    # Check if we have instrument data stored for this tag
-                    if hasattr(item, '_instrument_path'):
-                        instrument_mapping[tag_name] = item._instrument_path
+            # GET INSTRUMENT MAPPING from the enhanced tag browser
+            instrument_mapping = self.tag_browser.get_instrument_mapping()
             
             # Create exporter with instrument mapping
             exporter = DataExporter(
@@ -1129,7 +1114,7 @@ class EnhancedPIDataExtractorGUI(QWidget):
                 self.descriptions, 
                 self.units, 
                 self.timezone_combo.currentText(),
-                instrument_mapping  # Pass the mapping
+                instrument_mapping  # Pass the mapping from tag browser
             )
             
             if format_selected == ".csv":
@@ -1146,10 +1131,10 @@ class EnhancedPIDataExtractorGUI(QWidget):
             elif format_selected == ".txt":
                 exporter.export_txt(file_path)
                 # Log instrument tag replacements
-                replacement_count = len([k for k, v in instrument_mapping.items() if k != v])
+                replacement_count = len([k for k, v in instrument_mapping.items() if v])
                 self.log_output.append(f"✅ Data exported to DMC TXT format: {file_path}")
                 if replacement_count > 0:
-                    self.log_output.append(f"🔄 Replaced {replacement_count} tags with instrument tags (e.g., SUFC23.PV → E20FC0023.PV)")
+                    self.log_output.append(f"🔄 Used instrument tags for {replacement_count} tags (e.g., E20FC0023/PID1/PV.CV → E20FC0023.PV)")
             elif format_selected == ".iq":
                 exporter.export_iq(file_path)
                 self.log_output.append(f"✅ Data exported to IQ format (lab compatible): {file_path}")

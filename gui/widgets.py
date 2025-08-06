@@ -310,8 +310,9 @@ class EnhancedDateTimeEdit(QDateTimeEdit):
         calendar.setVerticalHeaderFormat(QCalendarWidget.VerticalHeaderFormat.NoVerticalHeader)
 
 
+# ENHANCED AdvancedTagBrowser WITH RESIZABLE COLUMNS AND INSTRUMENT COLUMN
 class AdvancedTagBrowser(QWidget):
-    """Enhanced tag browser with simplified lab tag designation"""
+    """Enhanced tag browser with resizable columns, instrument column, and simplified lab tag designation"""
     def __init__(self):
         super().__init__()
         self.inferential_mode = False
@@ -366,11 +367,27 @@ class AdvancedTagBrowser(QWidget):
         filter_layout.addWidget(self.filter_input, 3)
         filter_layout.addWidget(self.filter_combo, 1)
         
-        # Tag tree
+        # Column resize instructions
+        self.resize_instructions = QLabel("💡 Tip: Drag column borders to resize. Full instrument paths are shown from PI tag search.")
+        self.resize_instructions.setStyleSheet("""
+            QLabel {
+                color: #28A745;
+                font-size: 11px;
+                font-weight: 600;
+                background-color: #D4EDDA;
+                border: 1px solid #28A745;
+                border-radius: 4px;
+                padding: 6px;
+                margin: 2px 0;
+            }
+        """)
+        self.resize_instructions.setWordWrap(True)
+        
+        # Tag tree with enhanced styling
         self.tag_tree = QTreeWidget()
         self.setup_tree_headers()
         
-        # Enhanced table styling
+        # Enhanced table styling with better resizable columns
         self.tag_tree.setStyleSheet("""
             QTreeWidget {
                 border: 2px solid #E0E0E0;
@@ -378,6 +395,7 @@ class AdvancedTagBrowser(QWidget):
                 background-color: white;
                 alternate-background-color: #F9F9F9;
                 selection-background-color: #E3F2FD;
+                font-size: 12px;
             }
             QTreeWidget::item {
                 padding: 6px;
@@ -389,10 +407,14 @@ class AdvancedTagBrowser(QWidget):
             }
             QHeaderView::section {
                 background-color: #F5F5F5;
-                padding: 8px;
+                padding: 10px 8px;
                 border: 1px solid #E0E0E0;
                 font-weight: bold;
                 color: #333;
+                font-size: 12px;
+            }
+            QHeaderView::section:hover {
+                background-color: #E9ECEF;
             }
         """)
         
@@ -422,6 +444,7 @@ class AdvancedTagBrowser(QWidget):
         # Add all to layout
         layout.addLayout(management_layout)
         layout.addLayout(filter_layout)
+        layout.addWidget(self.resize_instructions)
         layout.addWidget(self.tag_tree)
         layout.addWidget(self.tag_count_label)
         layout.addLayout(button_layout)
@@ -432,24 +455,44 @@ class AdvancedTagBrowser(QWidget):
         self.mark_as_lab_btn.clicked.connect(self.mark_selected_as_lab)
     
     def setup_tree_headers(self):
-        """Setup tree headers based on current mode"""
+        """Setup tree headers with instrument column and resizable columns"""
         if self.inferential_mode:
-            self.tag_tree.setHeaderLabels(["Select", "Tag", "Description", "Units", "Tag Type"])
+            # Inferential mode: [Select, Tag, Description, Units, Instrument, Tag Type]
+            self.tag_tree.setHeaderLabels(["Select", "Tag", "Description", "Units", "Instrument", "Tag Type"])
+            self.tag_tree.setColumnCount(6)
+            header = self.tag_tree.header()
+            
+            # Make ALL columns resizable by user
+            for i in range(6):
+                header.setSectionResizeMode(i, QHeaderView.ResizeMode.Interactive)
+            
+            # Set intelligent default widths
+            self.tag_tree.setColumnWidth(0, 70)   # Select checkbox
+            self.tag_tree.setColumnWidth(1, 200)  # Tag Name
+            self.tag_tree.setColumnWidth(2, 300)  # Description - wider for full descriptions
+            self.tag_tree.setColumnWidth(3, 80)   # Units
+            self.tag_tree.setColumnWidth(4, 220)  # Instrument - wider for full paths
+            self.tag_tree.setColumnWidth(5, 100)  # Tag Type
+        else:
+            # Process mode: [Tag, Description, Units, Instrument, Type]
+            self.tag_tree.setHeaderLabels(["Tag", "Description", "Units", "Instrument", "Type"])
             self.tag_tree.setColumnCount(5)
             header = self.tag_tree.header()
-            header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)  # Select
-            header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)           # Tag
-            header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)           # Description
-            header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)  # Units
-            header.setSectionResizeMode(4, QHeaderView.ResizeMode.ResizeToContents)  # Tag Type
-        else:
-            self.tag_tree.setHeaderLabels(["Tag", "Description", "Units", "Type"])
-            self.tag_tree.setColumnCount(4)
-            header = self.tag_tree.header()
-            header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
-            header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
-            header.setSectionResizeMode(2, QHeaderView.ResizeMode.ResizeToContents)
-            header.setSectionResizeMode(3, QHeaderView.ResizeMode.ResizeToContents)
+            
+            # Make ALL columns resizable by user
+            for i in range(5):
+                header.setSectionResizeMode(i, QHeaderView.ResizeMode.Interactive)
+            
+            # Set intelligent default widths
+            self.tag_tree.setColumnWidth(0, 200)  # Tag Name
+            self.tag_tree.setColumnWidth(1, 250)  # Description
+            self.tag_tree.setColumnWidth(2, 80)   # Units
+            self.tag_tree.setColumnWidth(3, 160)  # Instrument - NEW COLUMN
+            self.tag_tree.setColumnWidth(4, 100)  # Type
+        
+        # Enable horizontal scrolling for wide tables
+        self.tag_tree.setHorizontalScrollMode(QTreeWidget.ScrollMode.ScrollPerPixel)
+        self.tag_tree.setVerticalScrollMode(QTreeWidget.ScrollMode.ScrollPerPixel)
     
     def set_inferential_mode(self, enabled):
         """Switch between process and inferential modes"""
@@ -499,7 +542,7 @@ class AdvancedTagBrowser(QWidget):
         self.rebuild_tree()
     
     def rebuild_tree(self):
-        """Rebuild tree with current mode structure - FIXED VERSION"""
+        """Rebuild tree with current mode structure including instrument column"""
         # Save current tag data BEFORE mode change
         current_tags = []
         root = self.tag_tree.invisibleRootItem()
@@ -509,16 +552,18 @@ class AdvancedTagBrowser(QWidget):
             
             # Read from CURRENT structure (before the mode change)
             if self.inferential_mode:
-                # We're NOW in inferential mode, so we're switching FROM process mode
-                # Current structure should be: [Tag, Description, Units, Type]
-                if item.columnCount() >= 4:
+                # We're NOW in inferential mode, switching FROM process mode
+                # Previous structure: [Tag, Description, Units, Instrument, Type]
+                if item.columnCount() >= 5:
                     tag_data = {
                         'name': item.text(0),  # Tag was in column 0 in process mode
                         'description': item.text(1),
                         'units': item.text(2),
-                        'tag_type': item.text(3),
+                        'instrument': item.text(3),  # Read instrument data
+                        'tag_type': item.text(4),
                         'is_lab': getattr(item, '_is_lab_tag', False),
-                        'checked': item.checkState(0) == Qt.CheckState.Checked
+                        'checked': item.checkState(0) == Qt.CheckState.Checked,
+                        'instrument_path': getattr(item, '_instrument_path', '')
                     }
                 else:
                     # Fallback for malformed items
@@ -526,21 +571,25 @@ class AdvancedTagBrowser(QWidget):
                         'name': item.text(0) if item.text(0) else "Unknown",
                         'description': '',
                         'units': '',
+                        'instrument': '',
                         'tag_type': 'Process Tag',
                         'is_lab': False,
-                        'checked': item.checkState(0) == Qt.CheckState.Checked
+                        'checked': item.checkState(0) == Qt.CheckState.Checked,
+                        'instrument_path': ''
                     }
             else:
-                # We're NOW in process mode, so we're switching FROM inferential mode
-                # Current structure should be: [Select, Tag, Description, Units, Tag Type]
-                if item.columnCount() >= 5:
+                # We're NOW in process mode, switching FROM inferential mode
+                # Previous structure: [Select, Tag, Description, Units, Instrument, Tag Type]
+                if item.columnCount() >= 6:
                     tag_data = {
                         'name': item.text(1),  # Tag was in column 1 in inferential mode
                         'description': item.text(2),
                         'units': item.text(3),
-                        'tag_type': item.text(4),
+                        'instrument': item.text(4),  # Read instrument data
+                        'tag_type': item.text(5),
                         'is_lab': getattr(item, '_is_lab_tag', False),
-                        'checked': item.checkState(0) == Qt.CheckState.Checked
+                        'checked': item.checkState(0) == Qt.CheckState.Checked,
+                        'instrument_path': getattr(item, '_instrument_path', '')
                     }
                 else:
                     # Fallback for malformed items
@@ -548,9 +597,11 @@ class AdvancedTagBrowser(QWidget):
                         'name': item.text(1) if len(item.text(1)) > 0 else item.text(0),
                         'description': '',
                         'units': '',
+                        'instrument': '',
                         'tag_type': 'Process Tag',
                         'is_lab': getattr(item, '_is_lab_tag', False),
-                        'checked': item.checkState(0) == Qt.CheckState.Checked
+                        'checked': item.checkState(0) == Qt.CheckState.Checked,
+                        'instrument_path': ''
                     }
             
             if tag_data['name']:  # Only add if we have a valid tag name
@@ -567,60 +618,97 @@ class AdvancedTagBrowser(QWidget):
         self.update_tag_count()
     
     def add_tags(self, tags_data):
-        """Add tags to the browser"""
+        """Add tags to the browser with instrument information"""
         for tag_info in tags_data:
             # Check if tag already exists
             if self.find_tag_item(tag_info['name']):
                 continue  # Skip duplicates
             
+            # Extract instrument display text from instrument path if available
+            instrument_display = ""
+            instrument_path = tag_info.get('instrument', '')
+            if instrument_path:
+                # Parse the instrument display text from the raw path
+                instrument_display = self.parse_instrument_display(instrument_path)
+            
             tag_data = {
                 'name': tag_info['name'],
                 'description': tag_info.get('description', ''),
                 'units': tag_info.get('units', ''),
+                'instrument': instrument_display,  # Display version
                 'tag_type': 'Process Tag',  # Default to process tag
                 'is_lab': False,
-                'checked': False
+                'checked': False,
+                'instrument_path': instrument_path  # Store raw path separately
             }
             self.add_single_tag(tag_data)
         
         self.update_tag_count()
     
+    def parse_instrument_display(self, instrument_path):
+        """
+        Return the full instrument path without parsing or trimming
+        Examples:
+        - 'E20FC0023/PID1/PV.CV' → 'E20FC0023/PID1/PV.CV' (full path)
+        - 'UNIT1/TANK101/LEVEL.CV' → 'UNIT1/TANK101/LEVEL.CV' (full path)
+        - 'FIC201A/OUT.CV' → 'FIC201A/OUT.CV' (full path)
+        """
+        if not instrument_path or not instrument_path.strip():
+            return ''
+        
+        # Return the full path as-is, just cleaned of extra whitespace
+        return instrument_path.strip()
+    
     def add_single_tag(self, tag_data):
-        """Add a single tag with proper structure based on current mode"""
+        """Add a single tag with proper structure including instrument column"""
         if self.inferential_mode:
-            # Inferential mode: [Select, Tag, Description, Units, Tag Type]
+            # Inferential mode: [Select, Tag, Description, Units, Instrument, Tag Type]
             tag_type_display = "Lab Tag" if tag_data['is_lab'] else "Process Tag"
             item = QTreeWidgetItem([
                 "",  # Select column (checkbox)
                 tag_data['name'],
                 tag_data['description'],
                 tag_data['units'],
+                tag_data['instrument'],  # Instrument column
                 tag_type_display
             ])
             item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
             item.setCheckState(0, Qt.CheckState.Checked if tag_data['checked'] else Qt.CheckState.Unchecked)
             
-            # Store lab tag status
+            # Store lab tag status and instrument path
             item._is_lab_tag = tag_data['is_lab']
+            item._instrument_path = tag_data.get('instrument_path', '')
             
             # Color coding for lab tags
             if tag_data['is_lab']:
                 for col in range(item.columnCount()):
                     item.setBackground(col, QColor("#FFF3E0"))  # Light orange background
                     item.setForeground(col, QColor("#E65100"))  # Dark orange text
+            
+            # Color coding for instrument column
+            if tag_data['instrument']:
+                item.setBackground(4, QColor("#E8F5E8"))  # Light green background for instrument
+                item.setForeground(4, QColor("#2E7D32"))  # Dark green text
         else:
-            # Process mode: [Tag, Description, Units, Type]
+            # Process mode: [Tag, Description, Units, Instrument, Type]
             item = QTreeWidgetItem([
                 tag_data['name'],
                 tag_data['description'],
                 tag_data['units'],
+                tag_data['instrument'],  # Instrument column
                 tag_data['tag_type']
             ])
             item.setFlags(item.flags() | Qt.ItemFlag.ItemIsUserCheckable)
             item.setCheckState(0, Qt.CheckState.Checked if tag_data['checked'] else Qt.CheckState.Unchecked)
             
-            # Store lab tag status (hidden in process mode)
+            # Store lab tag status and instrument path (hidden in process mode)
             item._is_lab_tag = tag_data['is_lab']
+            item._instrument_path = tag_data.get('instrument_path', '')
+            
+            # Color coding for instrument column
+            if tag_data['instrument']:
+                item.setBackground(3, QColor("#E8F5E8"))  # Light green background for instrument
+                item.setForeground(3, QColor("#2E7D32"))  # Dark green text
         
         self.tag_tree.addTopLevelItem(item)
     
@@ -642,7 +730,7 @@ class AdvancedTagBrowser(QWidget):
         
         # Update selected items to lab tags
         for item in selected_items:
-            item.setText(4, "Lab Tag")  # Tag Type column
+            item.setText(5, "Lab Tag")  # Tag Type column (inferential mode)
             item._is_lab_tag = True
             
             # Apply lab tag styling
@@ -685,7 +773,7 @@ class AdvancedTagBrowser(QWidget):
         return None
     
     def filter_tags(self):
-        """Filter tags based on search text"""
+        """Filter tags based on search text (includes instrument column)"""
         filter_text = self.filter_input.text().lower()
         root = self.tag_tree.invisibleRootItem()
         
@@ -694,12 +782,14 @@ class AdvancedTagBrowser(QWidget):
             if self.inferential_mode:
                 tag_name = item.text(1).lower()
                 description = item.text(2).lower()
+                instrument = item.text(4).lower()  # Instrument column
             else:
                 tag_name = item.text(0).lower()
                 description = item.text(1).lower()
+                instrument = item.text(3).lower()  # Instrument column
             
-            # Show item if filter text is in tag name or description
-            visible = (filter_text in tag_name or filter_text in description) if filter_text else True
+            # Show item if filter text is in tag name, description, or instrument
+            visible = (filter_text in tag_name or filter_text in description or filter_text in instrument) if filter_text else True
             item.setHidden(not visible)
     
     def apply_filter(self):
@@ -726,10 +816,12 @@ class AdvancedTagBrowser(QWidget):
                 if self.inferential_mode:
                     tag_name = item.text(1).lower()
                     description = item.text(2).lower()
+                    instrument = item.text(4).lower()
                 else:
                     tag_name = item.text(0).lower()
                     description = item.text(1).lower()
-                visible = filter_text in tag_name or filter_text in description
+                    instrument = item.text(3).lower()
+                visible = filter_text in tag_name or filter_text in description or filter_text in instrument
             
             item.setHidden(not visible)
     
@@ -754,12 +846,13 @@ class AdvancedTagBrowser(QWidget):
         return count
     
     def update_tag_count(self):
-        """Update the tag count label with enhanced info"""
+        """Update the tag count label with enhanced info including instrument count"""
         root = self.tag_tree.invisibleRootItem()
         total_count = root.childCount()
         selected_count = 0
         lab_count = 0
         process_count = 0
+        instrument_count = 0
         
         for i in range(total_count):
             item = root.child(i)
@@ -770,13 +863,25 @@ class AdvancedTagBrowser(QWidget):
                 lab_count += 1
             else:
                 process_count += 1
+            
+            # Count tags with instrument information
+            if self.inferential_mode:
+                instrument_text = item.text(4)  # Instrument column in inferential mode
+            else:
+                instrument_text = item.text(3)  # Instrument column in process mode
+            
+            if instrument_text and instrument_text.strip():
+                instrument_count += 1
+        
         if self.inferential_mode:
             self.tag_count_label.setText(
                f"Tags: {total_count} total, {selected_count} selected | "
-               f"🧪 Lab: {lab_count}, ⚙️ Process: {process_count}"
+               f"🧪 Lab: {lab_count}, ⚙️ Process: {process_count}, 🔧 With Instruments: {instrument_count}"
            )
         else:
-            self.tag_count_label.setText(f"Tags: {total_count} total, {selected_count} selected")
+            self.tag_count_label.setText(
+                f"Tags: {total_count} total, {selected_count} selected, 🔧 With Instruments: {instrument_count}"
+            )
     
     def get_all_tags(self):
         """Get all tag names"""
@@ -870,30 +975,125 @@ class AdvancedTagBrowser(QWidget):
         self.update_tag_count()
     
     def export_tag_list(self):
-        """Export current tag list to file"""
+        """Export current tag list to file with instrument information"""
         if self.tag_tree.topLevelItemCount() == 0:
             QMessageBox.warning(self, "No Tags", "No tags to export.")
             return
         
         file_path, _ = QFileDialog.getSaveFileName(
-            self, "Export Tag List", "tag_list.txt", "Text Files (*.txt);;All Files (*)"
+            self, "Export Tag List", "tag_list.txt", 
+            "Tab-delimited Text (*.txt);;CSV Files (*.csv);;All Files (*)"
         )
         
         if file_path:
             try:
-                with open(file_path, 'w') as f:
-                    root = self.tag_tree.invisibleRootItem()
-                    for i in range(root.childCount()):
+                if file_path.endswith('.csv'):
+                    # Export as CSV with all columns
+                    import csv
+                    with open(file_path, 'w', newline='', encoding='utf-8') as f:
+                        writer = csv.writer(f)
+                        
+                        # Write header
                         if self.inferential_mode:
-                            tag_name = root.child(i).text(1)
+                            writer.writerow(["Tag", "Description", "Units", "Instrument", "Tag Type", "Is Lab Tag"])
                         else:
-                            tag_name = root.child(i).text(0)
-                        f.write(f"{tag_name}\n")
+                            writer.writerow(["Tag", "Description", "Units", "Instrument", "Type"])
+                        
+                        # Write data
+                        root = self.tag_tree.invisibleRootItem()
+                        for i in range(root.childCount()):
+                            item = root.child(i)
+                            if self.inferential_mode:
+                                is_lab = "Yes" if getattr(item, '_is_lab_tag', False) else "No"
+                                writer.writerow([
+                                    item.text(1),  # Tag
+                                    item.text(2),  # Description
+                                    item.text(3),  # Units
+                                    item.text(4),  # Instrument
+                                    item.text(5),  # Tag Type
+                                    is_lab       # Is Lab Tag
+                                ])
+                            else:
+                                writer.writerow([
+                                    item.text(0),  # Tag
+                                    item.text(1),  # Description
+                                    item.text(2),  # Units
+                                    item.text(3),  # Instrument
+                                    item.text(4)   # Type
+                                ])
+                else:
+                    # Export as tab-delimited text file with 4 columns: Tag, Description, Units, Instrument
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        # Write header
+                        f.write("Tag\tDescription\tUnits\tInstrument\n")
+                        
+                        # Write data
+                        root = self.tag_tree.invisibleRootItem()
+                        for i in range(root.childCount()):
+                            item = root.child(i)
+                            
+                            # Get values based on current mode
+                            if self.inferential_mode:
+                                tag_name = item.text(1)        # Tag
+                                description = item.text(2)    # Description
+                                units = item.text(3)          # Units
+                                instrument = item.text(4)     # Instrument
+                            else:
+                                tag_name = item.text(0)        # Tag
+                                description = item.text(1)    # Description
+                                units = item.text(2)          # Units
+                                instrument = item.text(3)     # Instrument
+                            
+                            # Clean up empty values
+                            description = description if description.strip() else ""
+                            units = units if units.strip() else ""
+                            instrument = instrument if instrument.strip() else ""
+                            
+                            # Write tab-delimited row
+                            f.write(f"{tag_name}\t{description}\t{units}\t{instrument}\n")
+                
                 QMessageBox.information(self, "Export Complete", f"Tag list exported to:\n{file_path}")
+                
+                # Log export details
+                if file_path.endswith('.csv'):
+                    export_format = "CSV with all metadata"
+                else:
+                    export_format = "Tab-delimited TXT (Tag, Description, Units, Instrument)"
+                
+                if hasattr(self.parent(), 'log_output'):
+                    total_tags = self.tag_tree.topLevelItemCount()
+                    instrument_count = sum(1 for i in range(self.tag_tree.invisibleRootItem().childCount())
+                                         if (self.tag_tree.invisibleRootItem().child(i).text(4 if self.inferential_mode else 3)))
+                    self.parent().log_output.append(
+                        f"💾 Exported {total_tags} tags ({instrument_count} with instruments) as {export_format}"
+                    )
+                    
             except Exception as e:
                 QMessageBox.critical(self, "Export Error", f"Failed to export tag list: {str(e)}")
+    
+    def get_instrument_mapping(self):
+        """Get mapping of tag names to their instrument paths for export"""
+        instrument_mapping = {}
+        root = self.tag_tree.invisibleRootItem()
+        
+        for i in range(root.childCount()):
+            item = root.child(i)
+            
+            # Get tag name based on current mode
+            if self.inferential_mode:
+                tag_name = item.text(1)  # Tag column in inferential mode
+            else:
+                tag_name = item.text(0)  # Tag column in process mode
+            
+            # Get stored instrument path
+            instrument_path = getattr(item, '_instrument_path', '')
+            if instrument_path:
+                instrument_mapping[tag_name] = instrument_path
+        
+        return instrument_mapping
 
 
+# Keep the remaining classes (DataPreviewWidget and ZoomableChartView) as they were
 class DataPreviewWidget(QWidget):
     """Data preview table with statistics"""
     def __init__(self):
