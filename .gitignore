@@ -166,6 +166,7 @@ archive/**
 temp/
 tmp/
 *.tmp
+.history/
 
 # PI Data Extractor specific
 pi_exports/
